@@ -21,11 +21,11 @@ export default defineConfig({
       },
     },
   },
-  build: {
-    rollupOptions: {
-      input: {
-        main: "/public/index.html",
-      },
-    },
-  },
+  // build: {
+  //   rollupOptions: {
+  //     input: {
+  //       main: "index.html",
+  //     },
+  //   },
+  // },
 });

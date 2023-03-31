@@ -10,6 +10,7 @@ const root = createRoot(container as HTMLDivElement);
 
 root.render(
   <StrictMode>
+    <h1>Magenta Tiger App</h1>
     <App />
   </StrictMode>
 );
