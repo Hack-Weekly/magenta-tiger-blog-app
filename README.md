@@ -1,6 +1,6 @@
-# React TypeScript Node MongoDB Vite Template
+# Magenta Tiger Blog App
 
-This is a [React](https://reactjs.org) + [TypeScript](https://www.typescriptlang.org/) & [Node.js](https://nodejs.org/en) + [TypeScript](https://www.typescriptlang.org/) + [Express](https://expressjs.com/) + [MongoDB](https://www.mongodb.com/) boilerplate built with [Vite](https://vitejs.dev).
+This is a [React](https://reactjs.org) + [TypeScript](https://www.typescriptlang.org/) App built with [Vite](https://vitejs.dev).
 
 ## What's inside?
 
