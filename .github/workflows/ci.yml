@@ -12,9 +12,6 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
 
-     - name: Move to client dir
-        run: cd client/
-
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -28,7 +25,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: cd client/ && npm install
 
       - name: Lint
         run: npm run lint
