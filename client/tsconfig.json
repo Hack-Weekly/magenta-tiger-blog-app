@@ -9,7 +9,7 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
@@ -22,7 +22,7 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "vite.config.ts"],
+  "include": ["src", "./client/vite.config.ts"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "overrides": [
@@ -34,7 +34,7 @@
       ],
 
       "parserOptions": {
-        "project": ["./tsconfig.json"]
+        "project": [".client/tsconfig.json"]
       }
     }
   ]
