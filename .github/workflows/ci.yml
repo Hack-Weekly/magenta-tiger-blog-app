@@ -8,9 +8,12 @@ on:
 
 jobs:
   build:
-    name: Build and Lint
+    name: Build and Lint Client
     timeout-minutes: 15
     runs-on: ubuntu-latest
+
+     - name: Move to client dir
+        run: cd client/
 
     steps:
       - name: Check out code
@@ -24,17 +27,8 @@ jobs:
           node-version: 16
           cache: 'npm'
 
-      - name: Client:Install dependencies
-        run: cd client/ && npm install
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Build
-        run: npm run build && cd ../
-
-      - name: Server:Install dependencies
-        run: cd server/ && npm install
+      - name: Install dependencies
+        run: npm install
 
       - name: Lint
         run: npm run lint
