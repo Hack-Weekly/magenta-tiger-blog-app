@@ -44,7 +44,7 @@
   },
   "parser": "@typescript-eslint/parser", // Allows Eslint to understand TypeScript syntax.
   "parserOptions": {
-    "project": "./tsconfig.eslint.json", // Specify where to find the root tsconfig file of your project.
+    "project": ["./tsconfig.eslint.json"], // Specify where to find the root tsconfig file of your project.
     "ecmaVersion": 2021, // ECMAScript version supported in the project.
     "sourceType": "module", // set to `module` because we ue ECMAScript modules.
     "ecmaFeatures": {
@@ -60,7 +60,7 @@
     },
     "import/resolver": {
       "typescript": {
-        "project": "./tsconfig.eslint.json",
+        "project": ["./tsconfig.eslint.json"],
         "alwaysTryTypes": true // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`.
       }
     }

@@ -1,16 +1,14 @@
 {
-  "name": "react-ts-mongo-boilerplate",
+  "name": "magenta-tiger-blog-app",
   "version": "0.0.0",
   "author": {
-    "name": "Vlady"
+    "name": "magenta-tiger"
   },
   "scripts": {
     "build": "npm run typecheck && vite build",
-    "commit": "git-cz",
     "dev": "vite",
     "format": "prettier . --write --ignore-path .gitignore && git update-index --again",
     "lint": "eslint . --ext .ts,.tsx --fix --ignore-path .gitignore",
-    "prepare": "husky install",
     "serve": "npm run build && vite preview --port 3000",
     "typecheck": "tsc --noEmit"
   },
@@ -24,20 +22,12 @@
     ],
     "package.json": "npx sort-package-json"
   },
-  "config": {
-    "commitizen": {
-      "path": "@commitlint/cz-commitlint"
-    }
-  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.0.2",
-    "@commitlint/config-conventional": "^17.0.2",
-    "@commitlint/cz-commitlint": "^17.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^18.15.11",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
