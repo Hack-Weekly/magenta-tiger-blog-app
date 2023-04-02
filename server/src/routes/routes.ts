@@ -11,3 +11,6 @@ routes.get('/health', (req: Request, res: Response) => res.send({
 
 // Create Post
 routes.post('/create', (req: Request, res: Response) => new PostC().createPost(req, res));
+
+// Delete Post
+routes.delete('/post/:id', (req: Request, res: Response) => new PostC().deletePost(req, res));

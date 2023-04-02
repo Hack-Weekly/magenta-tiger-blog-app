@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { Post } from '../models/post.model';
-import { PostController } from '../types/post.types';
+import { IPost, PostController } from '../types/post.types';
 
 export class PostC implements PostController {
   // Create Post
@@ -15,7 +15,7 @@ export class PostC implements PostController {
         keywords,
         isBookmarked,
         likes,
-      } = req.body;
+      }: IPost = req.body;
 
       const post = new Post({
         title,
@@ -38,6 +38,23 @@ export class PostC implements PostController {
       return res
         .status(400)
         .json({ message: 'Failed to create new post', error });
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async deletePost(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    try {
+      const post = await Post.findOneAndDelete({ _id: id });
+
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+
+      return res.status(200).send({ message: 'Post deleted successfully' });
+    } catch (error) {
+      return res.status(400).json({ message: 'Failed to delete post', error });
     }
   }
 }

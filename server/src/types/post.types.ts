@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
-export interface IPost {
+export interface IPost extends Document {
+  id: string;
   title: string;
   description: string;
   author: string;
