@@ -1,6 +1,7 @@
 import express, {
   Application, Request, Response, Router,
 } from 'express';
+import { connect } from 'mongoose';
 import { config } from './config';
 import { routes } from './routes/routes';
 
@@ -17,6 +18,12 @@ app.get('/', (req: Request, res: Response) => res.send({
 
 app.use(routes);
 
-app.listen(config.port, () => {
-  console.log(`Magenta Tiger Blog App is runnign on port ${config.port}`);
-});
+connect(config.dbUrl)
+  .then(() => {
+    console.log('Connected to database successfully...');
+
+    app.listen(config.port, () => {
+      console.log(`Magenta Tiger Blog App is runnign on port ${config.port}`);
+    });
+  })
+  .catch((error) => console.log('Could not connect to database', error));

@@ -7,27 +7,37 @@ export class PostC implements PostController {
   // eslint-disable-next-line class-methods-use-this
   async createPost(req: Request, res: Response): Promise<Response> {
     try {
-      const postData = req.body;
+      const {
+        title,
+        description,
+        author,
+        topic,
+        keywords,
+        isBookmarked,
+        likes,
+      } = req.body;
 
       const post = new Post({
-        title: postData.title,
-        description: postData.description,
-        author: postData.author,
+        title,
+        description,
+        author,
         date: new Date(),
-        topic: postData.topic,
-        keywords: postData.keywords,
-        isBookmarked: postData.isBookmarked,
-        likes: postData.likes,
+        topic,
+        keywords,
+        isBookmarked,
+        likes,
       });
 
-      await post.save(); // Save the post to the database
+      await post.save();
 
       return res
         .status(200)
         .json({ message: 'Post created successfully', post });
     } catch (error) {
       console.log(error);
-      return res.status(400).json({ message: 'Failed to create new post' });
+      return res
+        .status(400)
+        .json({ message: 'Failed to create new post', error });
     }
   }
 }
