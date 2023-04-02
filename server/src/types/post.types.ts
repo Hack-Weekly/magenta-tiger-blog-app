@@ -1,3 +1,5 @@
+import { Request, Response } from 'express';
+
 export interface IPost {
   title: string;
   description: string;
@@ -7,4 +9,8 @@ export interface IPost {
   keywords: string[];
   isBookmarked: boolean;
   likes: number;
+}
+
+export interface PostController {
+  createPost(req: Request, res: Response): Promise<Response>;
 }
