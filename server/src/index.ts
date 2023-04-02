@@ -1,7 +1,6 @@
 import express, {
   Application, Request, Response, Router,
 } from 'express';
-import { createServer } from 'http';
 import { config } from './config';
 import { routes } from './routes/routes';
 
