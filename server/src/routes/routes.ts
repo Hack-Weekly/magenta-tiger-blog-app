@@ -17,3 +17,6 @@ routes.delete('/post/:id', (req: Request, res: Response) => new PostC().deletePo
 
 // Update Post
 routes.put('/post/:id', (req: Request, res: Response) => new PostC().updatePost(req, res));
+
+// Get all Posts
+routes.get('/posts', (req: Request, res: Response) => new PostC().getAllPosts(req, res));

@@ -1,10 +1,10 @@
+/* eslint-disable class-methods-use-this */
 import { Request, Response } from 'express';
 import { Post } from '../models/post.model';
 import { IPost, PostController } from '../types/post.types';
 
 export class PostC implements PostController {
   // Create Post
-  // eslint-disable-next-line class-methods-use-this
   async createPost(req: Request, res: Response): Promise<Response> {
     try {
       const {
@@ -41,7 +41,6 @@ export class PostC implements PostController {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async deletePost(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
@@ -58,7 +57,6 @@ export class PostC implements PostController {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   async updatePost(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
@@ -85,6 +83,21 @@ export class PostC implements PostController {
       return res
         .status(200)
         .send({ message: 'Post updated successfully', post });
+    } catch (error) {
+      return res.status(400).json({ message: 'Failed to update post', error });
+    }
+  }
+
+  // Get all posts
+  async getAllPosts(req: Request, res: Response): Promise<Response> {
+    try {
+      const posts = await Post.find();
+
+      if (!posts) {
+        return res.status(404).json({ message: 'Posts not found' });
+      }
+
+      return res.status(200).json(posts);
     } catch (error) {
       return res.status(400).json({ message: 'Failed to update post', error });
     }
