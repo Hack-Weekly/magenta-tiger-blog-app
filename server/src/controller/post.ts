@@ -61,9 +61,7 @@ export class PostC implements PostController {
     const { id } = req.params;
 
     try {
-      const {
-        title, description, topic, keywords,
-      }: IPost = req.body;
+      const { title, description, topic, keywords }: IPost = req.body;
 
       const post = await Post.findByIdAndUpdate(
         { _id: id },
@@ -73,16 +71,14 @@ export class PostC implements PostController {
           topic,
           keywords,
         },
-        { new: true },
+        { new: true }
       );
 
       if (!post) {
         return res.status(404).json({ message: 'Post not found' });
       }
 
-      return res
-        .status(200)
-        .send({ message: 'Post updated successfully', post });
+      return res.status(200).json(post);
     } catch (error) {
       return res.status(400).json({ message: 'Failed to update post', error });
     }
@@ -100,6 +96,23 @@ export class PostC implements PostController {
       return res.status(200).json(posts);
     } catch (error) {
       return res.status(400).json({ message: 'Failed to update post', error });
+    }
+  }
+
+  // Get post by id
+  async getPostById(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    try {
+      const post = await Post.findById({ _id: id });
+
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+
+      return res.status(200).json(post);
+    } catch (error) {
+      return res.status(400).json({ message: 'Failed to fetch post', error });
     }
   }
 }

@@ -20,3 +20,6 @@ routes.put('/post/:id', (req: Request, res: Response) => new PostC().updatePost(
 
 // Get all Posts
 routes.get('/posts', (req: Request, res: Response) => new PostC().getAllPosts(req, res));
+
+// Get Post by Id
+routes.get('/post/:id', (req: Request, res: Response) => new PostC().getPostById(req, res));
