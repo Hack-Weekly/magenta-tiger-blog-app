@@ -18,6 +18,7 @@ const GlobalStyle = createGlobalStyle`
     --btn-disabled: #e0e0e0;
     --btn-disabled-text: #575757;
     --btn-disabled-hover: #c4c4c4;
+    --btn-transparent-hover: #ebebeb;
 
 
     --box-shadow: 5px 5px 0px 1px rgba(0,0,0,1);

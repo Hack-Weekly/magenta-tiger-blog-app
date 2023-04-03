@@ -1,3 +1,4 @@
+/* these styles are just for testing button, remove if not needed */
 .main {
   padding: 10rem;
   display: flex;
@@ -5,8 +6,6 @@
   justify-content: center;
 }
 
-.main div {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+button {
+  margin: 2rem;
 }

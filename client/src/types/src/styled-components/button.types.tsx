@@ -2,7 +2,11 @@ import { Size } from '../shared';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export type ButtonTheme = 'primary' | 'secondary' | 'icon' | 'text';
-export type Filled = 'primary' | 'secondary' | 'none';
+//export type Filled = 'primary' | 'secondary' | 'none';
+
+//primary - with shadow and border
+//secondary - just border
+//
 
 export type ButtonProps = {
     children?: string;
@@ -13,7 +17,8 @@ export type ButtonProps = {
     disabled?: boolean;
     active?: boolean;
     shadow?: boolean;
-    filled?: Filled;
+    transparent?: boolean;
+    bold?: boolean;
     size?: Size;
     onClick?: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void);
 }
@@ -25,7 +30,8 @@ export type StyledButtonProps = {
     disabled?: boolean;
     active?: boolean;
     shadow?: boolean;
-    filled?: Filled;
+    transparent?: boolean;
+    bold?: boolean;
     size?: Size;
 };
   
