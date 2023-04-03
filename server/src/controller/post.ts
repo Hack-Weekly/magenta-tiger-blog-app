@@ -57,4 +57,36 @@ export class PostC implements PostController {
       return res.status(400).json({ message: 'Failed to delete post', error });
     }
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  async updatePost(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    try {
+      const {
+        title, description, topic, keywords,
+      }: IPost = req.body;
+
+      const post = await Post.findByIdAndUpdate(
+        { _id: id },
+        {
+          title,
+          description,
+          topic,
+          keywords,
+        },
+        { new: true },
+      );
+
+      if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+      }
+
+      return res
+        .status(200)
+        .send({ message: 'Post updated successfully', post });
+    } catch (error) {
+      return res.status(400).json({ message: 'Failed to update post', error });
+    }
+  }
 }

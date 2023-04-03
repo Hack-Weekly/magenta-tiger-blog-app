@@ -14,3 +14,6 @@ routes.post('/create', (req: Request, res: Response) => new PostC().createPost(r
 
 // Delete Post
 routes.delete('/post/:id', (req: Request, res: Response) => new PostC().deletePost(req, res));
+
+// Update Post
+routes.put('/post/:id', (req: Request, res: Response) => new PostC().updatePost(req, res));
