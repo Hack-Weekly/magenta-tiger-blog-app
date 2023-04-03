@@ -6,7 +6,7 @@ export interface IPost extends Document {
   description: string;
   author: string;
   date: Date;
-  topic: string; // TODO Optimize
+  topic: 'tech' | 'tips' | 'design' | 'best practice' | 'languages' | 'news';
   keywords: string[];
   isBookmarked: boolean;
   likes: number;
