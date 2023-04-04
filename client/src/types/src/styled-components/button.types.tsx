@@ -1,37 +1,15 @@
-import { Size } from '../shared';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-
-export type ButtonTheme = 'primary' | 'secondary' | 'icon' | 'text';
-//export type Filled = 'primary' | 'secondary' | 'none';
-
-//primary - with shadow and border
-//secondary - just border
-//
+import { Size } from "../shared";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 export type ButtonProps = {
-    children?: string;
-    className?: string;
-    icon?: IconProp;
-    variant?: ButtonTheme;
-    danger?: boolean;
-    disabled?: boolean;
-    active?: boolean;
-    shadow?: boolean;
-    transparent?: boolean;
-    bold?: boolean;
-    size?: Size;
-    onClick?: ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void);
-}
-
-
-export type StyledButtonProps = {
-    variant?: ButtonTheme;
-    danger?: boolean;
-    disabled?: boolean;
-    active?: boolean;
-    shadow?: boolean;
-    transparent?: boolean;
-    bold?: boolean;
-    size?: Size;
+  className?: string;
+  icon?: IconProp;
+  variant?: "primary" | "secondary" | "icon" | "icon-bg" | "text" | "danger";
+  danger?: boolean;
+  disabled?: boolean;
+  bold?: boolean;
+  size?: Size;
+  full?: boolean;
+  label?: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
-  
