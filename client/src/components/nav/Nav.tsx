@@ -49,7 +49,8 @@ const StyledLine3Div = styled.div`
   background-color: white;
 `;
 const Nav = () => {
-  const user: boolean = true;
+  //temporary logic until we can pull the user info in//
+  const user: boolean = false;
 
   return (
     <>
