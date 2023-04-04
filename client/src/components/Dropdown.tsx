@@ -16,8 +16,7 @@ const DropdownWrapper = styled.aside`
   width: 100%;
   height: 20rem;
   background-color: #ffffff;
-  border-radius: 0.5rem;
-  border: 5px solid #aaaaaa;
+  border: 0.15rem solid #aaaaaa;
   padding: 0;
   margin: 0;
 `;
@@ -79,7 +78,7 @@ const Dropdown = ({ name, username }: DropdownProps) => {
       <DropdownHeader>
         <AuthorWrapper>
           <AuthorTitle>{name}</AuthorTitle>
-          <AuthorDescription>{username}</AuthorDescription>
+          <AuthorDescription>{`@${username}`}</AuthorDescription>
         </AuthorWrapper>
       </DropdownHeader>
       <DropdownListWrapper>
