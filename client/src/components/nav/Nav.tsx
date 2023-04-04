@@ -17,6 +17,7 @@ const StyledProfileBtn = styled.button<ProfileButtonProps>`
   background-image: ${props => `url(${props.imageUrl})`};
   background-size: contain;
   background-position: center;
+  border: 2px solid black;
 `;
 
 const StyledMenuBtn = styled.button`
