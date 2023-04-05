@@ -1,0 +1,222 @@
+import styled, { css } from "styled-components";
+import { PostPreviewProps } from "@/types/src/styled-components/postPreview.types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
+
+const PostPreviewWrapper = styled.div<PostPreviewProps>`
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.7rem;
+  transition: 0.2s;
+  ${({ variant }) =>
+    variant === "big"
+      ? css`
+          flex-direction: column;
+        `
+      : css`
+          flex-direction: row;
+        `}
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
+  &:active {
+    opacity: 1;
+  }
+`;
+
+const PreviewImageWrapper = styled.div<PostPreviewProps>`
+  height: 100%;
+  border: 0.15rem solid black;
+  ${({ variant }) =>
+    variant === "big"
+      ? css`
+          width: 100%;
+          height: 15rem;
+          max-width: 100%;
+          box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 1);
+          @media (min-width: 680px) {
+            height: 20rem;
+          }
+        `
+      : css`
+          width: 7rem;
+          min-width: 7rem;
+          height: 7rem;
+        `}
+`;
+const PostImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+`;
+const PreviewContentWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  justify-content: center;
+  gap: 0.4rem;
+`;
+const ContentHeaderWrapper = styled.div<PostPreviewProps>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  span {
+    color: #c1c1c1;
+  }
+  ${({ variant }) =>
+    variant === "big" &&
+    css`
+      margin-top: 0.5rem;
+      margin-bottom: 0.3rem;
+      justify-content: space-between;
+    `}
+`;
+const AuthorWrapper = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.4rem;
+`;
+const AuthorImageWrapper = styled.div`
+  background-color: #dfdfdf;
+  width: 2.5rem;
+  height: 2.5rem;
+  min-height: 2rem;
+  min-width: 2rem;
+  border-radius: 50%;
+  border: 0.15rem solid black;
+`;
+const AuthorImage = styled.img`
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+`;
+const AuthorImagePlacholder = styled.div`
+  width: 100%;
+  height: 100%;
+  font-size: 1.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #8d8d8d;
+`;
+const AuthorTitle = styled.p<PostPreviewProps>`
+  font-family: "Roboto";
+  ${({ variant }) =>
+    variant === "big"
+      ? css`
+          color: #000000;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 19px;
+          letter-spacing: -0.025em;
+        `
+      : css`
+          color: #888888;
+          font-weight: 400;
+          font-size: 0.95rem;
+          line-height: 0.9rem;
+          letter-spacing: -0.025em;
+        `}
+`;
+const PostDate = styled.p<PostPreviewProps>`
+  color: #9e9e9e;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.9rem;
+  line-height: 1rem;
+  letter-spacing: -0.025em;
+`;
+const ContentBodyWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.8rem;
+`;
+const PostTitle = styled.h2<PostPreviewProps>`
+  font-family: "Inter";
+  color: #252525;
+  font-style: normal;
+  ${({ variant }) =>
+    variant === "big"
+      ? css`
+          font-weight: 800;
+          font-size: 1.4rem;
+          line-height: 1.6rem;
+          letter-spacing: -0.035em;
+          text-decoration-line: underline;
+        `
+      : css`
+          font-weight: 700;
+          font-size: 1.1rem;
+          line-height: 18px;
+          letter-spacing: -0.025em;
+        `}
+`;
+const PostTopics = styled.p`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.9rem;
+  line-height: 14px;
+  letter-spacing: -0.015em;
+  color: #c1c1c1;
+`;
+
+const PostPreview = ({
+  variant = "compact",
+  postImage,
+  authorName,
+  authorPhoto,
+  date,
+  postTitle,
+  postTopics,
+  postId,
+}: PostPreviewProps) => {
+  return (
+    <PostPreviewWrapper variant={variant}>
+      <PreviewImageWrapper variant={variant}>
+        {postImage && <PostImage src={postImage} alt="" />}
+      </PreviewImageWrapper>
+      <PreviewContentWrapper>
+        <ContentHeaderWrapper variant={variant}>
+          <AuthorWrapper>
+            {variant === "big" && (
+              <AuthorImageWrapper>
+                {authorPhoto ? (
+                  <AuthorImage src={authorPhoto} alt="" />
+                ) : (
+                  <AuthorImagePlacholder>
+                    <FontAwesomeIcon icon={faCircleUser} />
+                  </AuthorImagePlacholder>
+                )}
+              </AuthorImageWrapper>
+            )}
+            <AuthorTitle variant={variant}>{authorName}</AuthorTitle>
+          </AuthorWrapper>
+          {variant === "compact" && <span>•</span>}
+          <PostDate variant={variant}>{date}</PostDate>
+        </ContentHeaderWrapper>
+        <ContentBodyWrapper>
+          <PostTitle variant={variant}>{postTitle}</PostTitle>
+          {variant !== "big" && <PostTopics>{postTopics}</PostTopics>}
+        </ContentBodyWrapper>
+      </PreviewContentWrapper>
+    </PostPreviewWrapper>
+  );
+};
+
+export { PostPreview };
