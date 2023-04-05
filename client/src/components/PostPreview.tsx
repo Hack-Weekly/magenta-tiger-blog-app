@@ -189,7 +189,7 @@ const PostPreview = ({
   return (
     <PostPreviewWrapper variant={variant}>
       <PreviewImageWrapper variant={variant}>
-        {postImage && <PostImage src={postImage} alt="" />}
+        {postImage && <PostImage src={postImage} alt="Picture of post" />}
       </PreviewImageWrapper>
       <PreviewContentWrapper>
         <ContentHeaderWrapper variant={variant}>
@@ -197,7 +197,7 @@ const PostPreview = ({
             {variant === "big" && (
               <AuthorImageWrapper>
                 {authorPhoto ? (
-                  <AuthorImage src={authorPhoto} alt="" />
+                  <AuthorImage src={authorPhoto} alt="Picture of author" />
                 ) : (
                   <AuthorImagePlacholder>
                     <FontAwesomeIcon icon={faCircleUser} />
