@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { ProfileButtonProps } from "../../types/src/props/NavProps";
+import { Button } from "../Button";
 
 const StyledNav = styled.nav`
   width: 100%;
@@ -50,7 +51,7 @@ const StyledLine3Div = styled.div`
 `;
 const Nav = () => {
   //temporary logic until we can pull the user info in//
-  const user: boolean = true;
+  const user: boolean = false;
 
   return (
     <StyledNav>
@@ -60,12 +61,17 @@ const Nav = () => {
           <StyledLine2Div />
           <StyledLine3Div />
         </StyledMenuBtn>
-        {/* swap with styled button when available
-          and update logic for user display */}
+        {/* 
+           update logic for user display */}
         {user ? (
           <StyledProfileBtn imageUrl="https://avatars.githubusercontent.com/u/101993818?v=4" />
         ) : (
-          <button>Create account</button>
+          <Button
+            label="Create Account"
+            variant="primary"
+            size="sm3"
+            full={false}
+          />
         )}
       </>
     </StyledNav>
