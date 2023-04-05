@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { DropdownProps } from "@/types/src/styled-components/dropdown.types";
 import { Button } from "./Button";
+import { DropdownProps } from "@/types/src/styled-components/dropdown.types";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 
 const DropdownWrapper = styled.aside`
@@ -8,12 +8,10 @@ const DropdownWrapper = styled.aside`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  /* Change top prop when nav is ready */
-  top: 3.5rem;
+  top: 1rem;
   right: 0.5rem;
   position: absolute;
-  max-width: 15rem;
-  width: 100%;
+  width: 15rem;
   height: 20rem;
   background-color: #ffffff;
   border: 0.15rem solid #aaaaaa;
@@ -31,6 +29,8 @@ const DropdownFooter = styled.div`
   background-color: #fafafa;
   width: 100%;
   padding: 1rem 2rem;
+  height: 100%;
+  max-height: 5rem;
 `;
 
 const AuthorWrapper = styled.div`
@@ -83,15 +83,17 @@ const Dropdown = ({ name, username }: DropdownProps) => {
       </DropdownHeader>
       <DropdownListWrapper>
         <DropdownListItem>
-          <Button variant="text" icon={faPlusSquare} full size="md1">
-            Create Post
-          </Button>
+          <Button
+            variant="text"
+            icon={faPlusSquare}
+            size="md1"
+            label="Create Post"
+            full
+          />
         </DropdownListItem>
       </DropdownListWrapper>
       <DropdownFooter>
-        <Button variant="primary" shadow danger size="sm3" bold full>
-          Sign out
-        </Button>
+        <Button variant="danger" size="md1" label="Sign out" full />
       </DropdownFooter>
     </DropdownWrapper>
   );

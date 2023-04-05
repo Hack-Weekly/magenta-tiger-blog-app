@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ButtonProps, StyledButtonProps } from "../types/src/styled-components";
+import { ButtonProps } from "@/types/src/styled-components/button.types";
 
 const sizes = {
   sm1: css`
@@ -41,14 +41,19 @@ const sizes = {
   `,
 };
 
-const StyledButton = styled.button<StyledButtonProps>`
+const StyledButton = styled.button<ButtonProps>`
   font-family: "Inter";
-  font-weight: 500;
+  font-weight: ${({ bold }) => (bold ? "600" : "500")};
   transition: 0.2s;
   gap: 1.5rem;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
+  border: 0.15rem solid #000000;
+  color: #000000;
+  box-shadow: 3px 4px 0px 0px rgba(0, 0, 0, 1);
+  width: ${({ full }) => (full ? "100%" : "auto")};
+  cursor: pointer;
   ${({ size }) =>
     size === "sm1"
       ? sizes.sm1
@@ -69,91 +74,140 @@ const StyledButton = styled.button<StyledButtonProps>`
       : size === "xl3"
       ? sizes.xl3
       : ""}
-  ${({ variant, danger, disabled, active, shadow, transparent, bold, full }) =>
-    css`
-      &:hover,
-      &:focus-visible {
-        background-color: ${disabled
-          ? "var(--btn-disabled-hover)"
-          : danger
-          ? "var(--btn-danger-hover)"
-          : variant === "primary" && !transparent
-          ? "var(--btn-primary-hover)"
-          : variant === "secondary" && !transparent
-          ? "var(--btn-secondary-hover)"
-          : variant !== "icon" && transparent
-          ? "var(--btn-transparent-hover)"
-          : "none"};
-        color: ${disabled
-          ? "var(--btn-disabled-text)"
-          : (variant === "text" && !active) ||
-            (variant === "icon" && transparent)
-          ? "var(--btn-text-hover)"
-          : variant === "text" && active
-          ? "var(--btn-text-active)"
-          : "var(--btn-black)"};
-      }
-
-      &:active {
-        background-color: ${disabled
-          ? "var(--btn-disabled-hover)"
-          : danger
-          ? "var(--btn-danger-active)"
-          : variant === "primary" && !transparent
-          ? "var(--btn-primary-active)"
-          : variant === "secondary" && !transparent
-          ? "var(--btn-secondary-active)"
-          : variant !== "icon" && transparent
-          ? "var(--btn-disabled-hover)"
-          : "none"};
-
-        color: ${disabled
-          ? "var(--btn-disabled-text)"
-          : variant === "text" || (variant === "icon" && transparent)
-          ? "var(--btn-text)"
-          : "var(--btn-black)"};
-      }
-
-      background-color: ${disabled
-        ? "var(--btn-disabled)"
-        : danger
-        ? "var(--btn-danger)"
-        : variant === "primary" && !transparent
-        ? "var(--btn-primary)"
-        : variant === "secondary" && !transparent
-        ? "var(--btn-secondary)"
-        : "transparent"};
-      border: ${disabled
-        ? "1px solid var(--btn-disabled-text)"
-        : variant === "text" || (variant === "icon" && transparent)
-        ? "none"
-        : "2px solid var(--btn-black)"};
-      color: ${disabled
-        ? "var(--btn-disabled-text)"
-        : variant === "text" && active
-        ? "var(--btn-text-active)"
-        : variant === "text"
-        ? "var(--btn-text)"
-        : "var(--btn-black)"};
-
-      font-weight: ${bold ? "700" : "500"};
-      width: ${full ? "100%" : "auto"};
-      padding: ${variant !== "text" ? "0.55rem 0.86rem" : "none"};
-      box-shadow: ${shadow ? "var(--box-shadow)" : "none"};
-      cursor: ${disabled ? "not-allowed" : "pointer"};
-    `};
+  ${({ variant }) =>
+    variant === "primary"
+      ? css`
+          background-color: #bdeec1;
+          &:hover,
+          &:focus {
+            background-color: #cbf8cf;
+            color: #333333;
+          }
+          &:active {
+            background-color: #b3e6b8;
+            transform: translateY(2px);
+            box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 1);
+          }
+        `
+      : variant === "secondary"
+      ? css`
+          background-color: #ccb3eb;
+          &:hover,
+          &:focus {
+            background-color: #dac1f8;
+            color: #333333;
+          }
+          &:active {
+            background-color: #c2a8e0;
+            transform: translateY(2px);
+            box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 1);
+          }
+        `
+      : variant === "icon"
+      ? css`
+          background-color: transparent;
+          border: 0.15rem solid #000000;
+          border-radius: 50%;
+          box-shadow: none;
+          padding: 0.3rem;
+          &:hover,
+          &:focus {
+            color: #525252;
+            border-color: #525252;
+          }
+          &:active {
+            color: #303030;
+            border-color: #303030;
+          }
+        `
+      : variant === "text"
+      ? css`
+          background-color: transparent;
+          border: none;
+          box-shadow: none;
+          &:hover,
+          &:focus {
+            color: #525252;
+          }
+          &:active {
+            color: #303030;
+          }
+        `
+      : variant === "danger"
+      ? css`
+          background-color: #e73030;
+          &:hover,
+          &:focus {
+            background-color: #f73939;
+            color: #000000;
+          }
+          &:active {
+            background-color: #e73030;
+            transform: translateY(2px);
+            box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 1);
+          }
+        `
+      : variant === "icon-bg" &&
+        css`
+          box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 1);
+          padding: 0.5rem;
+          background-color: #ccb3eb;
+          &:hover,
+          &:focus {
+            background-color: #dac1f8;
+            color: #333333;
+          }
+          &:active {
+            background-color: #c2a8e0;
+            transform: translateY(2px);
+            box-shadow: 1px 2px 0px 0px rgba(0, 0, 0, 1);
+          }
+        `}
+    ${({ disabled, variant }) =>
+    disabled &&
+    (variant === "primary" ||
+      variant === "secondary" ||
+      variant === "icon-bg" ||
+      variant === "danger")
+      ? css`
+          cursor: default;
+          background-color: #e6e6e6;
+          &:hover,
+          &:focus {
+            background-color: #e6e6e6;
+            color: #000000;
+          }
+          &:active {
+            background-color: #e6e6e6;
+            box-shadow: 3px 4px 0px 0px rgba(0, 0, 0, 1);
+            transform: none;
+          }
+        `
+      : disabled &&
+        css`
+          cursor: default;
+          background-color: transparent;
+          &:hover,
+          &:focus {
+            background-color: transparent;
+            border-color: #000000;
+            color: #000000;
+          }
+          &:active {
+            background-color: transparent;
+            box-shadow: none;
+            transform: none;
+          }
+        `}
 `;
 
 function Button({
-  children,
   className,
   icon,
+  label,
   variant = "primary",
   danger,
   disabled,
-  active,
-  shadow,
-  transparent,
   bold,
   size = "sm3",
   onClick,
@@ -161,20 +215,18 @@ function Button({
 }: ButtonProps) {
   return (
     <StyledButton
+      title={label}
       className={className}
       variant={variant}
       danger={danger}
       disabled={disabled}
-      active={active}
-      shadow={shadow}
-      transparent={transparent}
       bold={bold}
       size={size}
       onClick={onClick}
       full={full}
     >
       {icon && <FontAwesomeIcon icon={icon} />}
-      {children && <span>{children}</span>}
+      {variant !== "icon" && label}
     </StyledButton>
   );
 }
