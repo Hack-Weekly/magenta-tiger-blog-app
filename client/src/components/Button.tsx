@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ButtonProps } from "../types/src/styled-components";
+import { ButtonProps } from "@/types/src/styled-components/button.types";
 
 const sizes = {
   sm1: css`
@@ -42,7 +42,6 @@ const sizes = {
 };
 
 const StyledButton = styled.button<ButtonProps>`
-  margin: 3rem;
   font-family: "Inter";
   font-weight: ${({ bold }) => (bold ? "600" : "500")};
   transition: 0.2s;
@@ -53,6 +52,7 @@ const StyledButton = styled.button<ButtonProps>`
   border: 0.15rem solid #000000;
   color: #000000;
   box-shadow: 3px 4px 0px 0px rgba(0, 0, 0, 1);
+  width: ${({ full }) => (full ? "100%" : "auto")};
   cursor: pointer;
   ${({ size }) =>
     size === "sm1"
@@ -78,7 +78,6 @@ const StyledButton = styled.button<ButtonProps>`
     variant === "primary"
       ? css`
           background-color: #bdeec1;
-
           &:hover,
           &:focus {
             background-color: #cbf8cf;
