@@ -4,6 +4,7 @@ export interface IPost extends Document {
   id: string;
   title: string;
   description: string;
+  image: string;
   author: string;
   date: Date;
   topic: 'tech' | 'tips' | 'design' | 'best practice' | 'languages' | 'news';

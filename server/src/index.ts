@@ -10,6 +10,7 @@ const app: Application = express();
 export const router: Router = express.Router();
 
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 app.get('/', (req: Request, res: Response) => res.send({
   message: 'Magenta Tiger blog app server is up and running',
