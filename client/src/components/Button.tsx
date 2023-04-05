@@ -187,11 +187,12 @@ const StyledButton = styled.button<ButtonProps>`
         css`
           cursor: default;
           background-color: transparent;
+          color: #8f8f8f;
           &:hover,
           &:focus {
             background-color: transparent;
             border-color: #000000;
-            color: #000000;
+            color: #8f8f8f;
           }
           &:active {
             background-color: transparent;

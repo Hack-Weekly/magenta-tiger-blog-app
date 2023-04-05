@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
 
   body,
   html {
-    background-color: #ffffff;
+    background-color: #f1f1f1;
     margin: 0;
     padding: 0;
     font-size: 16px;

@@ -13,6 +13,7 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
   justify-content: center;
   gap: 0.7rem;
   transition: 0.2s;
+  z-index: 3;
   ${({ variant }) =>
     variant === "big"
       ? css`
@@ -50,6 +51,12 @@ const PreviewImageWrapper = styled.div<PostPreviewProps>`
           min-width: 7rem;
           height: 7rem;
         `}
+
+  ${({ postImage }) =>
+    !postImage &&
+    css`
+      display: none;
+    `}
 `;
 const PostImage = styled.img`
   width: 100%;
@@ -78,7 +85,7 @@ const ContentHeaderWrapper = styled.div<PostPreviewProps>`
     css`
       margin-top: 0.5rem;
       margin-bottom: 0.3rem;
-      justify-content: space-between;
+      gap: 1rem;
     `}
 `;
 const AuthorWrapper = styled.div`
@@ -94,7 +101,6 @@ const AuthorImageWrapper = styled.div`
   min-height: 2rem;
   min-width: 2rem;
   border-radius: 50%;
-  border: 0.15rem solid black;
 `;
 const AuthorImage = styled.img`
   border-radius: 50%;
@@ -188,7 +194,7 @@ const PostPreview = ({
 }: PostPreviewProps) => {
   return (
     <PostPreviewWrapper variant={variant}>
-      <PreviewImageWrapper variant={variant}>
+      <PreviewImageWrapper variant={variant} postImage={postImage}>
         {postImage && <PostImage src={postImage} alt="Picture of post" />}
       </PreviewImageWrapper>
       <PreviewContentWrapper>
@@ -212,7 +218,7 @@ const PostPreview = ({
         </ContentHeaderWrapper>
         <ContentBodyWrapper>
           <PostTitle variant={variant}>{postTitle}</PostTitle>
-          {variant !== "big" && <PostTopics>{postTopics}</PostTopics>}
+          <PostTopics>{postTopics}</PostTopics>
         </ContentBodyWrapper>
       </PreviewContentWrapper>
     </PostPreviewWrapper>
