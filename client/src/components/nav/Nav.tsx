@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ProfileButtonProps } from "@/types/navProps";
+import { ProfileButtonProps } from "@/types/NavProps";
 
 const StyledNav = styled.nav`
   width: 100%;
@@ -50,27 +50,25 @@ const StyledLine3Div = styled.div`
 `;
 const Nav = () => {
   //temporary logic until we can pull the user info in//
-  const user: boolean = false;
+  const user: boolean = true;
 
   return (
-    <>
-      <StyledNav>
-        <>
-          <StyledMenuBtn>
-            <StyledLine1Div />
-            <StyledLine2Div />
-            <StyledLine3Div />
-          </StyledMenuBtn>
-          {/* swap with styled button when available
+    <StyledNav>
+      <>
+        <StyledMenuBtn>
+          <StyledLine1Div />
+          <StyledLine2Div />
+          <StyledLine3Div />
+        </StyledMenuBtn>
+        {/* swap with styled button when available
           and update logic for user display */}
-          {user ? (
-            <StyledProfileBtn imageUrl="https://avatars.githubusercontent.com/u/101993818?v=4" />
-          ) : (
-            <button>Create account</button>
-          )}
-        </>
-      </StyledNav>
-    </>
+        {user ? (
+          <StyledProfileBtn imageUrl="https://avatars.githubusercontent.com/u/101993818?v=4" />
+        ) : (
+          <button>Create account</button>
+        )}
+      </>
+    </StyledNav>
   );
 };
 
