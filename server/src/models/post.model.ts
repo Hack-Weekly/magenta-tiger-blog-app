@@ -10,6 +10,7 @@ export const PostSchema = new Schema<IPost>({
     type: String,
     required: [true, 'Please provide a description'],
   },
+  image: { type: String },
   author: {
     type: String,
   },
