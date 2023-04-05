@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ProfileButtonProps } from "@/types/NavProps";
+import { ProfileButtonProps } from "../../types/src/props/NavProps";
 
 const StyledNav = styled.nav`
   width: 100%;
