@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
- *,
+  *,
   *:before,
   *:after {
     box-sizing: border-box;
@@ -30,7 +30,16 @@ const GlobalStyle = createGlobalStyle`
     *::selection {
       background: #9e9e9e50;
     }
+    *:focus:not(:focus-visible) {
+    outline: none;
+    }
+  *:focus-visible {
+    outline: 3px solid #000000;
+    outline-offset: .2rem;
+    border-radius: 4px;
+    }
   }
+
 `;
 
 export default GlobalStyle;
