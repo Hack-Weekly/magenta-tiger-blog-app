@@ -117,6 +117,27 @@ const SidebarHeaderWrapper = styled.div`
   align-items: center;
 `;
 
+const SectionTitle = styled.h3`
+  font-family: "Inter";
+  color: #2c2c2c;
+`;
+
+const SidebarSectionWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 1rem;
+`;
+const SectionBody = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+`;
+
 const Nav = () => {
   const user = { photoUrl: null }; //temporary logic until we can pull the user info in
 
@@ -211,6 +232,17 @@ const Nav = () => {
                 onClick={handleOpenSidebar}
               />
             </SidebarHeaderWrapper>
+            <SidebarSectionWrapper>
+              <SectionTitle>Links</SectionTitle>
+              <SectionBody>
+                <Button
+                  variant="primary"
+                  label="Home"
+                  full
+                  onClick={() => navigate("/")}
+                />
+              </SectionBody>
+            </SidebarSectionWrapper>
           </SidebarWrapper>
         </SidebarMainWrapper>
       )}
