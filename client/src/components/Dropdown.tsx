@@ -74,7 +74,13 @@ const DropdownListItem = styled.li`
   width: 100%;
 `;
 
-const Dropdown = ({ name, username, btnRef, onClose }: DropdownProps) => {
+const Dropdown = ({
+  name,
+  username,
+  btnRef,
+  onClose,
+  isDropdownOpen,
+}: DropdownProps) => {
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -93,7 +99,7 @@ const Dropdown = ({ name, username, btnRef, onClose }: DropdownProps) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [onClose]);
+  }, [isDropdownOpen]);
 
   return (
     <DropdownWrapper ref={dropdownRef}>

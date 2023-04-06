@@ -12,7 +12,6 @@ const SideBarWrapper = styled.aside`
     display: block;
     margin-right: 2rem;
   }
-  position: sticky;
   top: 1rem;
   margin-top: 1rem;
   border: 0.15rem solid #aaaaaa;
@@ -27,6 +26,7 @@ const SidebarContentWrapper = styled.div`
   justify-content: center;
   padding: 0.5rem;
   width: 100%;
+  position: relative;
 `;
 
 const MainContentWrapper = styled.section`

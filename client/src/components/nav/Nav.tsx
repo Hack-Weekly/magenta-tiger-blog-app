@@ -28,7 +28,7 @@ const NavContentWrapper = styled.div`
   align-items: center;
   margin: 0 auto;
   max-width: 70rem;
-
+  position: relative;
   @media (min-width: 680px) {
     justify-content: flex-end;
   }
@@ -191,6 +191,15 @@ const Nav = () => {
         ) : (
           <Button label="Create Account" variant="primary" size="sm2" />
         )}
+        {isDropdownOpen && !isSidebarOpen && (
+          <Dropdown
+            onClose={handleProfileMenuClosing}
+            isDropdownOpen={isDropdownOpen}
+            btnRef={dropdownBtnRef}
+            username={"username"}
+            name={"Name Surname"}
+          />
+        )}
       </NavContentWrapper>
       {isSidebarOpen && (
         <SidebarMainWrapper>
@@ -204,14 +213,6 @@ const Nav = () => {
             </SidebarHeaderWrapper>
           </SidebarWrapper>
         </SidebarMainWrapper>
-      )}
-      {isDropdownOpen && !isSidebarOpen && (
-        <Dropdown
-          onClose={handleProfileMenuClosing}
-          btnRef={dropdownBtnRef}
-          username={"username"}
-          name={"Name Surname"}
-        />
       )}
     </StyledNav>
   );
