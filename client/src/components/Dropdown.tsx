@@ -33,6 +33,9 @@ const DropdownFooter = styled.div`
   padding: 1rem 2rem;
   height: 100%;
   max-height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const AuthorWrapper = styled.div`
@@ -77,7 +80,7 @@ const DropdownListItem = styled.li`
 const Dropdown = ({
   name,
   username,
-  btnRef,
+  navRef,
   onClose,
   isDropdownOpen,
 }: DropdownProps) => {
@@ -88,8 +91,9 @@ const Dropdown = ({
     const handleClickOutside = (e: MouseEvent) => {
       if (
         dropdownRef.current &&
+        navRef.current &&
         !dropdownRef.current.contains(e.target as Node) &&
-        e.target !== btnRef.current
+        !navRef.current.contains(e.target as Node)
       ) {
         onClose();
       }
@@ -122,7 +126,7 @@ const Dropdown = ({
         </DropdownListItem>
       </DropdownListWrapper>
       <DropdownFooter>
-        <Button variant="danger" size="md1" label="Sign out" full />
+        <Button variant="danger" size="sm3" label="Sign out" />
       </DropdownFooter>
     </DropdownWrapper>
   );

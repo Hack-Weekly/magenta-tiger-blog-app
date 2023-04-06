@@ -1,7 +1,7 @@
 export type DropdownProps = {
   name?: string;
   username?: string;
-  btnRef: React.RefObject<HTMLButtonElement>;
+  navRef: React.RefObject<HTMLDivElement>;
   onClose?: any;
   isDropdownOpen?: boolean;
 };

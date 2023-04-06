@@ -2,6 +2,14 @@ import styled, { css } from "styled-components";
 import { PostPreviewProps } from "@/types/src/styled-components/postPreview.types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
+import { Link } from "react-router-dom";
+
+const PostPreviewMainWrapper = styled.div`
+  width: 100%;
+  a {
+    text-decoration: none;
+  }
+`;
 
 const PostPreviewWrapper = styled.div<PostPreviewProps>`
   width: 100%;
@@ -119,6 +127,7 @@ const AuthorImagePlacholder = styled.div`
 `;
 const AuthorTitle = styled.p<PostPreviewProps>`
   font-family: "Roboto";
+  text-decoration: none;
   ${({ variant }) =>
     variant === "big"
       ? css`
@@ -194,35 +203,39 @@ const PostPreview = ({
   postId,
 }: PostPreviewProps) => {
   return (
-    <PostPreviewWrapper variant={variant}>
-      <PreviewImageWrapper variant={variant} postImage={postImage}>
-        {postImage && <PostImage src={postImage} alt="Picture of post" />}
-      </PreviewImageWrapper>
-      <PreviewContentWrapper>
-        <ContentHeaderWrapper variant={variant}>
-          <AuthorWrapper>
-            {variant === "big" && (
-              <AuthorImageWrapper>
-                {authorPhoto ? (
-                  <AuthorImage src={authorPhoto} alt="Picture of author" />
-                ) : (
-                  <AuthorImagePlacholder>
-                    <FontAwesomeIcon icon={faCircleUser} />
-                  </AuthorImagePlacholder>
+    <PostPreviewMainWrapper>
+      <Link to={`/post/${postId}`}>
+        <PostPreviewWrapper variant={variant}>
+          <PreviewImageWrapper variant={variant} postImage={postImage}>
+            {postImage && <PostImage src={postImage} alt="Picture of post" />}
+          </PreviewImageWrapper>
+          <PreviewContentWrapper>
+            <ContentHeaderWrapper variant={variant}>
+              <AuthorWrapper>
+                {variant === "big" && (
+                  <AuthorImageWrapper>
+                    {authorPhoto ? (
+                      <AuthorImage src={authorPhoto} alt="Picture of author" />
+                    ) : (
+                      <AuthorImagePlacholder>
+                        <FontAwesomeIcon icon={faCircleUser} />
+                      </AuthorImagePlacholder>
+                    )}
+                  </AuthorImageWrapper>
                 )}
-              </AuthorImageWrapper>
-            )}
-            <AuthorTitle variant={variant}>{authorName}</AuthorTitle>
-          </AuthorWrapper>
-          {variant === "compact" && <span>•</span>}
-          <PostDate variant={variant}>{date}</PostDate>
-        </ContentHeaderWrapper>
-        <ContentBodyWrapper>
-          <PostTitle variant={variant}>{postTitle}</PostTitle>
-          <PostTopics>{postTopics}</PostTopics>
-        </ContentBodyWrapper>
-      </PreviewContentWrapper>
-    </PostPreviewWrapper>
+                <AuthorTitle variant={variant}>{authorName}</AuthorTitle>
+              </AuthorWrapper>
+              {variant === "compact" && <span>•</span>}
+              <PostDate variant={variant}>{date}</PostDate>
+            </ContentHeaderWrapper>
+            <ContentBodyWrapper>
+              <PostTitle variant={variant}>{postTitle}</PostTitle>
+              <PostTopics>{postTopics}</PostTopics>
+            </ContentBodyWrapper>
+          </PreviewContentWrapper>
+        </PostPreviewWrapper>
+      </Link>
+    </PostPreviewMainWrapper>
   );
 };
 

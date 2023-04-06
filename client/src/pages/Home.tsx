@@ -1,7 +1,8 @@
 import { Button } from "@/components/Button";
 import { PostPreview } from "@/components/PostPreview";
 import StyledContainer from "@/components/StyledContainer";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const SideBarWrapper = styled.aside`
@@ -55,6 +56,33 @@ const ContentPostsWrapper = styled.div`
 
 const Home = () => {
   const [postFilter, setPostFilter] = useState("Latest");
+  const [posts, setPosts] = useState([]);
+
+  const [skip, setSkip] = useState(0);
+  const [limit, setLimit] = useState(10);
+
+  const changeFilter = (filter: "Latest" | "All") => {
+    setPostFilter(filter);
+    setSkip(0);
+    setLimit(10);
+  };
+
+  function handleScroll() {
+    if (postFilter === "All") {
+      setLimit(limit + 10);
+    }
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get(
+        "https://magenta-tiger-blog-app.onrender.com/posts"
+      );
+      setPosts(response.data);
+    }
+    fetchData();
+  }, []);
+
   return (
     <StyledContainer variant="page">
       <SideBarWrapper>
@@ -66,52 +94,50 @@ const Home = () => {
             variant="text"
             label="Latest"
             disabled={postFilter === "Latest"}
+            onClick={() => changeFilter("Latest")}
           />
           <Button
             variant="text"
             label="All blogs"
             disabled={postFilter === "All"}
+            onClick={() => changeFilter("All")}
           />
         </MainContentSorting>
         <ContentPostsWrapper>
-          <PostPreview
-            postImage={
-              "https://f004.backblazeb2.com/file/swappnet-folder/istockphoto-1127638057-612x612.jpg"
-            }
-            variant="big"
-            postTitle="Test title lol some text heh"
-            date="Jun 13, 2023"
-            authorName="Swappnet"
-            postTopics="#Tech, #Test"
-          />
-          <PostPreview
-            postImage={null}
-            variant="compact"
-            postTitle="Test title lol some text heh"
-            date="Jun 13, 2023"
-            authorName="Swappnet"
-            postTopics="#Tech, #Test"
-          />
-          <PostPreview
-            postImage={
-              "https://f004.backblazeb2.com/file/swappnet-folder/istockphoto-1127638057-612x612.jpg"
-            }
-            variant="compact"
-            postTitle="Test title lol some text heh"
-            date="Jun 13, 2023"
-            authorName="Swappnet"
-            postTopics="#Tech, #Test"
-          />
-          <PostPreview
-            postImage={
-              "https://f004.backblazeb2.com/file/swappnet-folder/istockphoto-1127638057-612x612.jpg"
-            }
-            variant="compact"
-            postTitle="Test title lol some text heh"
-            date="Jun 13, 2023"
-            authorName="Swappnet"
-            postTopics="#Tech, #Test"
-          />
+          {postFilter === "Latest" ? (
+            <>
+              <PostPreview
+                key={null}
+                postTitle="Test"
+                authorName="Swappnet"
+                variant="big"
+              />
+              {posts.slice(1, 10).map(post => (
+                <PostPreview
+                  key={null}
+                  postTitle="Test"
+                  authorName="Swappnet"
+                  variant="compact"
+                />
+              ))}
+            </>
+          ) : (
+            <>
+              {posts.map(post => (
+                <PostPreview
+                  key={null}
+                  postTitle="Test"
+                  authorName="Swappnet"
+                  variant="compact"
+                />
+              ))}
+            </>
+          )}
+          {postFilter === "All" && (
+            <div style={{ height: "50px" }} onScroll={handleScroll}>
+              Scroll down for more posts...
+            </div>
+          )}
         </ContentPostsWrapper>
       </MainContentWrapper>
     </StyledContainer>

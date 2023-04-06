@@ -145,6 +145,7 @@ const Nav = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLDivElement>(null);
   const sidebarBtnRef = useRef<HTMLButtonElement>(null);
   const dropdownBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -172,8 +173,9 @@ const Nav = () => {
       if (
         isSidebarOpen &&
         sidebarRef.current &&
+        navRef.current &&
         !sidebarRef.current.contains(e.target as Node) &&
-        e.target !== sidebarBtnRef.current
+        !navRef.current.contains(e.target as Node)
       ) {
         setIsSidebarOpen(false);
       }
@@ -193,7 +195,7 @@ const Nav = () => {
 
   return (
     <StyledNav>
-      <NavContentWrapper>
+      <NavContentWrapper ref={navRef}>
         <StyledMenuBtn onClick={handleOpenSidebar} ref={sidebarBtnRef}>
           <StyledLine1Div />
           <StyledLine2Div />
@@ -216,7 +218,7 @@ const Nav = () => {
           <Dropdown
             onClose={handleProfileMenuClosing}
             isDropdownOpen={isDropdownOpen}
-            btnRef={dropdownBtnRef}
+            navRef={navRef}
             username={"username"}
             name={"Name Surname"}
           />
