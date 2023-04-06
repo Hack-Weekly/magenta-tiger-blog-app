@@ -1,6 +1,12 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { ProfileButtonProps } from "../../types/src/props/NavProps";
 import { Button } from "../Button";
+import { Dropdown } from "../Dropdown";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
 
 const StyledNav = styled.nav`
   position: fixed;
@@ -29,13 +35,15 @@ const NavContentWrapper = styled.div`
 `;
 
 const StyledProfileBtn = styled.button<ProfileButtonProps>`
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   background-image: ${props => `url(${props.imageUrl})`};
   background-size: contain;
   background-position: center;
   border: 2px solid black;
+  transition: 0.2s;
+  cursor: pointer;
 `;
 
 const StyledMenuBtn = styled.button`
@@ -79,14 +87,93 @@ const StyledLine3Div = styled.div`
   height: 0.2rem;
   background-color: white;
 `;
+
+const SidebarMainWrapper = styled.div`
+  top: 4rem;
+  z-index: 9;
+  width: 100%;
+  position: absolute;
+  background-color: #00000022;
+`;
+
+const SidebarWrapper = styled.div`
+  padding: 0.5rem;
+  width: 60%;
+  max-width: 20rem;
+  min-width: 10rem;
+  height: 100vh;
+  background-color: #fafafa;
+  box-shadow: 4px 0px 0px 0px rgba(0, 0, 0, 1);
+  overflow-y: scroll;
+  @media (min-width: 680px) {
+    display: none;
+  }
+`;
+
+const SidebarHeaderWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
 const Nav = () => {
-  //temporary logic until we can pull the user info in//
-  const user: boolean = false;
+  const user = { photoUrl: null }; //temporary logic until we can pull the user info in
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const sidebarBtnRef = useRef<HTMLButtonElement>(null);
+  const dropdownBtnRef = useRef<HTMLButtonElement>(null);
+
+  const navigate = useNavigate();
+
+  const handleOpenSidebar = () => {
+    setIsSidebarOpen(prev => !prev);
+    setIsDropdownOpen(false);
+  };
+
+  const handleProfileMenuOpen = () => {
+    if (!isSidebarOpen) {
+      setIsDropdownOpen(prev => !prev);
+    }
+  };
+
+  const handleProfileMenuClosing = () => {
+    if (!isSidebarOpen) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e: MouseEvent) => {
+      if (
+        isSidebarOpen &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(e.target as Node) &&
+        e.target !== sidebarBtnRef.current
+      ) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", checkIfClickedOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [isSidebarOpen]);
+
+  useEffect(() => {
+    setIsSidebarOpen(false);
+    setIsDropdownOpen(false);
+  }, [navigate]);
 
   return (
     <StyledNav>
       <NavContentWrapper>
-        <StyledMenuBtn>
+        <StyledMenuBtn onClick={handleOpenSidebar} ref={sidebarBtnRef}>
           <StyledLine1Div />
           <StyledLine2Div />
           <StyledLine3Div />
@@ -94,11 +181,38 @@ const Nav = () => {
         {/* 
            update logic for user display */}
         {user ? (
-          <StyledProfileBtn imageUrl={null} />
+          <StyledProfileBtn
+            imageUrl={user.photoUrl}
+            onClick={handleProfileMenuOpen}
+            ref={dropdownBtnRef}
+          >
+            {!user.photoUrl && <FontAwesomeIcon icon={faUser} />}
+          </StyledProfileBtn>
         ) : (
           <Button label="Create Account" variant="primary" size="sm2" />
         )}
       </NavContentWrapper>
+      {isSidebarOpen && (
+        <SidebarMainWrapper>
+          <SidebarWrapper ref={sidebarRef}>
+            <SidebarHeaderWrapper>
+              <Button
+                variant="text"
+                icon={faClose}
+                onClick={handleOpenSidebar}
+              />
+            </SidebarHeaderWrapper>
+          </SidebarWrapper>
+        </SidebarMainWrapper>
+      )}
+      {isDropdownOpen && !isSidebarOpen && (
+        <Dropdown
+          onClose={handleProfileMenuClosing}
+          btnRef={dropdownBtnRef}
+          username={"username"}
+          name={"Name Surname"}
+        />
+      )}
     </StyledNav>
   );
 };

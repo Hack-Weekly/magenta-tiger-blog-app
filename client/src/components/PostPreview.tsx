@@ -35,13 +35,14 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
 const PreviewImageWrapper = styled.div<PostPreviewProps>`
   height: 100%;
   border: 0.15rem solid black;
+  box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 1);
   ${({ variant }) =>
     variant === "big"
       ? css`
           width: 100%;
           height: 15rem;
           max-width: 100%;
-          box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 1);
+          box-shadow: none;
           @media (min-width: 680px) {
             height: 20rem;
           }

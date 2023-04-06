@@ -34,9 +34,7 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
     }
   *:focus-visible {
-    outline: 3px solid #000000;
-    outline-offset: .2rem;
-    border-radius: 4px;
+    outline: none;
     }
   }
 

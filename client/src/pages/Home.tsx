@@ -17,7 +17,18 @@ const SideBarWrapper = styled.aside`
   margin-top: 1rem;
   border: 0.15rem solid #aaaaaa;
   border-radius: 0.3rem;
+  max-height: 40rem;
 `;
+
+const SidebarContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0.5rem;
+  width: 100%;
+`;
+
 const MainContentWrapper = styled.section`
   width: 100%;
   height: 100%;
@@ -46,7 +57,9 @@ const Home = () => {
   const [postFilter, setPostFilter] = useState("Latest");
   return (
     <StyledContainer variant="page">
-      <SideBarWrapper></SideBarWrapper>
+      <SideBarWrapper>
+        <SidebarContentWrapper></SidebarContentWrapper>
+      </SideBarWrapper>
       <MainContentWrapper>
         <MainContentSorting>
           <Button
@@ -62,7 +75,9 @@ const Home = () => {
         </MainContentSorting>
         <ContentPostsWrapper>
           <PostPreview
-            postImage={null}
+            postImage={
+              "https://f004.backblazeb2.com/file/swappnet-folder/istockphoto-1127638057-612x612.jpg"
+            }
             variant="big"
             postTitle="Test title lol some text heh"
             date="Jun 13, 2023"
