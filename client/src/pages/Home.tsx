@@ -65,7 +65,9 @@ const Home = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("http://localhost:8089/posts");
+        const response = await axios.get(
+          "https://magenta-tiger-blog-app.onrender.com/posts"
+        );
         setPosts(response.data);
       } catch (err) {
         console.log(err);
