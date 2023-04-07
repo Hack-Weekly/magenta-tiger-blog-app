@@ -2,6 +2,14 @@ import styled, { css } from "styled-components";
 import { PostPreviewProps } from "@/types/src/styled-components/postPreview.types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
+import { Link } from "react-router-dom";
+
+const PostPreviewMainWrapper = styled.div`
+  width: 100%;
+  a {
+    text-decoration: none;
+  }
+`;
 
 const PostPreviewWrapper = styled.div<PostPreviewProps>`
   width: 100%;
@@ -13,6 +21,7 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
   justify-content: center;
   gap: 0.7rem;
   transition: 0.2s;
+  z-index: 3;
   ${({ variant }) =>
     variant === "big"
       ? css`
@@ -34,13 +43,14 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
 const PreviewImageWrapper = styled.div<PostPreviewProps>`
   height: 100%;
   border: 0.15rem solid black;
+  box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 1);
   ${({ variant }) =>
     variant === "big"
       ? css`
           width: 100%;
           height: 15rem;
           max-width: 100%;
-          box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 1);
+          box-shadow: none;
           @media (min-width: 680px) {
             height: 20rem;
           }
@@ -50,6 +60,12 @@ const PreviewImageWrapper = styled.div<PostPreviewProps>`
           min-width: 7rem;
           height: 7rem;
         `}
+
+  ${({ postImage }) =>
+    !postImage &&
+    css`
+      display: none;
+    `}
 `;
 const PostImage = styled.img`
   width: 100%;
@@ -78,7 +94,7 @@ const ContentHeaderWrapper = styled.div<PostPreviewProps>`
     css`
       margin-top: 0.5rem;
       margin-bottom: 0.3rem;
-      justify-content: space-between;
+      gap: 1rem;
     `}
 `;
 const AuthorWrapper = styled.div`
@@ -94,7 +110,6 @@ const AuthorImageWrapper = styled.div`
   min-height: 2rem;
   min-width: 2rem;
   border-radius: 50%;
-  border: 0.15rem solid black;
 `;
 const AuthorImage = styled.img`
   border-radius: 50%;
@@ -112,6 +127,7 @@ const AuthorImagePlacholder = styled.div`
 `;
 const AuthorTitle = styled.p<PostPreviewProps>`
   font-family: "Roboto";
+  text-decoration: none;
   ${({ variant }) =>
     variant === "big"
       ? css`
@@ -187,35 +203,39 @@ const PostPreview = ({
   postId,
 }: PostPreviewProps) => {
   return (
-    <PostPreviewWrapper variant={variant}>
-      <PreviewImageWrapper variant={variant}>
-        {postImage && <PostImage src={postImage} alt="Picture of post" />}
-      </PreviewImageWrapper>
-      <PreviewContentWrapper>
-        <ContentHeaderWrapper variant={variant}>
-          <AuthorWrapper>
-            {variant === "big" && (
-              <AuthorImageWrapper>
-                {authorPhoto ? (
-                  <AuthorImage src={authorPhoto} alt="Picture of author" />
-                ) : (
-                  <AuthorImagePlacholder>
-                    <FontAwesomeIcon icon={faCircleUser} />
-                  </AuthorImagePlacholder>
+    <PostPreviewMainWrapper>
+      <Link to={`/post/${postId}`}>
+        <PostPreviewWrapper variant={variant}>
+          <PreviewImageWrapper variant={variant} postImage={postImage}>
+            {postImage && <PostImage src={postImage} alt="Picture of post" />}
+          </PreviewImageWrapper>
+          <PreviewContentWrapper>
+            <ContentHeaderWrapper variant={variant}>
+              <AuthorWrapper>
+                {variant === "big" && (
+                  <AuthorImageWrapper>
+                    {authorPhoto ? (
+                      <AuthorImage src={authorPhoto} alt="Picture of author" />
+                    ) : (
+                      <AuthorImagePlacholder>
+                        <FontAwesomeIcon icon={faCircleUser} />
+                      </AuthorImagePlacholder>
+                    )}
+                  </AuthorImageWrapper>
                 )}
-              </AuthorImageWrapper>
-            )}
-            <AuthorTitle variant={variant}>{authorName}</AuthorTitle>
-          </AuthorWrapper>
-          {variant === "compact" && <span>•</span>}
-          <PostDate variant={variant}>{date}</PostDate>
-        </ContentHeaderWrapper>
-        <ContentBodyWrapper>
-          <PostTitle variant={variant}>{postTitle}</PostTitle>
-          {variant !== "big" && <PostTopics>{postTopics}</PostTopics>}
-        </ContentBodyWrapper>
-      </PreviewContentWrapper>
-    </PostPreviewWrapper>
+                <AuthorTitle variant={variant}>{authorName}</AuthorTitle>
+              </AuthorWrapper>
+              {variant === "compact" && <span>•</span>}
+              <PostDate variant={variant}>{date}</PostDate>
+            </ContentHeaderWrapper>
+            <ContentBodyWrapper>
+              <PostTitle variant={variant}>{postTitle}</PostTitle>
+              <PostTopics>{postTopics}</PostTopics>
+            </ContentBodyWrapper>
+          </PreviewContentWrapper>
+        </PostPreviewWrapper>
+      </Link>
+    </PostPreviewMainWrapper>
   );
 };
 

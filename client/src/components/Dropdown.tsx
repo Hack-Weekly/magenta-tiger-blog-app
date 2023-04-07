@@ -2,19 +2,21 @@ import styled from "styled-components";
 import { Button } from "./Button";
 import { DropdownProps } from "@/types/src/styled-components/dropdown.types";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
+import { useNavigate } from "react-router";
+import { useEffect, useRef } from "react";
 
-const DropdownWrapper = styled.aside`
+const DropdownWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  top: 1rem;
+  top: 3.3rem;
   right: 0.5rem;
   position: absolute;
   width: 15rem;
   height: 20rem;
   background-color: #ffffff;
-  border: 0.15rem solid #aaaaaa;
+  border: 3px solid #aaaaaa;
   padding: 0;
   margin: 0;
 `;
@@ -31,6 +33,9 @@ const DropdownFooter = styled.div`
   padding: 1rem 2rem;
   height: 100%;
   max-height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const AuthorWrapper = styled.div`
@@ -65,16 +70,43 @@ const DropdownListWrapper = styled.ul`
   list-style: none;
   width: 100%;
   height: 100%;
-  padding: 1rem 0;
+  padding: 1rem 0.5rem;
 `;
 
 const DropdownListItem = styled.li`
   width: 100%;
 `;
 
-const Dropdown = ({ name, username }: DropdownProps) => {
+const Dropdown = ({
+  name,
+  username,
+  navRef,
+  onClose,
+  isDropdownOpen,
+}: DropdownProps) => {
+  const navigate = useNavigate();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        navRef.current &&
+        !dropdownRef.current.contains(e.target as Node) &&
+        !navRef.current.contains(e.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   return (
-    <DropdownWrapper>
+    <DropdownWrapper ref={dropdownRef}>
       <DropdownHeader>
         <AuthorWrapper>
           <AuthorTitle>{name}</AuthorTitle>
@@ -89,11 +121,12 @@ const Dropdown = ({ name, username }: DropdownProps) => {
             size="md1"
             label="Create Post"
             full
+            onClick={() => navigate("/create")}
           />
         </DropdownListItem>
       </DropdownListWrapper>
       <DropdownFooter>
-        <Button variant="danger" size="md1" label="Sign out" full />
+        <Button variant="danger" size="sm3" label="Sign out" />
       </DropdownFooter>
     </DropdownWrapper>
   );
