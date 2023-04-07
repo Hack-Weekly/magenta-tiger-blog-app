@@ -1,4 +1,3 @@
-import StyledContainer from "@/components/StyledContainer";
 import { EnterLayout } from "@/components/enter/EnterLayout";
 
 const Enter = () => {
@@ -35,11 +34,7 @@ const Enter = () => {
     return data;
   }
 
-  return (
-    <StyledContainer variant="page">
-      <EnterLayout />
-    </StyledContainer>
-  );
+  return <EnterLayout />;
 };
 
 export default Enter;
