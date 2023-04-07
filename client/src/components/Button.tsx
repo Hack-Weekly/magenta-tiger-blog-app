@@ -44,7 +44,7 @@ const sizes = {
 const StyledButton = styled.button<ButtonProps>`
   font-family: "Inter";
   font-weight: ${({ bold }) => (bold ? "600" : "500")};
-  transition: 0.2s;
+  transition: 0.1s;
   gap: 1.5rem;
   display: inline-flex;
   justify-content: center;
@@ -125,12 +125,14 @@ const StyledButton = styled.button<ButtonProps>`
           background-color: transparent;
           border: none;
           box-shadow: none;
+          border-radius: 8px;
           &:hover,
           &:focus {
             color: #525252;
+            background-color: #00000011;
           }
           &:active {
-            color: #303030;
+            color: #1f1f1f;
           }
         `
       : variant === "danger"
@@ -187,11 +189,12 @@ const StyledButton = styled.button<ButtonProps>`
         css`
           cursor: default;
           background-color: transparent;
+          color: #8f8f8f;
           &:hover,
           &:focus {
             background-color: transparent;
             border-color: #000000;
-            color: #000000;
+            color: #8f8f8f;
           }
           &:active {
             background-color: transparent;
