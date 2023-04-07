@@ -44,6 +44,7 @@ const StyledProfileBtn = styled.button<ProfileButtonProps>`
   border: 2px solid black;
   transition: 0.2s;
   cursor: pointer;
+  color: #000;
 `;
 
 const StyledMenuBtn = styled.button`
