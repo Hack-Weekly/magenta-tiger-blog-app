@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 
 const PostDetail = () => {
   const [post, setPost] = useState<Post[]>([]);
+
   const url =
-    "https://magenta-tiger-blog-app.onrender.com/post/642d7bdcce6c73f2ac417fda";
+    "https://magenta-tiger-blog-app.onrender.com/post/64302ad9a7931a6890840fa5";
 
   useEffect(() => {
     getPostById();
@@ -14,18 +15,31 @@ const PostDetail = () => {
   const getPostById = async () => {
     try {
       const response = await axios.get(url);
-      setPost(response.data);
+      setPost([response.data]);
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log(post);
-
   return (
     <>
       Single post page
-      <div>{post.length > 0 && <p>Hallo</p>}</div>
+      <div>
+        {post.length > 0 ? (
+          <>
+            {post.map(post => {
+              return (
+                <>
+                  <p>{post.title}</p>
+                  <p>{post.description}</p>
+                </>
+              );
+            })}
+          </>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
     </>
   );
 };
