@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
     // Add type for callback
     cb,
   ) {
-    cb(null, new Date().toISOString().replaceAll(' ', '_') + file.originalname.replaceAll(' ', '_'));
+    cb(null, file.originalname);
   },
 });
 
