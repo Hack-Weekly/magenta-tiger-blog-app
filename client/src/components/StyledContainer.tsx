@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 export type StyledContainerProps = {
-  variant?: "page" | "mobile-page";
+  variant?: "page" | "detail-page";
 };
 const StyledContainer = styled.main<StyledContainerProps>`
   ${({ variant }) =>
@@ -24,13 +24,22 @@ const StyledContainer = styled.main<StyledContainerProps>`
     `}
 
   ${({ variant }) =>
-    variant === "mobile-page" &&
+    variant === "detail-page" &&
     css`
       position: relative;
       margin: 0 auto;
       width: 100%;
       display: grid;
       margin-top: 4rem;
+
+      @media (min-width: 768px) {
+        max-width: 70%;
+        justify-items: center;
+      }
+
+      @media (min-width: 1024px) {
+        max-width: 60%;
+      }
     `}
 `;
 

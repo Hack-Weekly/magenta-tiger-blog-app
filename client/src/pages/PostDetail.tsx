@@ -91,7 +91,7 @@ const PostDetail = () => {
 
   return (
     <>
-      <StyledContainer variant={"mobile-page"}>
+      <StyledContainer variant={"detail-page"}>
         <div>
           {post.length > 0 ? (
             <>
