@@ -1,5 +1,5 @@
-import { Size } from "../shared";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { Size } from "../shared";
 
 export type ButtonProps = {
   className?: string;
@@ -11,5 +11,6 @@ export type ButtonProps = {
   size?: Size;
   full?: boolean;
   label?: string;
+  transparent?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };

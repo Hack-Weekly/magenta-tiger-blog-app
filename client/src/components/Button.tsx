@@ -1,6 +1,6 @@
-import styled, { css } from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ButtonProps } from "@/types/src/styled-components/button.types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled, { css } from "styled-components";
 
 const sizes = {
   sm1: css`
@@ -91,6 +91,7 @@ const StyledButton = styled.button<ButtonProps>`
         `
       : variant === "secondary"
       ? css`
+          max-width: 1.5rem;
           background-color: #ccb3eb;
           &:hover,
           &:focus {
@@ -202,6 +203,13 @@ const StyledButton = styled.button<ButtonProps>`
             transform: none;
           }
         `}
+
+        ${({ transparent }) =>
+    transparent &&
+    css`
+      background-color: transparent;
+      border: none;
+    `}
 `;
 
 function Button({
@@ -212,6 +220,7 @@ function Button({
   danger,
   disabled,
   bold,
+  transparent,
   size = "sm3",
   onClick,
   full = false,
@@ -227,6 +236,7 @@ function Button({
       size={size}
       onClick={onClick}
       full={full}
+      transparent={transparent}
     >
       {icon && <FontAwesomeIcon icon={icon} />}
       {variant !== "icon" && label}
