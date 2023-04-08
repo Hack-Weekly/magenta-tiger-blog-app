@@ -14,6 +14,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
 
+// TODO: Cleanup
+// TODO: Add topic with nice styling
+
 const StyledImage = styled.img`
   max-width: 100%;
 `;
@@ -23,6 +26,7 @@ const StyledContent = styled.section`
   display: grid;
   gap: 0.8rem;
   padding: 0.5rem 1rem 1rem 1rem;
+  font-family: "Inter";
 `;
 
 const StyledKeywords = styled.p`
@@ -46,10 +50,10 @@ const StyledTitle = styled.h1`
 
 const PostDetail = () => {
   const [post, setPost] = useState<Post[]>([]);
-  const { id } = useParams();
-  // const apiUrl = process.env.API_URL;
 
-  const url = `https://magenta-tiger-blog-app.onrender.com/post/${id}`;
+  const { id } = useParams();
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const url = `${apiUrl}post/${id}`;
 
   useEffect(() => {
     getPostById();
@@ -75,12 +79,7 @@ const PostDetail = () => {
               {post.map(post => {
                 return (
                   <div key={post._id}>
-                    <StyledImage
-                      src={
-                        post.image &&
-                        `https://magenta-tiger-blog-app.onrender.com/${post.image}`
-                      }
-                    />
+                    <StyledImage src={post.image && `${apiUrl}${post.image}`} />
                     <StyledContent>
                       <AuthorWrapper>
                         {
