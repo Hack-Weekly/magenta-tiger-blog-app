@@ -35,11 +35,19 @@ const StyledBookmarkContainer = styled.div`
   right: 1rem;
 `;
 
+const StyledDate = styled.p`
+  color: grey;
+  margin-top: 1rem;
+`;
+
+const StyledTitle = styled.h1`
+  margin-bottom: 1rem;
+`;
+
 const PostDetail = () => {
   const [post, setPost] = useState<Post[]>([]);
   const { id } = useParams();
   // const apiUrl = process.env.API_URL;
-  const options = { year: "numeric", month: "short", day: "numeric" };
 
   const url = `https://magenta-tiger-blog-app.onrender.com/post/${id}`;
 
@@ -55,6 +63,8 @@ const PostDetail = () => {
       console.log(error);
     }
   };
+
+  const postDate = new Date(post[0]?.date).toDateString().slice(4);
 
   return (
     <>
@@ -82,6 +92,7 @@ const PostDetail = () => {
                         }
                         <AuthorTitle variant="black">{post.author}</AuthorTitle>
 
+                        {/* TODO: Implement bookmak function */}
                         <StyledBookmarkContainer>
                           {post.isBookmarked ? (
                             <Button variant="secondary" icon={faBookmark} />
@@ -103,8 +114,11 @@ const PostDetail = () => {
                         ))}
                       </div>
 
-                      <h1>{post.title}</h1>
-                      <p>{post.description}</p>
+                      <div>
+                        <StyledDate>{postDate}</StyledDate>
+                        <StyledTitle>{post.title}</StyledTitle>
+                        <p>{post.description}</p>
+                      </div>
                     </StyledContent>
                   </div>
                 );

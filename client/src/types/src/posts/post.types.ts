@@ -4,7 +4,7 @@ export interface Post {
   description: string;
   image: string;
   author: string;
-  date: Date;
+  date: string;
   topic: "tech" | "tips" | "design" | "best practice" | "languages" | "news";
   keywords: string[];
   isBookmarked: boolean;
