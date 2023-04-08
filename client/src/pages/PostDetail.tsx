@@ -18,6 +18,23 @@ const StyledImage = styled.img`
   max-width: 100%;
 `;
 
+const StyledContent = styled.section`
+  position: relative;
+  display: grid;
+  gap: 0.8rem;
+  padding: 0.5rem 1rem 1rem 1rem;
+`;
+
+const StyledKeywords = styled.p`
+  color: grey;
+`;
+
+const StyledBookmarkContainer = styled.div`
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+`;
+
 const PostDetail = () => {
   const [post, setPost] = useState<Post[]>([]);
   const { id } = useParams();
@@ -49,34 +66,46 @@ const PostDetail = () => {
                 return (
                   <div key={post._id}>
                     <StyledImage
-                      src={`https://magenta-tiger-blog-app.onrender.com/${post.image}`}
-                    />
-
-                    <AuthorWrapper>
-                      {
-                        <AuthorImageWrapper>
-                          <AuthorImagePlacholder>
-                            <FontAwesomeIcon icon={faCircleUser} />
-                          </AuthorImagePlacholder>
-                        </AuthorImageWrapper>
+                      src={
+                        post.image &&
+                        `https://magenta-tiger-blog-app.onrender.com/${post.image}`
                       }
-                      <AuthorTitle variant="black">{post.author}</AuthorTitle>
-                    </AuthorWrapper>
+                    />
+                    <StyledContent>
+                      <AuthorWrapper>
+                        {
+                          <AuthorImageWrapper>
+                            <AuthorImagePlacholder>
+                              <FontAwesomeIcon icon={faCircleUser} />
+                            </AuthorImagePlacholder>
+                          </AuthorImageWrapper>
+                        }
+                        <AuthorTitle variant="black">{post.author}</AuthorTitle>
 
-                    <div>
-                      {post.keywords.map(keyword => (
-                        <p key={keyword}>{`#${keyword}`}</p>
-                      ))}
-                    </div>
+                        <StyledBookmarkContainer>
+                          {post.isBookmarked ? (
+                            <Button variant="secondary" icon={faBookmark} />
+                          ) : (
+                            <Button
+                              variant="icon"
+                              transparent
+                              icon={faBookmark}
+                            />
+                          )}
+                        </StyledBookmarkContainer>
+                      </AuthorWrapper>
 
-                    {post.isBookmarked ? (
-                      <Button variant="secondary" icon={faBookmark} />
-                    ) : (
-                      <Button variant="icon" transparent icon={faBookmark} />
-                    )}
+                      <div>
+                        {post.keywords.map(keyword => (
+                          <StyledKeywords
+                            key={keyword}
+                          >{`#${keyword}`}</StyledKeywords>
+                        ))}
+                      </div>
 
-                    <h1>{post.title}</h1>
-                    <p>{post.description}</p>
+                      <h1>{post.title}</h1>
+                      <p>{post.description}</p>
+                    </StyledContent>
                   </div>
                 );
               })}

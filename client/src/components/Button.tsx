@@ -91,7 +91,6 @@ const StyledButton = styled.button<ButtonProps>`
         `
       : variant === "secondary"
       ? css`
-          max-width: 1.5rem;
           background-color: #ccb3eb;
           &:hover,
           &:focus {

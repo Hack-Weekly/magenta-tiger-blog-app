@@ -26,11 +26,11 @@ const StyledContainer = styled.main<StyledContainerProps>`
   ${({ variant }) =>
     variant === "mobile-page" &&
     css`
+      position: relative;
       margin: 0 auto;
       width: 100%;
       display: grid;
       margin-top: 4rem;
-      padding: 1rem;
     `}
 `;
 
