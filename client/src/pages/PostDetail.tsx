@@ -14,9 +14,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
 
-// TODO: Cleanup
-// TODO: Add topic with nice styling
-
 const StyledImage = styled.img`
   max-width: 100%;
 `;
@@ -39,9 +36,31 @@ const StyledBookmarkContainer = styled.div`
   right: 1rem;
 `;
 
+const StyledTopic = styled.p`
+  position: relative;
+  z-index: 5;
+  max-width: max-content;
+  margin: 1rem 0 0.2rem 0;
+  font-weight: 700;
+
+  &:first-letter {
+    text-transform: capitalize;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    width: 100%;
+    border-bottom: 4px solid #cbf8cf;
+  }
+`;
+
 const StyledDate = styled.p`
   color: grey;
-  margin-top: 1rem;
+  font-size: 14px;
 `;
 
 const StyledTitle = styled.h1`
@@ -114,6 +133,7 @@ const PostDetail = () => {
                       </div>
 
                       <div>
+                        <StyledTopic>{post.topic}</StyledTopic>
                         <StyledDate>{postDate}</StyledDate>
                         <StyledTitle>{post.title}</StyledTitle>
                         <p>{post.description}</p>
