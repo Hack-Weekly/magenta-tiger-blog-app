@@ -12,6 +12,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import styled from "styled-components";
+
+const StyledImage = styled.img`
+  max-width: 100%;
+`;
 
 const PostDetail = () => {
   const [post, setPost] = useState<Post[]>([]);
@@ -43,6 +48,10 @@ const PostDetail = () => {
               {post.map(post => {
                 return (
                   <div key={post._id}>
+                    <StyledImage
+                      src={`https://magenta-tiger-blog-app.onrender.com/${post.image}`}
+                    />
+
                     <AuthorWrapper>
                       {
                         <AuthorImageWrapper>
