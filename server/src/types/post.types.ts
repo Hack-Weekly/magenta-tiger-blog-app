@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Document } from 'mongoose';
 
 export interface IPost extends Document {
   id: string;

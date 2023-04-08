@@ -1,12 +1,12 @@
-import GlobalStyle from "./styles/GlobalStyle";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SharedLayout from "./pages/SharedLayout";
-import Home from "./pages/Home";
-import Post from "./pages/Post";
-import Enter from "./pages/Enter";
-import Create from "./pages/Create";
-import RestrictedRoute from "./context/RestrictedRoute";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./context/PrivateRoute";
+import RestrictedRoute from "./context/RestrictedRoute";
+import Create from "./pages/Create";
+import Enter from "./pages/Enter";
+import Home from "./pages/Home";
+import PostDetail from "./pages/PostDetail";
+import SharedLayout from "./pages/SharedLayout";
+import GlobalStyle from "./styles/GlobalStyle";
 
 export default function App() {
   return (
@@ -16,7 +16,7 @@ export default function App() {
         <SharedLayout>
           <Routes>
             <Route index element={<Home />} />
-            <Route path="/post/:id" element={<Post />} />
+            <Route path="/post/:id" element={<PostDetail />} />
             <Route
               path="/create"
               element={

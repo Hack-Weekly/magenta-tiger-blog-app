@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import { Button } from "../Button";
 import { PostPreview } from "@/components/PostPreview";
+import { Post } from "@/types/src/posts/post.types";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { PostProps } from "@/types/src/props/PostProps";
+import styled from "styled-components";
+import { Button } from "../Button";
 
 const MainContentWrapper = styled.section`
   width: 100%;
@@ -31,7 +31,9 @@ const ContentPostsWrapper = styled.div`
 
 const PostsSection = () => {
   const [postFilter, setPostFilter] = useState("Latest");
-  const [posts, setPosts] = useState<PostProps[] | null>(null);
+  const [posts, setPosts] = useState<Post[] | null>(null);
+
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const changeFilter = (filter: "Latest" | "All") => {
     setPostFilter(filter);
@@ -40,9 +42,7 @@ const PostsSection = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(
-          "https://magenta-tiger-blog-app.onrender.com/posts"
-        );
+        const response = await axios.get(`${apiUrl}posts`);
         setPosts(response.data);
       } catch (err) {
         console.log(err);
@@ -75,7 +75,7 @@ const PostsSection = () => {
               postTitle={posts[0].title}
               authorName={posts[0].author}
               postId={posts[0]._id}
-              postImage={posts[0].image}
+              postImage={apiUrl + posts[0].image}
               variant="big"
             />
             {posts.slice(1, 10).map(post => (
@@ -84,7 +84,7 @@ const PostsSection = () => {
                 postTitle={post.title}
                 authorName={post.author}
                 postId={post._id}
-                postImage={post.image}
+                postImage={apiUrl + post.image}
               />
             ))}
             {posts?.length > 9 && (
@@ -105,7 +105,7 @@ const PostsSection = () => {
                   postTitle={post.title}
                   authorName={post.author}
                   postId={post._id}
-                  postImage={post.image}
+                  postImage={apiUrl + post.image}
                 />
               ))}
             </>
