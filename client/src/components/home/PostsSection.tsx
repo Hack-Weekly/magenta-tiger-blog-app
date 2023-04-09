@@ -4,6 +4,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button } from "../Button";
+import { SkeletonLoader } from "../skeleton/Skeleton";
+import { LoadingState } from "@/types/src/styled-components/loading.types";
+import { FailedMessage } from "../FailedMessage";
 
 const MainContentWrapper = styled.section`
   width: 100%;
@@ -32,6 +35,9 @@ const ContentPostsWrapper = styled.div`
 const PostsSection = () => {
   const [postFilter, setPostFilter] = useState("Latest");
   const [posts, setPosts] = useState<Post[] | null>(null);
+  const [loadingState, setLoadingState] = useState<LoadingState>(
+    LoadingState.fetching
+  );
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -44,7 +50,9 @@ const PostsSection = () => {
       try {
         const response = await axios.get(`${apiUrl}posts`);
         setPosts(response.data);
+        setLoadingState(LoadingState.success);
       } catch (err) {
+        setLoadingState(LoadingState.error);
         console.log(err);
       }
     }
@@ -68,7 +76,13 @@ const PostsSection = () => {
         />
       </MainContentSorting>
       <ContentPostsWrapper>
-        {posts && postFilter === "Latest" ? (
+        {loadingState === LoadingState.fetching && (
+          <SkeletonLoader variant="default" hasBig={postFilter !== "All"} />
+        )}
+        {loadingState === LoadingState.error && <FailedMessage />}
+        {loadingState === LoadingState.success &&
+        posts &&
+        postFilter === "Latest" ? (
           <>
             <PostPreview
               key={posts[0]._id}
@@ -96,6 +110,7 @@ const PostsSection = () => {
             )}
           </>
         ) : (
+          loadingState === LoadingState.success &&
           posts &&
           postFilter === "All" && (
             <>

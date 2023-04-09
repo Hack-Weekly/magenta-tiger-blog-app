@@ -1,4 +1,6 @@
 import { Button } from "@/components/Button";
+import { FailedMessage } from "@/components/FailedMessage";
+import { SkeletonLoader } from "@/components/skeleton/Skeleton";
 import {
   AuthorImagePlacholder,
   AuthorImageWrapper,
@@ -7,6 +9,7 @@ import {
 } from "@/components/StyledAuthor";
 import StyledContainer from "@/components/StyledContainer";
 import { Post } from "@/types/src/posts/post.types";
+import { LoadingState } from "@/types/src/styled-components/loading.types";
 import { faBookmark, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
@@ -69,6 +72,9 @@ const StyledTitle = styled.h1`
 
 const PostDetail = () => {
   const [post, setPost] = useState<Post[]>([]);
+  const [loadingState, setLoadingState] = useState<LoadingState>(
+    LoadingState.fetching
+  );
 
   const { id } = useParams();
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -82,8 +88,10 @@ const PostDetail = () => {
     try {
       const response = await axios.get(url);
       setPost([response.data]);
+      setLoadingState(LoadingState.success);
     } catch (error) {
       console.log(error);
+      setLoadingState(LoadingState.error);
     }
   };
 
@@ -92,8 +100,8 @@ const PostDetail = () => {
   return (
     <>
       <StyledContainer variant={"detail-page"}>
-        <div>
-          {post.length > 0 ? (
+        <>
+          {post.length > 0 && loadingState === LoadingState.success ? (
             <>
               {post.map(post => {
                 return (
@@ -143,10 +151,12 @@ const PostDetail = () => {
                 );
               })}
             </>
+          ) : loadingState === LoadingState.fetching ? (
+            <SkeletonLoader variant="postDetail" />
           ) : (
-            <p>Loading...</p>
+            loadingState === LoadingState.error && <FailedMessage />
           )}
-        </div>
+        </>
       </StyledContainer>
     </>
   );
