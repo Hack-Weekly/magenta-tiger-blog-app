@@ -6,6 +6,7 @@ import {
   AuthorWrapper,
 } from "@/components/StyledAuthor";
 import StyledContainer from "@/components/StyledContainer";
+import useBookmark from "@/hooks/useBookmark";
 import { Post } from "@/types/src/posts/post.types";
 import { faBookmark, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -69,6 +70,7 @@ const StyledTitle = styled.h1`
 
 const PostDetail = () => {
   const [post, setPost] = useState<Post[]>([]);
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
 
   const { id } = useParams();
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -88,6 +90,24 @@ const PostDetail = () => {
   };
 
   const postDate = new Date(post[0]?.date).toDateString().slice(4);
+
+  async function toggleBookmark() {
+    setIsBookmarked(!isBookmarked);
+
+    try {
+      await axios
+        .put(url, {
+          isBookmarked,
+        })
+        .then(function (response) {
+          console.log(response);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useBookmark(post[0]?._id);
 
   return (
     <>
@@ -112,13 +132,18 @@ const PostDetail = () => {
 
                         {/* TODO: Implement bookmak function */}
                         <StyledBookmarkContainer>
-                          {post.isBookmarked ? (
-                            <Button variant="secondary" icon={faBookmark} />
+                          {isBookmarked ? (
+                            <Button
+                              variant="secondary"
+                              icon={faBookmark}
+                              onClick={toggleBookmark}
+                            />
                           ) : (
                             <Button
                               variant="icon"
                               transparent
                               icon={faBookmark}
+                              onClick={toggleBookmark}
                             />
                           )}
                         </StyledBookmarkContainer>
