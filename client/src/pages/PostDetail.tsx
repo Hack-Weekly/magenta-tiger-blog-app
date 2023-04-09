@@ -84,10 +84,13 @@ const PostDetail = () => {
     try {
       const response = await axios.get(url);
       setPost([response.data]);
+      setIsBookmarked(response.data.isBookmarked);
     } catch (error) {
       console.log(error);
     }
   };
+
+  console.log(post[0]?.isBookmarked);
 
   const postDate = new Date(post[0]?.date).toDateString().slice(4);
 

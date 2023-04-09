@@ -8,13 +8,7 @@ export class PostC implements PostController {
   async createPost(req: Request, res: Response): Promise<Response> {
     try {
       const {
-        title,
-        description,
-        author,
-        topic,
-        keywords,
-        isBookmarked,
-        likes,
+        title, description, author, topic, keywords,
       }: IPost = req.body;
 
       const post = new Post({
@@ -25,8 +19,8 @@ export class PostC implements PostController {
         date: new Date(),
         topic,
         keywords,
-        isBookmarked,
-        likes,
+        isBookmarked: false,
+        likes: 0,
       });
 
       await post.save();
