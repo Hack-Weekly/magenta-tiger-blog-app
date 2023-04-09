@@ -4,15 +4,13 @@ import { BigSkeleton } from "./BigSkeleton";
 import { CompactSkeleton } from "./CompactSkeleton";
 import { PostDetailSkeleton } from "./PostDetailSkeleton";
 
-const shine = keyframes`
-  from {
-      opacity: 0;
-      transform: translateX(-100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(100%);
-    }
+const shimmer = keyframes`
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
 `;
 
 const MainSkeletonWrapper = styled.div`
@@ -27,22 +25,22 @@ const MainSkeletonWrapper = styled.div`
     border: none;
     border-radius: 4px;
     position: relative;
-    &::after {
+    overflow: hidden;
+    &:after {
+      content: "";
       position: absolute;
       top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      transform: translateX(-100%);
-      background-image: linear-gradient(
-        90deg,
-        rgba(#fff, 0) 0,
-        rgba(#fff, 0.2) 20%,
-        rgba(#fff, 0.5) 60%,
-        rgba(#fff, 0)
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      opacity: 0.4;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        #f8f8f8 50%,
+        transparent 100%
       );
-
-      content: "";
+      animation: ${shimmer} 1.5s infinite;
     }
   }
 `;
