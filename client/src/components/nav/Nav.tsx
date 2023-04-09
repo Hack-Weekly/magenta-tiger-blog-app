@@ -9,6 +9,7 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import Logo from "../../assets/logo.svg";
 import { AuthorImagePlacholder, AuthorImageWrapper } from "../StyledAuthor";
+import { Link } from "react-router-dom";
 
 const StyledNav = styled.nav`
   position: fixed;
@@ -54,16 +55,22 @@ const ProfileButton = styled.button<ProfileButtonProps>`
 `;
 
 const LogoWrapper = styled.div`
-  display: none;
-  max-width: 7rem;
+  max-width: 9rem;
+  max-height: 100%;
   width: 100%;
   height: 100%;
-  svg {
+  a {
+    max-width: 100%;
+    max-height: 100%;
     width: 100%;
     height: 100%;
+    cursor: pointer;
   }
-  @media (min-width: 680px) {
-    display: block;
+  svg {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -223,9 +230,10 @@ const Nav = () => {
           <StyledLine3Div />
         </StyledMenuBtn>
         <LogoWrapper>
-          <Logo />
+          <Link to="/" title="Go to Home">
+            <Logo />
+          </Link>
         </LogoWrapper>
-
         {user ? (
           <ProfileButton onClick={handleProfileMenuOpen} ref={dropdownBtnRef}>
             {
