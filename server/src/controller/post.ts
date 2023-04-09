@@ -19,7 +19,6 @@ export class PostC implements PostController {
         date: new Date(),
         topic,
         keywords,
-        isBookmarked: false,
         likes: 0,
       });
 

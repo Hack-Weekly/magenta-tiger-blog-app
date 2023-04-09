@@ -25,7 +25,9 @@ cron.schedule('*/10 * * * *', () => console.log('The server is live'));
 app.use(routes);
 
 connect(config.dbUrl)
-  .then(() => {
+  .then((db) => {
+    // const bookmarkCollection = db.connection.collection('bookmark');
+
     console.log('Connected to database successfully...');
 
     app.listen(config.port, () => {
