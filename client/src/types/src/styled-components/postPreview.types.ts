@@ -5,6 +5,6 @@ export type PostPreviewProps = {
   authorPhoto?: string | null;
   date?: string;
   postTitle?: string;
-  postTopics?: string;
+  postKeywords?: string[];
   postId?: string;
 };

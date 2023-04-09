@@ -77,6 +77,8 @@ const PostsSection = () => {
               postId={posts[0]._id}
               postImage={apiUrl + posts[0].image}
               variant="big"
+              date={posts[0].date}
+              postKeywords={posts[0].keywords.map(keywords => keywords)}
             />
             {posts.slice(1, 10).map(post => (
               <PostPreview
@@ -85,6 +87,8 @@ const PostsSection = () => {
                 authorName={post.author}
                 postId={post._id}
                 postImage={apiUrl + post.image}
+                date={post.date}
+                postKeywords={post.keywords.map(keywords => keywords)}
               />
             ))}
             {posts?.length > 9 && (
@@ -106,6 +110,8 @@ const PostsSection = () => {
                   authorName={post.author}
                   postId={post._id}
                   postImage={apiUrl + post.image}
+                  date={post.date}
+                  postKeywords={post.keywords.map(keywords => keywords)}
                 />
               ))}
             </>

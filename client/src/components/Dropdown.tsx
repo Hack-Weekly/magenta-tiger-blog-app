@@ -10,7 +10,7 @@ const DropdownWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  top: 3.3rem;
+  top: 3.6rem;
   right: 0.5rem;
   position: absolute;
   width: 15rem;
@@ -53,13 +53,6 @@ const AuthorTitle = styled.p`
   font-family: "Inter";
   padding: 0;
   margin: 0;
-`;
-const AuthorDescription = styled.p`
-  font-family: "Inter";
-  padding: 0;
-  margin: 0;
-  font-size: 0.9rem;
-  color: #696969;
 `;
 
 const DropdownListWrapper = styled.ul`
@@ -110,7 +103,6 @@ const Dropdown = ({
       <DropdownHeader>
         <AuthorWrapper>
           <AuthorTitle>{name}</AuthorTitle>
-          <AuthorDescription>{`@${username}`}</AuthorDescription>
         </AuthorWrapper>
       </DropdownHeader>
       <DropdownListWrapper>
