@@ -6,7 +6,6 @@ import {
   AuthorWrapper,
 } from "@/components/StyledAuthor";
 import StyledContainer from "@/components/StyledContainer";
-import useBookmark from "@/hooks/useBookmark";
 import { Post } from "@/types/src/posts/post.types";
 import { faBookmark, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -75,9 +74,12 @@ const PostDetail = () => {
   const { id } = useParams();
   const apiUrl = import.meta.env.VITE_API_URL;
   const url = `${apiUrl}post/${id}`;
+  const userId = "123";
+  const bookmarkUrl = `${apiUrl}bookmark/${userId}/${id}`;
 
   useEffect(() => {
     getPostById();
+    toggleBookmark();
   }, []);
 
   const getPostById = async () => {
@@ -90,27 +92,25 @@ const PostDetail = () => {
     }
   };
 
-  console.log(post[0]?.isBookmarked);
-
   const postDate = new Date(post[0]?.date).toDateString().slice(4);
 
-  async function toggleBookmark() {
-    setIsBookmarked(!isBookmarked);
-
+  const toggleBookmark = async () => {
     try {
-      await axios
-        .put(url, {
-          isBookmarked,
-        })
-        .then(function (response) {
-          console.log(response);
-        });
+      const response = await axios.post(bookmarkUrl);
+
+      const { userId, postId } = response.data;
+
+      if (!userId && !postId) {
+        setIsBookmarked(false);
+      } else {
+        setIsBookmarked(true);
+      }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  useBookmark(post[0]?._id);
+  console.log(isBookmarked);
 
   return (
     <>
@@ -133,7 +133,6 @@ const PostDetail = () => {
                         }
                         <AuthorTitle variant="black">{post.author}</AuthorTitle>
 
-                        {/* TODO: Implement bookmak function */}
                         <StyledBookmarkContainer>
                           {isBookmarked ? (
                             <Button
