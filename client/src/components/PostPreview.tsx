@@ -169,9 +169,13 @@ const PostPreview = ({
 }: PostPreviewProps) => {
   const postDate = date && new Date(date).toDateString().slice(4);
 
+  const handleOpenPost = () => {
+    window.scrollTo({ top: 0 });
+  };
+
   return (
     <PostPreviewMainWrapper>
-      <Link to={`/post/${postId}`}>
+      <Link to={`/post/${postId}`} onClick={handleOpenPost}>
         <PostPreviewWrapper variant={variant}>
           <PreviewImageWrapper variant={variant} postImage={postImage}>
             {postImage && <PostImage src={postImage} alt="Picture of post" />}

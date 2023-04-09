@@ -59,12 +59,18 @@ const LogoWrapper = styled.div`
   max-height: 100%;
   width: 100%;
   height: 100%;
+  -webkit-tap-highlight-color: transparent;
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
   a {
     max-width: 100%;
     max-height: 100%;
     width: 100%;
     height: 100%;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
   svg {
     max-width: 100%;

@@ -10,7 +10,7 @@ const DropdownWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  top: 3.3rem;
+  top: 3.6rem;
   right: 0.5rem;
   position: absolute;
   width: 15rem;
