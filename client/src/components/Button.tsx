@@ -231,4 +231,4 @@ function Button({
   );
 }
 
-export { Button };
+export { Button, sizes };
