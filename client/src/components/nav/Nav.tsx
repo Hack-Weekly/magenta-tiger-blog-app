@@ -4,9 +4,12 @@ import styled from "styled-components";
 import { ProfileButtonProps } from "../../types/src/props/NavProps";
 import { Button } from "../Button";
 import { Dropdown } from "../Dropdown";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
+import Logo from "../../assets/logo.svg";
+import { AuthorImagePlacholder, AuthorImageWrapper } from "../StyledAuthor";
+import { Link } from "react-router-dom";
 
 const StyledNav = styled.nav`
   position: fixed;
@@ -29,22 +32,52 @@ const NavContentWrapper = styled.div`
   margin: 0 auto;
   max-width: 70rem;
   position: relative;
-  @media (min-width: 680px) {
-    justify-content: flex-end;
+`;
+
+const ProfileButton = styled.button<ProfileButtonProps>`
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: none;
+  transition: 0.2s;
+  background-color: none;
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
+  &:active {
+    opacity: 1;
   }
 `;
 
-const StyledProfileBtn = styled.button<ProfileButtonProps>`
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  background-image: ${props => `url(${props.imageUrl})`};
-  background-size: contain;
-  background-position: center;
-  border: 2px solid black;
-  transition: 0.2s;
-  cursor: pointer;
-  color: #000;
+const LogoWrapper = styled.div`
+  max-width: 9rem;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
+  a {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  svg {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const StyledMenuBtn = styled.button`
@@ -202,16 +235,21 @@ const Nav = () => {
           <StyledLine2Div />
           <StyledLine3Div />
         </StyledMenuBtn>
-        {/* 
-           update logic for user display */}
+        <LogoWrapper>
+          <Link to="/" title="Go to Home">
+            <Logo />
+          </Link>
+        </LogoWrapper>
         {user ? (
-          <StyledProfileBtn
-            imageUrl={user.photoUrl}
-            onClick={handleProfileMenuOpen}
-            ref={dropdownBtnRef}
-          >
-            {!user.photoUrl && <FontAwesomeIcon icon={faUser} />}
-          </StyledProfileBtn>
+          <ProfileButton onClick={handleProfileMenuOpen} ref={dropdownBtnRef}>
+            {
+              <AuthorImageWrapper>
+                <AuthorImagePlacholder>
+                  <FontAwesomeIcon icon={faCircleUser} />
+                </AuthorImagePlacholder>
+              </AuthorImageWrapper>
+            }
+          </ProfileButton>
         ) : (
           <Button label="Create Account" variant="primary" size="sm2" />
         )}

@@ -3,7 +3,13 @@ import { PostPreviewProps } from "@/types/src/styled-components/postPreview.type
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { Link } from "react-router-dom";
-import { AuthorWrapper, AuthorImageWrapper, AuthorImage, AuthorImagePlacholder, AuthorTitle } from './StyledAuthor';
+import {
+  AuthorWrapper,
+  AuthorImageWrapper,
+  AuthorImage,
+  AuthorImagePlacholder,
+  AuthorTitle,
+} from "./StyledAuthor";
 
 const PostPreviewMainWrapper = styled.div`
   width: 100%;
@@ -73,6 +79,10 @@ const PostImage = styled.img`
   height: 100%;
   object-fit: cover;
   display: block;
+  color: #9e9e9e;
+  font-family: "Roboto";
+  text-align: center;
+  font-size: 0.8rem;
 `;
 const PreviewContentWrapper = styled.div`
   width: 100%;
@@ -135,7 +145,9 @@ const PostTitle = styled.h2<PostPreviewProps>`
           letter-spacing: -0.025em;
         `}
 `;
-const PostTopics = styled.p`
+
+const PostKeywordsWrapper = styled.div``;
+const PostKeyword = styled.p`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
@@ -152,12 +164,18 @@ const PostPreview = ({
   authorPhoto,
   date,
   postTitle,
-  postTopics,
+  postKeywords,
   postId,
 }: PostPreviewProps) => {
+  const postDate = date && new Date(date).toDateString().slice(4);
+
+  const handleOpenPost = () => {
+    window.scrollTo({ top: 0 });
+  };
+
   return (
     <PostPreviewMainWrapper>
-      <Link to={`/post/${postId}`}>
+      <Link to={`/post/${postId}`} onClick={handleOpenPost}>
         <PostPreviewWrapper variant={variant}>
           <PreviewImageWrapper variant={variant} postImage={postImage}>
             {postImage && <PostImage src={postImage} alt="Picture of post" />}
@@ -178,12 +196,17 @@ const PostPreview = ({
                 )}
                 <AuthorTitle variant={variant}>{authorName}</AuthorTitle>
               </AuthorWrapper>
-              {variant === "compact" && <span>•</span>}
-              <PostDate variant={variant}>{date}</PostDate>
+              {variant === "compact" && date && <span>•</span>}
+              <PostDate variant={variant}>{postDate}</PostDate>
             </ContentHeaderWrapper>
             <ContentBodyWrapper>
               <PostTitle variant={variant}>{postTitle}</PostTitle>
-              <PostTopics>{postTopics}</PostTopics>
+              <PostKeywordsWrapper>
+                {postKeywords &&
+                  postKeywords.map(keywords => (
+                    <PostKeyword key={keywords}>{`#${keywords}`}</PostKeyword>
+                  ))}
+              </PostKeywordsWrapper>
             </ContentBodyWrapper>
           </PreviewContentWrapper>
         </PostPreviewWrapper>
