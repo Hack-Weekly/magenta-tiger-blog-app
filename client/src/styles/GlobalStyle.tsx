@@ -37,6 +37,14 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
     }
   }
+  textarea {
+    font-family: inherit;
+    font-size: inherit;
+  }
+  .custom-tag-input {
+    font-family: "Inter";
+    font-size: 1.125rem;
+  }
 
 `;
 
