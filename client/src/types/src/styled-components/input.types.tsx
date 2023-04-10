@@ -3,6 +3,8 @@ import { Size } from "../shared";
 export type InputProps = {
     className?: string;
     textArea?: boolean;
+    type?: string;
+    accept?: string;
     value?: string;
     placeholder?: string;
     width?: string;

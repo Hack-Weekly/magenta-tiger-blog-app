@@ -27,7 +27,7 @@ const StyledInput = styled(({textArea, ...rest}) =>
             : size === 'xl3'
             ? sizes.xl3
             : ''}
-    padding: 0;
+    padding: 0.5rem;
     resize: none;
 
     ${({border}) =>
@@ -49,6 +49,8 @@ const StyledInput = styled(({textArea, ...rest}) =>
 function Input({
     className,
     textArea,
+    type,
+    accept,
     value,
     placeholder,
     width,
@@ -60,8 +62,9 @@ function Input({
     return (
         <StyledInput 
             className={className}
-            type='text'
             textArea={textArea}
+            type={type}
+            accept={accept}
             value={value}
             placeholder={placeholder}
             width={width}

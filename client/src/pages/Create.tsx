@@ -21,6 +21,7 @@ const PostWrapper = styled.div`
 const PostWrapperHeader = styled.div`
   display: grid;
   gap: 1rem;
+  align-items: center;
 
   @media (min-width: 680px) {
     display: flex;
@@ -51,19 +52,30 @@ const Description = styled(Input)`
   word-break: break-word;
 `;
 
-const CustomBtn = styled(Button)`
-  background: transparent;
+const ImageLabel = styled.label`
+  font-family: "Inter";
+  padding: 0.6rem 2rem;
+  font-weight: 500;
+  transition: 0.1s;
+  border: 0.15rem solid #000000;
+  color: #000000;
+  box-shadow: 3px 4px 0px 0px rgba(0, 0, 0, 1);
+  cursor: pointer;
+  background: white;
   &:hover,
   &:focus {
     background-color: transparent;
+    color: #333333;
   }
   &:active {
     background-color: transparent;
+    transform: translateY(2px);
+    box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 1);
   }
 `;
 
-const FileName = styled.span`
-  margin-left: 1rem;
+const ImageInput = styled(Input)`
+  display: none;
 `;
 
 const CreateWrapper = styled.div`
@@ -93,32 +105,11 @@ const Create = () => {
 
   const navigate = useNavigate();
 
-  // TODO: Not best practice. Need to overdo
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*";
-    input.style.display = "none";
-
-    input.addEventListener("change", () => {
-      const file = input.files && input.files[0];
-      {
-        console.log(file);
-      }
-      if (!file) {
-        return;
-      }
-      console.log(file);
-      setSelectedFile(file);
-
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-    });
-
-    document.body.appendChild(input);
-    input.click();
-    document.body.removeChild(input);
-  };
+  const fileUploadChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setSelectedFile(e.target.files[0]);
+    }
+  }
 
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -164,12 +155,14 @@ const Create = () => {
       <CreateHeader>Create a New Post</CreateHeader>
       <PostWrapper>
         <PostWrapperHeader>
-          <CustomBtn
-            label="Add a cover image"
-            variant="primary"
-            onClick={handleClick}
-          />
-          {selectedFile && <FileName>{selectedFile.name}</FileName>}
+          <ImageLabel> 
+            Select an image
+            <ImageInput 
+              type="file"
+              accept="image/png, image/jpeg"
+              onChange={fileUploadChange}
+            />
+          </ImageLabel>
           <StyledSelector
             value={topic}
             onChange={e => setTopic(e.target.value)}
@@ -183,6 +176,7 @@ const Create = () => {
             <option value="news">news</option>
           </StyledSelector>
         </PostWrapperHeader>
+        {selectedFile && <span>{selectedFile.name}</span>}
         <TagsInput
           value={selectedKeywords}
           onChange={setSelectedKeywords}
@@ -191,6 +185,7 @@ const Create = () => {
         />
         <TextInput
           placeholder="Blog name"
+          type="text"
           weight="bold"
           width="100%"
           size="md1"
@@ -199,6 +194,7 @@ const Create = () => {
         />
         <TextInput
           placeholder="Author"
+          type="text"
           width="100%"
           size="md1"
           value={author}
