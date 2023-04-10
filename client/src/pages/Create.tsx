@@ -10,6 +10,7 @@ const PostWrapper = styled.div`
   gap: 1rem;
   border: 1px solid black;
   padding: 1rem 2rem;
+  font-family: "Inter";
   input {
     &:focus {
       outline: none;
@@ -36,20 +37,6 @@ const StyledSelector = styled.select`
   &:focus {
     outline: none;
   }
-`;
-
-const TextInput = styled(Input)`
-  height: 2.5rem;
-  padding: 0.5rem;
-  overflow: auto;
-  word-break: break-word;
-`;
-
-const Description = styled(Input)`
-  height: 50vh;
-  padding: 0.5rem;
-  overflow: auto;
-  word-break: break-word;
 `;
 
 const ImageLabel = styled.label`
@@ -95,13 +82,20 @@ const ButtonsWrapper = styled.div`
   }
 `;
 
+const ErrorMessage = styled.p`
+  color: red;
+`
+
 const Create = () => {
+  const topics = ["tech", "tips", "design", "best practice", "languages", "news"];
+
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [author, setAuthor] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-  const [topic, setTopic] = useState<string>("tech");
+  const [topic, setTopic] = useState<string>(topics[0]);
+  const [errorMessage, setErrorMessage] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -115,6 +109,10 @@ const Create = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
+    if (!title || !description || !author) {
+      setErrorMessage(true);
+      return;
+    }
 
     const post = {
       title,
@@ -167,23 +165,22 @@ const Create = () => {
             value={topic}
             onChange={e => setTopic(e.target.value)}
           >
-            {/* Add array of Post[keywords] type and loop trough it */}
-            <option value="tech">tech</option>
-            <option value="tips">tips</option>
-            <option value="design">design</option>
-            <option value="best practice">best practice</option>
-            <option value="languages">languages</option>
-            <option value="news">news</option>
+            {topics.map(topic => 
+              <option value={topic} key={topic}>
+                {topic}
+              </option>
+            )}
           </StyledSelector>
         </PostWrapperHeader>
-        {selectedFile && <span>{selectedFile.name}</span>}
+        {selectedFile && <p>{selectedFile.name}</p>}
         <TagsInput
           value={selectedKeywords}
+          classNames={{input: "custom-tag-input"}}
           onChange={setSelectedKeywords}
           name="keywords"
           placeHolder="Enter keywords"
         />
-        <TextInput
+        <Input
           placeholder="Blog name"
           type="text"
           weight="bold"
@@ -192,7 +189,7 @@ const Create = () => {
           value={title}
           onChange={e => setTitle(e.target.value)}
         />
-        <TextInput
+        <Input
           placeholder="Author"
           type="text"
           width="100%"
@@ -200,14 +197,16 @@ const Create = () => {
           value={author}
           onChange={e => setAuthor(e.target.value)}
         />
-        <Description
+        <Input
           placeholder="Write your post here..."
           textArea
           width="100%"
           size="md1"
+          height="50vh"
           value={description}
           onChange={e => setDescription(e.target.value)}
         />
+        {errorMessage && <ErrorMessage>The title, author or/and the description have not been provided</ErrorMessage>}
       </PostWrapper>
       <ButtonsWrapper>
         <Button label="Post" onClick={handleSubmit} />

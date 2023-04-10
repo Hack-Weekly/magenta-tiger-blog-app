@@ -5,6 +5,7 @@ export type InputProps = {
     textArea?: boolean;
     type?: string;
     accept?: string;
+    height?: string;
     value?: string;
     placeholder?: string;
     width?: string;

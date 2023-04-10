@@ -5,8 +5,14 @@ import { sizes } from './Button';
 const StyledInput = styled(({textArea, ...rest}) => 
     textArea ? <textarea {...rest} /> : <input {...rest} />
 )<InputProps>`
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 5px;
+    overflow: auto;
+    word-break: break-word;
+    resize: none;
+    line-height: 1.4rem;
+    font-style: 
+
     ${({ size }) =>
         size === 'sm1'
             ? sizes.sm1
@@ -27,8 +33,13 @@ const StyledInput = styled(({textArea, ...rest}) =>
             : size === 'xl3'
             ? sizes.xl3
             : ''}
+    
     padding: 0.5rem;
-    resize: none;
+
+    ${({height}) =>
+        height && css`
+            height: ${height};
+        `}
 
     ${({border}) =>
         border && css`
@@ -42,7 +53,11 @@ const StyledInput = styled(({textArea, ...rest}) =>
         `}
 
     &:focus {
-        outline: none;
+        outline: #3182ce;
+    }
+    &:focus-within {
+        border-color: #3182ce;
+        box-shadow: #3182ce 0 0 0 1px;
     }
 `
 
@@ -51,6 +66,7 @@ function Input({
     textArea,
     type,
     accept,
+    height,
     value,
     placeholder,
     width,
@@ -65,6 +81,7 @@ function Input({
             textArea={textArea}
             type={type}
             accept={accept}
+            height={height}
             value={value}
             placeholder={placeholder}
             width={width}
