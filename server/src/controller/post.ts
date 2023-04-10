@@ -20,7 +20,7 @@ export class PostC implements PostController {
       const post = new Post({
         title,
         description,
-        image: req.file.path,
+        image: req.file?.path,
         author,
         date: new Date(),
         topic,
