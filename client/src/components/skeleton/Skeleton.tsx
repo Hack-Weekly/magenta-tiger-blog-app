@@ -45,13 +45,19 @@ const MainSkeletonWrapper = styled.div`
   }
 `;
 
-const SkeletonLoader = ({ variant = "default", hasBig = false }: Skeleton) => {
+const SkeletonLoader = ({ variant = "home-recent" }: Skeleton) => {
   const skeletons = Array.from({ length: 10 });
   return (
     <MainSkeletonWrapper>
-      {variant === "default" ? (
+      {variant === "home-recent" ? (
         <>
-          {hasBig && <BigSkeleton></BigSkeleton>}
+          <BigSkeleton></BigSkeleton>
+          {skeletons.map((_, count) => (
+            <CompactSkeleton key={count} />
+          ))}
+        </>
+      ) : variant === "home-all" ? (
+        <>
           {skeletons.map((_, count) => (
             <CompactSkeleton key={count} />
           ))}

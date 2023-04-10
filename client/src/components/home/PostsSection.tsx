@@ -77,7 +77,9 @@ const PostsSection = () => {
       </MainContentSorting>
       <ContentPostsWrapper>
         {loadingState === LoadingState.fetching && (
-          <SkeletonLoader variant="default" hasBig={postFilter !== "All"} />
+          <SkeletonLoader
+            variant={postFilter === "All" ? "home-all" : "home-recent"}
+          />
         )}
         {loadingState === LoadingState.error && <FailedMessage />}
         {loadingState === LoadingState.success &&
