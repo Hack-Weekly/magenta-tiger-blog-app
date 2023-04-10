@@ -78,8 +78,15 @@ const PostDetail = () => {
   const bookmarkUrl = `${apiUrl}bookmark/${userId}/${id}`;
 
   useEffect(() => {
-    getPostById();
-    toggleBookmark();
+    const savedBookmark = localStorage.getItem("isBookmarked");
+
+    if (savedBookmark) {
+      setIsBookmarked(true);
+    }
+
+    getPostById().then(() => {
+      toggleBookmark();
+    });
   }, []);
 
   const getPostById = async () => {
@@ -102,15 +109,17 @@ const PostDetail = () => {
 
       if (!userId && !postId) {
         setIsBookmarked(false);
-      } else {
+        localStorage.removeItem("isBookmarked");
+      }
+
+      if (userId && postId) {
         setIsBookmarked(true);
+        localStorage.setItem("isBookmarked", "true");
       }
     } catch (error) {
       console.log(error);
     }
   };
-
-  console.log(isBookmarked);
 
   return (
     <>
