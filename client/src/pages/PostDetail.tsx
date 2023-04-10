@@ -26,6 +26,11 @@ const StyledContent = styled.section`
   font-family: "Inter";
 `;
 
+const StyledKeywordsWrapper = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+
 const StyledKeywords = styled.p`
   color: grey;
 `;
@@ -54,7 +59,7 @@ const StyledTopic = styled.p`
     bottom: 0;
     z-index: -1;
     width: 100%;
-    border-bottom: 4px solid #cbf8cf;
+    border-bottom: 0.5rem solid #cbf8cf;
   }
 `;
 
@@ -124,13 +129,13 @@ const PostDetail = () => {
                         </StyledBookmarkContainer>
                       </AuthorWrapper>
 
-                      <div>
+                      <StyledKeywordsWrapper>
                         {post.keywords.map(keyword => (
                           <StyledKeywords
                             key={keyword}
                           >{`#${keyword}`}</StyledKeywords>
                         ))}
-                      </div>
+                      </StyledKeywordsWrapper>
 
                       <div>
                         <StyledTopic>{post.topic}</StyledTopic>

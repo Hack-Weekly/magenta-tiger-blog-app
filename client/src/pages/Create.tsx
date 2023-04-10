@@ -18,6 +18,16 @@ const PostWrapper = styled.div`
   }
 `;
 
+const PostWrapperHeader = styled.div`
+  display: grid;
+  gap: 1rem;
+
+  @media (min-width: 680px) {
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+
 const StyledSelector = styled.select`
   float: right;
   font-size: 1.1rem;
@@ -83,6 +93,7 @@ const Create = () => {
 
   const navigate = useNavigate();
 
+  // TODO: Not best practice. Need to overdo
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const input = document.createElement("input");
     input.type = "file";
@@ -117,6 +128,7 @@ const Create = () => {
     const post = {
       title,
       description,
+      author,
       postImage: selectedFile,
       keywords: selectedKeywords,
       topic,
@@ -124,7 +136,6 @@ const Create = () => {
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const createPostUrl = `${apiUrl}create`;
-    // const createPostUrl = `http://localhost:8089/create`;
 
     const config = {
       headers: {
@@ -133,9 +144,7 @@ const Create = () => {
     };
 
     try {
-      const response = await axios.post(createPostUrl, post, config);
-
-      console.log(response.data);
+      await axios.post(createPostUrl, post, config);
     } catch (error) {
       console.log(error);
     }
@@ -154,7 +163,7 @@ const Create = () => {
     <CreateWrapper>
       <CreateHeader>Create a New Post</CreateHeader>
       <PostWrapper>
-        <div>
+        <PostWrapperHeader>
           <CustomBtn
             label="Add a cover image"
             variant="primary"
@@ -165,6 +174,7 @@ const Create = () => {
             value={topic}
             onChange={e => setTopic(e.target.value)}
           >
+            {/* Add array of Post[keywords] type and loop trough it */}
             <option value="tech">tech</option>
             <option value="tips">tips</option>
             <option value="design">design</option>
@@ -172,12 +182,12 @@ const Create = () => {
             <option value="languages">languages</option>
             <option value="news">news</option>
           </StyledSelector>
-        </div>
+        </PostWrapperHeader>
         <TagsInput
           value={selectedKeywords}
           onChange={setSelectedKeywords}
-          name="tags"
-          placeHolder="Enter tags"
+          name="keywords"
+          placeHolder="Enter keywords"
         />
         <TextInput
           placeholder="Blog name"
