@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { TagsInput } from "react-tag-input-component";
 import styled from "styled-components";
 import { Button, Input } from "../components/index";
 
 const PostWrapper = styled.div`
+  display: grid;
+  gap: 1rem;
   border: 1px solid black;
   padding: 1rem 2rem;
   input {
@@ -17,29 +20,29 @@ const PostWrapper = styled.div`
 
 const StyledSelector = styled.select`
   float: right;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   padding: 0.5rem;
   &:focus {
     outline: none;
   }
 `;
 
-const HeaderInput = styled(Input)`
-  font-weight: bold;
-  font-size: 2rem;
-  margin: 2rem 0;
-`;
-
 const TextInput = styled(Input)`
-  height: 50vh;
+  height: 2.5rem;
+  padding: 0.5rem;
   overflow: auto;
   word-break: break-word;
-  margin: 2rem 0;
+`;
+
+const Description = styled(Input)`
+  height: 50vh;
+  padding: 0.5rem;
+  overflow: auto;
+  word-break: break-word;
 `;
 
 const CustomBtn = styled(Button)`
   background: transparent;
-  margin-bottom: 1rem;
   &:hover,
   &:focus {
     background-color: transparent;
@@ -73,9 +76,12 @@ const ButtonsWrapper = styled.div`
 const Create = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [author, setAuthor] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
   const [topic, setTopic] = useState<string>("tech");
+
+  const navigate = useNavigate();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const input = document.createElement("input");
@@ -106,8 +112,6 @@ const Create = () => {
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    // const navigate = useNavigate();
-
     e.preventDefault();
 
     const post = {
@@ -120,6 +124,7 @@ const Create = () => {
 
     const apiUrl = import.meta.env.VITE_API_URL;
     const createPostUrl = `${apiUrl}create`;
+    // const createPostUrl = `http://localhost:8089/create`;
 
     const config = {
       headers: {
@@ -142,7 +147,7 @@ const Create = () => {
     setSelectedKeywords([]);
     setTopic("tech");
 
-    // navigate("/");
+    navigate("/");
   };
 
   return (
@@ -174,15 +179,22 @@ const Create = () => {
           name="tags"
           placeHolder="Enter tags"
         />
-        <HeaderInput
+        <TextInput
           placeholder="Blog name"
           weight="bold"
           width="100%"
-          size="xl1"
+          size="md1"
           value={title}
           onChange={e => setTitle(e.target.value)}
         />
         <TextInput
+          placeholder="Author"
+          width="100%"
+          size="md1"
+          value={author}
+          onChange={e => setAuthor(e.target.value)}
+        />
+        <Description
           placeholder="Write your post here..."
           textArea
           width="100%"
