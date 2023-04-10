@@ -1,7 +1,5 @@
-import Nav from "@/components/nav/Nav";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { TagsInput } from "react-tag-input-component";
 import styled from "styled-components";
 import { Button, Input } from "../components/index";
@@ -56,8 +54,9 @@ const FileName = styled.span`
 `;
 
 const CreateWrapper = styled.div`
+  margin-top: 4rem;
   width: 80%;
-  margin: 0 auto;
+  margin: 6rem auto 0 auto;
 `;
 
 const CreateHeader = styled.h1`
@@ -107,7 +106,7 @@ const Create = () => {
   const handleSubmit = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     e.preventDefault();
 
@@ -122,10 +121,14 @@ const Create = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     const createPostUrl = `${apiUrl}create`;
 
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    };
+
     try {
-      const response = await axios.post(createPostUrl, {
-        post,
-      });
+      const response = await axios.post(createPostUrl, post, config);
 
       console.log(response.data);
     } catch (error) {
@@ -139,61 +142,59 @@ const Create = () => {
     setSelectedKeywords([]);
     setTopic("tech");
 
-    navigate("/");
+    // navigate("/");
   };
+
   return (
-    <>
-      <Nav />
-      <CreateWrapper>
-        <CreateHeader>Create a New Post</CreateHeader>
-        <PostWrapper>
-          <div>
-            <CustomBtn
-              label="Add a cover image"
-              variant="primary"
-              onClick={handleClick}
-            />
-            {selectedFile && <FileName>{selectedFile.name}</FileName>}
-            <StyledSelector
-              value={topic}
-              onChange={e => setTopic(e.target.value)}
-            >
-              <option value="tech">tech</option>
-              <option value="tips">tips</option>
-              <option value="design">design</option>
-              <option value="best practice">best practice</option>
-              <option value="languages">languages</option>
-              <option value="news">news</option>
-            </StyledSelector>
-          </div>
-          <TagsInput
-            value={selectedKeywords}
-            onChange={setSelectedKeywords}
-            name="tags"
-            placeHolder="Enter tags"
+    <CreateWrapper>
+      <CreateHeader>Create a New Post</CreateHeader>
+      <PostWrapper>
+        <div>
+          <CustomBtn
+            label="Add a cover image"
+            variant="primary"
+            onClick={handleClick}
           />
-          <HeaderInput
-            placeholder="Blog name"
-            weight="bold"
-            width="100%"
-            size="xl3"
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-          />
-          <TextInput
-            placeholder="Write your post here..."
-            textArea
-            width="100%"
-            size="md1"
-            value={description}
-            onChange={e => setDescription(e.target.value)}
-          />
-        </PostWrapper>
-        <ButtonsWrapper>
-          <Button label="Post" onClick={handleSubmit} />
-        </ButtonsWrapper>
-      </CreateWrapper>
-    </>
+          {selectedFile && <FileName>{selectedFile.name}</FileName>}
+          <StyledSelector
+            value={topic}
+            onChange={e => setTopic(e.target.value)}
+          >
+            <option value="tech">tech</option>
+            <option value="tips">tips</option>
+            <option value="design">design</option>
+            <option value="best practice">best practice</option>
+            <option value="languages">languages</option>
+            <option value="news">news</option>
+          </StyledSelector>
+        </div>
+        <TagsInput
+          value={selectedKeywords}
+          onChange={setSelectedKeywords}
+          name="tags"
+          placeHolder="Enter tags"
+        />
+        <HeaderInput
+          placeholder="Blog name"
+          weight="bold"
+          width="100%"
+          size="xl1"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+        />
+        <TextInput
+          placeholder="Write your post here..."
+          textArea
+          width="100%"
+          size="md1"
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+        />
+      </PostWrapper>
+      <ButtonsWrapper>
+        <Button label="Post" onClick={handleSubmit} />
+      </ButtonsWrapper>
+    </CreateWrapper>
   );
 };
 
