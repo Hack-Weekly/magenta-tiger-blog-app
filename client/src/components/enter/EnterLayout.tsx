@@ -67,7 +67,7 @@ export const EnterLayout = () => {
         <StyledBtnContainer>
           <Button
             variant="login-btn"
-            label="Continue with Github"
+            label="Login with Github"
             icon={faGithubSquare}
             size="md2"
           />
