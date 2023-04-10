@@ -2,6 +2,21 @@ import styled, { css } from "styled-components";
 import { PostPreviewProps } from "@/types/src/styled-components/postPreview.types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
+import { Link } from "react-router-dom";
+import {
+  AuthorWrapper,
+  AuthorImageWrapper,
+  AuthorImage,
+  AuthorImagePlacholder,
+  AuthorTitle,
+} from "./StyledAuthor";
+
+const PostPreviewMainWrapper = styled.div`
+  width: 100%;
+  a {
+    text-decoration: none;
+  }
+`;
 
 const PostPreviewWrapper = styled.div<PostPreviewProps>`
   width: 100%;
@@ -13,6 +28,7 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
   justify-content: center;
   gap: 0.7rem;
   transition: 0.2s;
+  z-index: 3;
   ${({ variant }) =>
     variant === "big"
       ? css`
@@ -34,13 +50,14 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
 const PreviewImageWrapper = styled.div<PostPreviewProps>`
   height: 100%;
   border: 0.15rem solid black;
+  box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 1);
   ${({ variant }) =>
     variant === "big"
       ? css`
           width: 100%;
           height: 15rem;
           max-width: 100%;
-          box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 1);
+          box-shadow: none;
           @media (min-width: 680px) {
             height: 20rem;
           }
@@ -50,12 +67,22 @@ const PreviewImageWrapper = styled.div<PostPreviewProps>`
           min-width: 7rem;
           height: 7rem;
         `}
+
+  ${({ postImage }) =>
+    !postImage &&
+    css`
+      display: none;
+    `}
 `;
 const PostImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  color: #9e9e9e;
+  font-family: "Roboto";
+  text-align: center;
+  font-size: 0.8rem;
 `;
 const PreviewContentWrapper = styled.div`
   width: 100%;
@@ -78,58 +105,10 @@ const ContentHeaderWrapper = styled.div<PostPreviewProps>`
     css`
       margin-top: 0.5rem;
       margin-bottom: 0.3rem;
-      justify-content: space-between;
+      gap: 1rem;
     `}
 `;
-const AuthorWrapper = styled.div`
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.4rem;
-`;
-const AuthorImageWrapper = styled.div`
-  background-color: #dfdfdf;
-  width: 2.5rem;
-  height: 2.5rem;
-  min-height: 2rem;
-  min-width: 2rem;
-  border-radius: 50%;
-  border: 0.15rem solid black;
-`;
-const AuthorImage = styled.img`
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-`;
-const AuthorImagePlacholder = styled.div`
-  width: 100%;
-  height: 100%;
-  font-size: 1.3rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #8d8d8d;
-`;
-const AuthorTitle = styled.p<PostPreviewProps>`
-  font-family: "Roboto";
-  ${({ variant }) =>
-    variant === "big"
-      ? css`
-          color: #000000;
-          font-style: normal;
-          font-weight: 500;
-          font-size: 16px;
-          line-height: 19px;
-          letter-spacing: -0.025em;
-        `
-      : css`
-          color: #888888;
-          font-weight: 400;
-          font-size: 0.95rem;
-          line-height: 0.9rem;
-          letter-spacing: -0.025em;
-        `}
-`;
+
 const PostDate = styled.p<PostPreviewProps>`
   color: #9e9e9e;
   font-family: "Roboto";
@@ -166,7 +145,9 @@ const PostTitle = styled.h2<PostPreviewProps>`
           letter-spacing: -0.025em;
         `}
 `;
-const PostTopics = styled.p`
+
+const PostKeywordsWrapper = styled.div``;
+const PostKeyword = styled.p`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
@@ -183,39 +164,54 @@ const PostPreview = ({
   authorPhoto,
   date,
   postTitle,
-  postTopics,
+  postKeywords,
   postId,
 }: PostPreviewProps) => {
+  const postDate = date && new Date(date).toDateString().slice(4);
+
+  const handleOpenPost = () => {
+    window.scrollTo({ top: 0 });
+  };
+
   return (
-    <PostPreviewWrapper variant={variant}>
-      <PreviewImageWrapper variant={variant}>
-        {postImage && <PostImage src={postImage} alt="Picture of post" />}
-      </PreviewImageWrapper>
-      <PreviewContentWrapper>
-        <ContentHeaderWrapper variant={variant}>
-          <AuthorWrapper>
-            {variant === "big" && (
-              <AuthorImageWrapper>
-                {authorPhoto ? (
-                  <AuthorImage src={authorPhoto} alt="Picture of author" />
-                ) : (
-                  <AuthorImagePlacholder>
-                    <FontAwesomeIcon icon={faCircleUser} />
-                  </AuthorImagePlacholder>
+    <PostPreviewMainWrapper>
+      <Link to={`/post/${postId}`} onClick={handleOpenPost}>
+        <PostPreviewWrapper variant={variant}>
+          <PreviewImageWrapper variant={variant} postImage={postImage}>
+            {postImage && <PostImage src={postImage} alt="Picture of post" />}
+          </PreviewImageWrapper>
+          <PreviewContentWrapper>
+            <ContentHeaderWrapper variant={variant}>
+              <AuthorWrapper>
+                {variant === "big" && (
+                  <AuthorImageWrapper>
+                    {authorPhoto ? (
+                      <AuthorImage src={authorPhoto} alt="Picture of author" />
+                    ) : (
+                      <AuthorImagePlacholder>
+                        <FontAwesomeIcon icon={faCircleUser} />
+                      </AuthorImagePlacholder>
+                    )}
+                  </AuthorImageWrapper>
                 )}
-              </AuthorImageWrapper>
-            )}
-            <AuthorTitle variant={variant}>{authorName}</AuthorTitle>
-          </AuthorWrapper>
-          {variant === "compact" && <span>•</span>}
-          <PostDate variant={variant}>{date}</PostDate>
-        </ContentHeaderWrapper>
-        <ContentBodyWrapper>
-          <PostTitle variant={variant}>{postTitle}</PostTitle>
-          {variant !== "big" && <PostTopics>{postTopics}</PostTopics>}
-        </ContentBodyWrapper>
-      </PreviewContentWrapper>
-    </PostPreviewWrapper>
+                <AuthorTitle variant={variant}>{authorName}</AuthorTitle>
+              </AuthorWrapper>
+              {variant === "compact" && date && <span>•</span>}
+              <PostDate variant={variant}>{postDate}</PostDate>
+            </ContentHeaderWrapper>
+            <ContentBodyWrapper>
+              <PostTitle variant={variant}>{postTitle}</PostTitle>
+              <PostKeywordsWrapper>
+                {postKeywords &&
+                  postKeywords.map(keywords => (
+                    <PostKeyword key={keywords}>{`#${keywords}`}</PostKeyword>
+                  ))}
+              </PostKeywordsWrapper>
+            </ContentBodyWrapper>
+          </PreviewContentWrapper>
+        </PostPreviewWrapper>
+      </Link>
+    </PostPreviewMainWrapper>
   );
 };
 

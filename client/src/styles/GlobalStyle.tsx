@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
 
   body,
   html {
-    background-color: #ffffff;
+    background-color: #f1f1f1;
     margin: 0;
     padding: 0;
     font-size: 16px;
@@ -34,9 +34,7 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
     }
   *:focus-visible {
-    outline: 3px solid #000000;
-    outline-offset: .2rem;
-    border-radius: 4px;
+    outline: none;
     }
   }
 
