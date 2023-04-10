@@ -1,6 +1,8 @@
 import { Request } from 'express';
 import multer from 'multer';
 
+const uploadCount = 1;
+
 const storage = multer.diskStorage({
   destination(
     req: Request,
@@ -16,7 +18,7 @@ const storage = multer.diskStorage({
     // Add type for callback
     cb,
   ) {
-    cb(null, file.originalname);
+    cb(null, file.originalname + uploadCount + 1);
   },
 });
 
