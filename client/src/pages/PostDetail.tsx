@@ -44,13 +44,14 @@ const StyledBookmarkContainer = styled.div`
   right: 1rem;
 `;
 
-const StyledTopic = styled.p`
+export const StyledTopic = styled.p`
+  font-family: "Inter";
+  color: #2c2c2c;
   position: relative;
   z-index: 5;
   max-width: max-content;
   margin: 1rem 0 0.2rem 0;
   font-weight: 700;
-
   &:first-letter {
     text-transform: capitalize;
   }

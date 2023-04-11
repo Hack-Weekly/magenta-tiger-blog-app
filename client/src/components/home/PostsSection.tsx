@@ -88,6 +88,7 @@ const PostsSection = () => {
           <>
             <PostPreview
               key={posts[0]._id}
+              topic={posts[0].topic}
               postTitle={posts[0].title}
               authorName={posts[0].author}
               postId={posts[0]._id}
@@ -99,6 +100,7 @@ const PostsSection = () => {
             {posts.slice(1, 10).map(post => (
               <PostPreview
                 key={post._id}
+                topic={post.topic}
                 postTitle={post.title}
                 authorName={post.author}
                 postId={post._id}
@@ -123,6 +125,7 @@ const PostsSection = () => {
               {posts.map(post => (
                 <PostPreview
                   key={post._id}
+                  topic={post.topic}
                   postTitle={post.title}
                   authorName={post.author}
                   postId={post._id}

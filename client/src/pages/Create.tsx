@@ -69,7 +69,8 @@ const FileName = styled.span`
 const CreateWrapper = styled.div`
   margin-top: 4rem;
   width: 80%;
-  margin: 6rem auto 0 auto;
+  max-width: 70rem;
+  margin: 6rem auto 3rem auto;
 `;
 
 const CreateHeader = styled.h1`

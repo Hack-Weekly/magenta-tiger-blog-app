@@ -10,6 +10,7 @@ import {
   AuthorImagePlacholder,
   AuthorTitle,
 } from "./StyledAuthor";
+import { StyledTopic } from "@/pages/PostDetail";
 
 const PostPreviewMainWrapper = styled.div`
   width: 100%;
@@ -123,7 +124,11 @@ const ContentBodyWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 0.8rem;
+  gap: 0.2rem;
+  p {
+    margin: 0;
+    padding: 0;
+  }
 `;
 const PostTitle = styled.h2<PostPreviewProps>`
   font-family: "Inter";
@@ -146,8 +151,14 @@ const PostTitle = styled.h2<PostPreviewProps>`
         `}
 `;
 
-const PostKeywordsWrapper = styled.div``;
-const PostKeyword = styled.p`
+const PostKeywordsWrapper = styled.div`
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+`;
+const PostKeyword = styled.a`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
@@ -166,6 +177,7 @@ const PostPreview = ({
   postTitle,
   postKeywords,
   postId,
+  topic,
 }: PostPreviewProps) => {
   const postDate = date && new Date(date).toDateString().slice(4);
 
@@ -201,12 +213,14 @@ const PostPreview = ({
             </ContentHeaderWrapper>
             <ContentBodyWrapper>
               <PostTitle variant={variant}>{postTitle}</PostTitle>
+
               <PostKeywordsWrapper>
                 {postKeywords &&
                   postKeywords.map(keywords => (
                     <PostKeyword key={keywords}>{`#${keywords}`}</PostKeyword>
                   ))}
               </PostKeywordsWrapper>
+              <StyledTopic>{topic}</StyledTopic>
             </ContentBodyWrapper>
           </PreviewContentWrapper>
         </PostPreviewWrapper>
