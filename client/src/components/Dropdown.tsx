@@ -118,7 +118,7 @@ const Dropdown = ({
         </DropdownListItem>
       </DropdownListWrapper>
       <DropdownFooter>
-        <Button variant="danger" size="sm3" label="Sign out" />
+        <Button variant="danger" size="sm3" label="Sign out" disabled />
       </DropdownFooter>
     </DropdownWrapper>
   );

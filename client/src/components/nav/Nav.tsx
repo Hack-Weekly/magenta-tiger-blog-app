@@ -259,7 +259,7 @@ const Nav = () => {
             isDropdownOpen={isDropdownOpen}
             navRef={navRef}
             username={"username"}
-            name={"Name Surname"}
+            name={"Guest"}
           />
         )}
       </NavContentWrapper>
