@@ -1,12 +1,13 @@
 import { PostPreview } from "@/components/PostPreview";
 import { Post } from "@/types/src/posts/post.types";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button } from "../Button";
 import { SkeletonLoader } from "../skeleton/Skeleton";
 import { LoadingState } from "@/types/src/styled-components/loading.types";
 import { FailedMessage } from "../FailedMessage";
+import { FilterContext, FilterContextValue } from "@/context/filterContext";
 
 const MainContentWrapper = styled.section`
   width: 100%;
@@ -35,9 +36,14 @@ const ContentPostsWrapper = styled.div`
 const PostsSection = () => {
   const [postFilter, setPostFilter] = useState("Latest");
   const [posts, setPosts] = useState<Post[] | null>(null);
+  const [filteredPosts, setFilteredPosts] = useState<Post[] | null>(null);
   const [loadingState, setLoadingState] = useState<LoadingState>(
     LoadingState.fetching
   );
+
+  const { selectedTopic, changeSelectedTopic } = useContext(
+    FilterContext
+  ) as FilterContextValue;
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -59,6 +65,16 @@ const PostsSection = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (selectedTopic) {
+      setFilteredPosts(
+        posts?.filter(post => post.topic === selectedTopic) || null
+      );
+    } else {
+      setFilteredPosts(posts);
+    }
+  }, [posts, selectedTopic]);
+
   return (
     <MainContentWrapper>
       <MainContentSorting>
@@ -76,6 +92,13 @@ const PostsSection = () => {
         />
       </MainContentSorting>
       <ContentPostsWrapper>
+        {selectedTopic && (
+          <Button
+            label="Clear topic"
+            variant="danger"
+            onClick={() => changeSelectedTopic(null)}
+          />
+        )}
         {loadingState === LoadingState.fetching && (
           <SkeletonLoader
             variant={postFilter === "All" ? "home-all" : "home-recent"}
@@ -83,21 +106,25 @@ const PostsSection = () => {
         )}
         {loadingState === LoadingState.error && <FailedMessage />}
         {loadingState === LoadingState.success &&
-        posts &&
+        filteredPosts &&
         postFilter === "Latest" ? (
           <>
-            <PostPreview
-              key={posts[0]._id}
-              topic={posts[0].topic}
-              postTitle={posts[0].title}
-              authorName={posts[0].author}
-              postId={posts[0]._id}
-              postImage={apiUrl + posts[0].image}
-              variant="big"
-              date={posts[0].date}
-              postKeywords={posts[0].keywords.map(keywords => keywords)}
-            />
-            {posts.slice(1, 10).map(post => (
+            {filteredPosts.length > 0 && (
+              <PostPreview
+                variant="big"
+                key={filteredPosts[0]._id}
+                topic={filteredPosts[0].topic}
+                postTitle={filteredPosts[0].title}
+                authorName={filteredPosts[0].author}
+                postId={filteredPosts[0]._id}
+                postImage={apiUrl + filteredPosts[0].image}
+                date={filteredPosts[0].date}
+                postKeywords={filteredPosts[0].keywords.map(
+                  keywords => keywords
+                )}
+              />
+            )}
+            {(filteredPosts ?? []).map(post => (
               <PostPreview
                 key={post._id}
                 topic={post.topic}
@@ -109,7 +136,7 @@ const PostsSection = () => {
                 postKeywords={post.keywords.map(keywords => keywords)}
               />
             ))}
-            {posts?.length > 9 && (
+            {filteredPosts?.length > 9 && (
               <Button
                 variant="secondary"
                 label="See more .."
@@ -120,22 +147,19 @@ const PostsSection = () => {
         ) : (
           loadingState === LoadingState.success &&
           posts &&
-          postFilter === "All" && (
-            <>
-              {posts.map(post => (
-                <PostPreview
-                  key={post._id}
-                  topic={post.topic}
-                  postTitle={post.title}
-                  authorName={post.author}
-                  postId={post._id}
-                  postImage={apiUrl + post.image}
-                  date={post.date}
-                  postKeywords={post.keywords.map(keywords => keywords)}
-                />
-              ))}
-            </>
-          )
+          postFilter === "All" &&
+          (filteredPosts ?? []).map(post => (
+            <PostPreview
+              key={post._id}
+              topic={post.topic}
+              postTitle={post.title}
+              authorName={post.author}
+              postId={post._id}
+              postImage={apiUrl + post.image}
+              date={post.date}
+              postKeywords={post.keywords.map(keywords => keywords)}
+            />
+          ))
         )}
       </ContentPostsWrapper>
     </MainContentWrapper>

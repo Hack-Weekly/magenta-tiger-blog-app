@@ -158,7 +158,7 @@ const PostKeywordsWrapper = styled.div`
   gap: 0.3rem;
   margin-top: 0.5rem;
 `;
-const PostKeyword = styled.a`
+const PostKeyword = styled.p`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
@@ -213,7 +213,6 @@ const PostPreview = ({
             </ContentHeaderWrapper>
             <ContentBodyWrapper>
               <PostTitle variant={variant}>{postTitle}</PostTitle>
-
               <PostKeywordsWrapper>
                 {postKeywords &&
                   postKeywords.map(keywords => (
