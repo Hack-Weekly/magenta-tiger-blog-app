@@ -1,11 +1,12 @@
 import { ChildrenProps } from "@/types/src/shared/children.types";
+import Cookies from "js-cookie";
 import { Navigate } from "react-router";
 
 export default function PrivateRoute({ children }: ChildrenProps) {
-  const user = { test: "123" }; // REMOVE THIS WHEN AUTH WILL BE IMPLEMENTED
+  const user = Cookies.get("githubToken");
 
   if (!user) {
-    return <Navigate to="/" />;
+    return <Navigate to="/enter" />;
   }
 
   return <>{children}</>;

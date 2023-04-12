@@ -1,16 +1,16 @@
-import styled, { css } from "styled-components";
+import { StyledTopic } from "@/pages/PostDetail";
 import { PostPreviewProps } from "@/types/src/styled-components/postPreview.types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import styled, { css } from "styled-components";
 import {
-  AuthorWrapper,
-  AuthorImageWrapper,
   AuthorImage,
   AuthorImagePlacholder,
+  AuthorImageWrapper,
   AuthorTitle,
+  AuthorWrapper,
 } from "./StyledAuthor";
-import { StyledTopic } from "@/pages/PostDetail";
 
 const PostPreviewMainWrapper = styled.div`
   width: 100%;
@@ -185,12 +185,23 @@ const PostPreview = ({
     window.scrollTo({ top: 0 });
   };
 
+  const handleBrokenImage = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) =>
+    ((event.target as HTMLImageElement).src = "https://tinyurl.com/4wb82fnd");
+
   return (
     <PostPreviewMainWrapper>
       <Link to={`/post/${postId}`} onClick={handleOpenPost}>
         <PostPreviewWrapper variant={variant}>
           <PreviewImageWrapper variant={variant} postImage={postImage}>
-            {postImage && <PostImage src={postImage} alt="Picture of post" />}
+            {postImage && (
+              <PostImage
+                src={postImage}
+                alt="Picture of post"
+                onError={handleBrokenImage}
+              />
+            )}
           </PreviewImageWrapper>
           <PreviewContentWrapper>
             <ContentHeaderWrapper variant={variant}>
@@ -198,7 +209,7 @@ const PostPreview = ({
                 {variant === "big" && (
                   <AuthorImageWrapper>
                     {authorPhoto ? (
-                      <AuthorImage src={authorPhoto} alt="Picture of author" />
+                      <AuthorImage src={authorPhoto} onError={handleBrokenImage} alt="Picture of author" />
                     ) : (
                       <AuthorImagePlacholder>
                         <FontAwesomeIcon icon={faCircleUser} />

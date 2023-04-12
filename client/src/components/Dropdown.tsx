@@ -1,9 +1,10 @@
-import styled from "styled-components";
-import { Button } from "./Button";
 import { DropdownProps } from "@/types/src/styled-components/dropdown.types";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
-import { useNavigate } from "react-router";
+import axios from "axios";
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router";
+import styled from "styled-components";
+import { Button } from "./Button";
 
 const DropdownWrapper = styled.div`
   display: flex;
@@ -79,6 +80,7 @@ const Dropdown = ({
 }: DropdownProps) => {
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const logoutUrl = `${import.meta.env.VITE_API_URL}logout`;
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -97,6 +99,15 @@ const Dropdown = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isDropdownOpen]);
+
+  const logout = async () => {
+    try {
+      await axios.get(logoutUrl);
+      console.log(logoutUrl);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <DropdownWrapper ref={dropdownRef}>
@@ -118,7 +129,7 @@ const Dropdown = ({
         </DropdownListItem>
       </DropdownListWrapper>
       <DropdownFooter>
-        <Button variant="danger" size="sm3" label="Sign out" disabled />
+        <Button variant="danger" size="sm3" label="Sign out" onClick={logout} />
       </DropdownFooter>
     </DropdownWrapper>
   );

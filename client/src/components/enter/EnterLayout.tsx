@@ -1,6 +1,6 @@
-import { Button } from "../Button";
-import styled from "styled-components";
 import { faGithubSquare } from "@fortawesome/free-brands-svg-icons";
+import styled from "styled-components";
+import { Button } from "../Button";
 
 const StyledMainContainer = styled.div`
   display: flex;
@@ -57,6 +57,12 @@ const StyledBtnContainer = styled.div`
 `;
 
 export const EnterLayout = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const loginUrl = `${apiUrl}login`;
+
+  const login = async () => {
+    window.location.href = loginUrl;
+  };
   return (
     <StyledMainContainer>
       <StyledCardWrapper>
@@ -70,6 +76,7 @@ export const EnterLayout = () => {
             label="Login with Github"
             icon={faGithubSquare}
             size="md2"
+            onClick={login}
           />
         </StyledBtnContainer>
       </StyledCardWrapper>

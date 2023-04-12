@@ -1,60 +1,23 @@
 import { Request, Response, Router } from 'express';
+import { Auth } from '../controller/auth';
 import upload from '../controller/image-upload';
 import { PostC } from '../controller/post';
 
 export const routes = Router();
-
-// const storage = multer.diskStorage({
-//   destination(
-//     req: Request,
-//     file: Express.Multer.File,
-//     // Add type for callback
-//     cb,
-//   ) {
-//     cb(null, './uploads/');
-//   },
-//   filename(
-//     req: Request,
-//     file: Express.Multer.File,
-//     // Add type for callback
-//     cb,
-//   ) {
-//     cb(null, new Date().toISOString() + file.originalname);
-//   },
-// });
-
-// const fileFilter = (
-//   req: Request,
-//   file: Express.Multer.File,
-//   // Add type for callback
-//   cb,
-// ) => {
-//   // reject a file
-//   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-//     cb(null, true);
-//   } else {
-//     cb(
-//       new Error(
-//         'Failed to upload image. Only jpeg or png are allowed. Please try again.',
-//       ),
-//       false,
-//     );
-//   }
-// };
-
-// const upload = multer({
-//   storage,
-//   limits: {
-//     fileSize: 1024 * 1024 * 5,
-//   },
-//   fileFilter,
-// });
 
 // Server health check
 routes.get('/health', (req: Request, res: Response) => res.send({
   message: 'Magenta Tiger Blog App is up and running',
   code: 200,
 }));
+
+// Github OAuth
+routes.get('/login', (req: Request, res: Response) => new Auth().login(req, res));
+
+routes.get('/login/oauth', (req: Request, res: Response) => new Auth().loginOAuth(req, res));
+
+// Github OAuth logout
+routes.get('logout', (req: Request, res: Response) => new Auth().logout(req, res));
 
 // Create Post
 routes.post(
