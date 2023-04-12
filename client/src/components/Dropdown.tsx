@@ -103,6 +103,7 @@ const Dropdown = ({
   const logout = async () => {
     try {
       await axios.get(logoutUrl);
+      console.log(logoutUrl);
     } catch (error) {
       console.log(error);
     }

@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import FilterProvider from "./context/filterContext";
 import PrivateRoute from "./context/PrivateRoute";
 import RestrictedRoute from "./context/RestrictedRoute";
+import FilterProvider from "./context/filterContext";
 import Create from "./pages/Create";
 import Enter from "./pages/Enter";
 import Home from "./pages/Home";
@@ -30,9 +30,9 @@ export default function App() {
               <Route
                 path="/enter"
                 element={
-                  // <RestrictedRoute>
+                  <RestrictedRoute>
                     <Enter />
-                  // </RestrictedRoute>
+                  </RestrictedRoute>
                 }
               />
               <Route path="*" element={<p>Page not Found :c</p>} />
