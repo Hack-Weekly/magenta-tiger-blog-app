@@ -80,7 +80,7 @@ const Dropdown = ({
 }: DropdownProps) => {
   const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const logoutUrl = `http://localhost:8089/logout`;
+  const logoutUrl = `${import.meta.env.VITE_API_URL}logout`;
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
