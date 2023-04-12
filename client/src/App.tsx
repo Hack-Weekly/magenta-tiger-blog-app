@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PrivateRoute from "./context/PrivateRoute";
 import RestrictedRoute from "./context/RestrictedRoute";
 import FilterProvider from "./context/filterContext";
 import Create from "./pages/Create";
@@ -22,9 +21,9 @@ export default function App() {
               <Route
                 path="/create"
                 element={
-                  <PrivateRoute>
+                  <RestrictedRoute>
                     <Create />
-                  </PrivateRoute>
+                  </RestrictedRoute>
                 }
               />
               <Route
