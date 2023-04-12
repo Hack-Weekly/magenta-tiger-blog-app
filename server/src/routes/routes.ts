@@ -45,7 +45,7 @@ routes.get('/githubAuth/oauth-callback', async (req, res) => {
         }
       });
     res.cookie('githubToken', response.token);
-    res.redirect('https://magenta-tiger-blog-app.vercel.app/');
+    res.redirect('https://magenta-tiger-blog-app.vercel.app/githubAuth/oauth-callback');
   } catch (e) {
     res.send(e);
   }

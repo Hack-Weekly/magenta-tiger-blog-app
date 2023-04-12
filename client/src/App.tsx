@@ -30,9 +30,9 @@ export default function App() {
               <Route
                 path="/enter"
                 element={
-                  <RestrictedRoute>
+                  // <RestrictedRoute>
                     <Enter />
-                  </RestrictedRoute>
+                  // </RestrictedRoute>
                 }
               />
               <Route path="*" element={<p>Page not Found :c</p>} />
