@@ -29,7 +29,7 @@ connect(config.dbUrl)
     console.log('Connected to database successfully...');
 
     app.listen(config.port, () => {
-      console.log(`Magenta Tiger Blog App is runnign on port ${config.port}`);
+      console.log(`Magenta Tiger Blog App is running on port ${config.port}`);
     });
   })
   .catch((error) => console.log('Could not connect to database', error));

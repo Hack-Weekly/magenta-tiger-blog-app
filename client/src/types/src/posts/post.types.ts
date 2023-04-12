@@ -10,3 +10,11 @@ export interface Post {
   isBookmarked: boolean;
   likes: number;
 }
+
+export type PostTopic =
+  | "tech"
+  | "tips"
+  | "design"
+  | "best practice"
+  | "languages"
+  | "news";

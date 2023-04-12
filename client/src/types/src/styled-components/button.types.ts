@@ -4,7 +4,14 @@ import { Size } from "../shared";
 export type ButtonProps = {
   className?: string;
   icon?: IconProp;
-  variant?: "primary" | "secondary" | "icon" | "icon-bg" | "text" | "danger";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "icon"
+    | "login-btn"
+    | "icon-bg"
+    | "text"
+    | "danger";
   danger?: boolean;
   disabled?: boolean;
   bold?: boolean;

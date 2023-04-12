@@ -1,4 +1,6 @@
 import { Button } from "@/components/Button";
+import { FailedMessage } from "@/components/FailedMessage";
+import { SkeletonLoader } from "@/components/skeleton/Skeleton";
 import {
   AuthorImagePlacholder,
   AuthorImageWrapper,
@@ -7,6 +9,7 @@ import {
 } from "@/components/StyledAuthor";
 import StyledContainer from "@/components/StyledContainer";
 import { Post } from "@/types/src/posts/post.types";
+import { LoadingState } from "@/types/src/styled-components/loading.types";
 import { faBookmark, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
@@ -26,6 +29,11 @@ const StyledContent = styled.section`
   font-family: "Inter";
 `;
 
+const StyledKeywordsWrapper = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+
 const StyledKeywords = styled.p`
   color: grey;
 `;
@@ -36,13 +44,14 @@ const StyledBookmarkContainer = styled.div`
   right: 1rem;
 `;
 
-const StyledTopic = styled.p`
+export const StyledTopic = styled.p`
+  font-family: "Inter";
+  color: #2c2c2c;
   position: relative;
   z-index: 5;
   max-width: max-content;
   margin: 1rem 0 0.2rem 0;
   font-weight: 700;
-
   &:first-letter {
     text-transform: capitalize;
   }
@@ -54,7 +63,7 @@ const StyledTopic = styled.p`
     bottom: 0;
     z-index: -1;
     width: 100%;
-    border-bottom: 4px solid #cbf8cf;
+    border-bottom: 0.5rem solid #cbf8cf;
   }
 `;
 
@@ -70,6 +79,9 @@ const StyledTitle = styled.h1`
 const PostDetail = () => {
   const [post, setPost] = useState<Post[]>([]);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
+  const [loadingState, setLoadingState] = useState<LoadingState>(
+    LoadingState.fetching
+  );
 
   const { id } = useParams();
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -94,8 +106,10 @@ const PostDetail = () => {
       const response = await axios.get(url);
       setPost([response.data]);
       setIsBookmarked(response.data.isBookmarked);
+      setLoadingState(LoadingState.success);
     } catch (error) {
       console.log(error);
+      setLoadingState(LoadingState.error);
     }
   };
 
@@ -124,8 +138,8 @@ const PostDetail = () => {
   return (
     <>
       <StyledContainer variant={"detail-page"}>
-        <div>
-          {post.length > 0 ? (
+        <>
+          {post.length > 0 && loadingState === LoadingState.success ? (
             <>
               {post.map(post => {
                 return (
@@ -160,13 +174,13 @@ const PostDetail = () => {
                         </StyledBookmarkContainer>
                       </AuthorWrapper>
 
-                      <div>
+                      <StyledKeywordsWrapper>
                         {post.keywords.map(keyword => (
                           <StyledKeywords
                             key={keyword}
                           >{`#${keyword}`}</StyledKeywords>
                         ))}
-                      </div>
+                      </StyledKeywordsWrapper>
 
                       <div>
                         <StyledTopic>{post.topic}</StyledTopic>
@@ -179,10 +193,12 @@ const PostDetail = () => {
                 );
               })}
             </>
+          ) : loadingState === LoadingState.fetching ? (
+            <SkeletonLoader variant="postDetail" />
           ) : (
-            <p>Loading...</p>
+            loadingState === LoadingState.error && <FailedMessage />
           )}
-        </div>
+        </>
       </StyledContainer>
     </>
   );

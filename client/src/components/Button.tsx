@@ -149,6 +149,21 @@ const StyledButton = styled.button<ButtonProps>`
             box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 1);
           }
         `
+      : variant === "login-btn"
+      ? css`
+          background-color: white;
+          padding: 0.3rem;
+          &:hover,
+          &:focus {
+            background-color: #f4f3f3;
+            color: #000000;
+          }
+          &:active {
+            background-color: #e9e7e7;
+            transform: translateY(2px);
+            box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 1);
+          }
+        `
       : variant === "icon-bg" &&
         css`
           box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 1);
@@ -165,12 +180,14 @@ const StyledButton = styled.button<ButtonProps>`
             box-shadow: 1px 2px 0px 0px rgba(0, 0, 0, 1);
           }
         `}
+        
     ${({ disabled, variant }) =>
     disabled &&
     (variant === "primary" ||
       variant === "secondary" ||
       variant === "icon-bg" ||
-      variant === "danger")
+      variant === "danger" ||
+      variant === "login-btn")
       ? css`
           cursor: default;
           background-color: #e6e6e6;
@@ -237,10 +254,10 @@ function Button({
       full={full}
       transparent={transparent}
     >
-      {icon && <FontAwesomeIcon icon={icon} />}
+      {icon && <FontAwesomeIcon icon={icon} fontSize={"2rem"} />}
       {variant !== "icon" && label}
     </StyledButton>
   );
 }
 
-export { Button };
+export { Button, sizes };

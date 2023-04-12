@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { ProfileButtonProps } from "../../types/src/props/NavProps";
 import { Button } from "../Button";
@@ -10,6 +10,8 @@ import { useNavigate } from "react-router";
 import Logo from "../../assets/logo.svg";
 import { AuthorImagePlacholder, AuthorImageWrapper } from "../StyledAuthor";
 import { Link } from "react-router-dom";
+import { FilterContext, FilterContextValue } from "@/context/filterContext";
+import { PostTopic } from "@/types/src/posts/post.types";
 
 const StyledNav = styled.nav`
   position: fixed;
@@ -131,6 +133,11 @@ const SidebarMainWrapper = styled.div`
 `;
 
 const SidebarWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 1rem;
   padding: 0.5rem;
   width: 60%;
   max-width: 20rem;
@@ -170,6 +177,7 @@ const SectionBody = styled.div`
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
+  gap: 0.5rem;
 `;
 
 const Nav = () => {
@@ -182,6 +190,19 @@ const Nav = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const sidebarBtnRef = useRef<HTMLButtonElement>(null);
   const dropdownBtnRef = useRef<HTMLButtonElement>(null);
+
+  const { selectedTopic, changeSelectedTopic } = useContext(
+    FilterContext
+  ) as FilterContextValue;
+
+  const topics: PostTopic[] = [
+    "tech",
+    "tips",
+    "design",
+    "best practice",
+    "languages",
+    "news",
+  ];
 
   const navigate = useNavigate();
 
@@ -227,6 +248,11 @@ const Nav = () => {
     setIsDropdownOpen(false);
   }, [navigate]);
 
+  const handleTopicChange = (topic: PostTopic) => {
+    changeSelectedTopic(topic);
+    setIsSidebarOpen(false);
+  };
+
   return (
     <StyledNav>
       <NavContentWrapper ref={navRef}>
@@ -259,7 +285,7 @@ const Nav = () => {
             isDropdownOpen={isDropdownOpen}
             navRef={navRef}
             username={"username"}
-            name={"Name Surname"}
+            name={"Guest"}
           />
         )}
       </NavContentWrapper>
@@ -282,6 +308,20 @@ const Nav = () => {
                   full
                   onClick={() => navigate("/")}
                 />
+              </SectionBody>
+            </SidebarSectionWrapper>
+            <SidebarSectionWrapper>
+              <SectionTitle>Topics</SectionTitle>
+              <SectionBody>
+                {topics.map(topic => (
+                  <Button
+                    label={topic}
+                    variant="secondary"
+                    key={topic}
+                    disabled={selectedTopic === topic}
+                    onClick={() => handleTopicChange(topic)}
+                  />
+                ))}
               </SectionBody>
             </SidebarSectionWrapper>
           </SidebarWrapper>

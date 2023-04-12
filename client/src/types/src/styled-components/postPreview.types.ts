@@ -7,4 +7,5 @@ export type PostPreviewProps = {
   postTitle?: string;
   postKeywords?: string[];
   postId?: string;
+  topic?: "tech" | "tips" | "design" | "best practice" | "languages" | "news";
 };

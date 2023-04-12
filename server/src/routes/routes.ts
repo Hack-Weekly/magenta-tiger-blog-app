@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import { Auth } from '../controller/auth';
 import { BookmarkController } from '../controller/bookmark';
 import upload from '../controller/image-upload';
 import { PostC } from '../controller/post';
@@ -10,6 +11,14 @@ routes.get('/health', (req: Request, res: Response) => res.send({
   message: 'Magenta Tiger Blog App is up and running',
   code: 200,
 }));
+
+// Github OAuth
+routes.get('/login', (req: Request, res: Response) => new Auth().login(req, res));
+
+routes.get('/login/oauth', (req: Request, res: Response) => new Auth().loginOAuth(req, res));
+
+// Github OAuth logout
+routes.get('logout', (req: Request, res: Response) => new Auth().logout(req, res));
 
 // Create Post
 routes.post(

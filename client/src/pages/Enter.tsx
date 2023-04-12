@@ -1,5 +1,7 @@
+import { EnterLayout } from "@/components/enter/EnterLayout";
+
 const Enter = () => {
-  return <>Auth page</>;
+  return <EnterLayout />;
 };
 
 export default Enter;

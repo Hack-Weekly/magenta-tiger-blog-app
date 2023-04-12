@@ -1,14 +1,15 @@
-import styled, { css } from "styled-components";
+import { StyledTopic } from "@/pages/PostDetail";
 import { PostPreviewProps } from "@/types/src/styled-components/postPreview.types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import styled, { css } from "styled-components";
 import {
-  AuthorWrapper,
-  AuthorImageWrapper,
   AuthorImage,
   AuthorImagePlacholder,
+  AuthorImageWrapper,
   AuthorTitle,
+  AuthorWrapper,
 } from "./StyledAuthor";
 
 const PostPreviewMainWrapper = styled.div`
@@ -123,7 +124,11 @@ const ContentBodyWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 0.8rem;
+  gap: 0.2rem;
+  p {
+    margin: 0;
+    padding: 0;
+  }
 `;
 const PostTitle = styled.h2<PostPreviewProps>`
   font-family: "Inter";
@@ -146,7 +151,13 @@ const PostTitle = styled.h2<PostPreviewProps>`
         `}
 `;
 
-const PostKeywordsWrapper = styled.div``;
+const PostKeywordsWrapper = styled.div`
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+`;
 const PostKeyword = styled.p`
   font-family: "Roboto";
   font-style: normal;
@@ -166,6 +177,7 @@ const PostPreview = ({
   postTitle,
   postKeywords,
   postId,
+  topic,
 }: PostPreviewProps) => {
   const postDate = date && new Date(date).toDateString().slice(4);
 
@@ -173,12 +185,23 @@ const PostPreview = ({
     window.scrollTo({ top: 0 });
   };
 
+  const handleBrokenImage = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) =>
+    ((event.target as HTMLImageElement).src = "https://tinyurl.com/4wb82fnd");
+
   return (
     <PostPreviewMainWrapper>
       <Link to={`/post/${postId}`} onClick={handleOpenPost}>
         <PostPreviewWrapper variant={variant}>
           <PreviewImageWrapper variant={variant} postImage={postImage}>
-            {postImage && <PostImage src={postImage} alt="Picture of post" />}
+            {postImage && (
+              <PostImage
+                src={postImage}
+                alt="Picture of post"
+                onError={handleBrokenImage}
+              />
+            )}
           </PreviewImageWrapper>
           <PreviewContentWrapper>
             <ContentHeaderWrapper variant={variant}>
@@ -186,7 +209,7 @@ const PostPreview = ({
                 {variant === "big" && (
                   <AuthorImageWrapper>
                     {authorPhoto ? (
-                      <AuthorImage src={authorPhoto} alt="Picture of author" />
+                      <AuthorImage src={authorPhoto} onError={handleBrokenImage} alt="Picture of author" />
                     ) : (
                       <AuthorImagePlacholder>
                         <FontAwesomeIcon icon={faCircleUser} />
@@ -207,6 +230,7 @@ const PostPreview = ({
                     <PostKeyword key={keywords}>{`#${keywords}`}</PostKeyword>
                   ))}
               </PostKeywordsWrapper>
+              <StyledTopic>{topic}</StyledTopic>
             </ContentBodyWrapper>
           </PreviewContentWrapper>
         </PostPreviewWrapper>
