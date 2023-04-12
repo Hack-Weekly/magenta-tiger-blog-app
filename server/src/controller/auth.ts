@@ -12,7 +12,7 @@ const response = {
 export class Auth {
   async login(req: Request, res: Response) {
     return res.redirect(
-      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=repo`
+      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=repo`,
     );
   }
 
