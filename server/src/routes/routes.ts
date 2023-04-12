@@ -12,55 +12,11 @@ routes.get('/health', (req: Request, res: Response) => res.send({
 }));
 
 // Github OAuth
-// routes.get('/login', async (req: Request, res: Response) => res.redirect(
-//   `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=repo`,
-// ));
-
 routes.get('/login', (req: Request, res: Response) => new Auth().login(req, res));
 
-// const response = {
-//   token: '',
-//   success: false,
-//   message: '',
-//   data: {},
-// };
-
-// routes.get('/login/oauth', async (req: Request, res: Response) => {
-//   try {
-//     const body = {
-//       client_id: process.env.CLIENT_ID,
-//       client_secret: process.env.CLIENT_SECRET,
-//       code: req.query.code,
-//     };
-//     await axios
-//       .post('https://github.com/login/oauth/access_token', body, {
-//         headers: { accept: 'application/json' },
-//       })
-//       .then((respns) => {
-//         if (respns.data && respns.data.access_token) {
-//           response.token = respns.data.access_token;
-//           response.success = true;
-//         } else {
-//           response.success = false;
-//           response.message = 'Error in authorization';
-//           response.token = '';
-//         }
-//       });
-//     res.cookie('githubToken', response.token);
-//     res.redirect('https://magenta-tiger-blog-app.vercel.app/');
-//   } catch (e) {
-//     res.send(e);
-//   }
-// });
 routes.get('/login/oauth', (req: Request, res: Response) => new Auth().loginOAuth(req, res));
 
 // Github OAuth logout
-// routes.get('/logout', (req, res) => {
-//   res.cookie('githubToken', '', {
-//     expires: new Date(0),
-//   });
-//   res.redirect('/');
-// });
 routes.get('logout', (req: Request, res: Response) => new Auth().logout(req, res));
 
 // Create Post
