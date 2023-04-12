@@ -1,6 +1,7 @@
 import { DropdownProps } from "@/types/src/styled-components/dropdown.types";
 import { faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
@@ -102,8 +103,8 @@ const Dropdown = ({
 
   const logout = async () => {
     try {
+      Cookies.remove("githubToken");
       await axios.get(logoutUrl);
-      console.log(logoutUrl);
     } catch (error) {
       console.log(error);
     }

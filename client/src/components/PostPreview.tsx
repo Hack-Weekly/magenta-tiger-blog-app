@@ -1,4 +1,4 @@
-import { StyledTopic } from "@/pages/PostDetail";
+
 import { PostPreviewProps } from "@/types/src/styled-components/postPreview.types";
 import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +11,7 @@ import {
   AuthorTitle,
   AuthorWrapper,
 } from "./StyledAuthor";
+import { StyledTopic } from './PostDetails/StyledPostDetails';
 
 const PostPreviewMainWrapper = styled.div`
   width: 100%;
@@ -209,7 +210,11 @@ const PostPreview = ({
                 {variant === "big" && (
                   <AuthorImageWrapper>
                     {authorPhoto ? (
-                      <AuthorImage src={authorPhoto} onError={handleBrokenImage} alt="Picture of author" />
+                      <AuthorImage
+                        src={authorPhoto}
+                        onError={handleBrokenImage}
+                        alt="Picture of author"
+                      />
                     ) : (
                       <AuthorImagePlacholder>
                         <FontAwesomeIcon icon={faCircleUser} />

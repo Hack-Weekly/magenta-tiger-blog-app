@@ -1,6 +1,5 @@
 import { Button } from "@/components/Button";
 import { FailedMessage } from "@/components/FailedMessage";
-import { SkeletonLoader } from "@/components/skeleton/Skeleton";
 import {
   AuthorImagePlacholder,
   AuthorImageWrapper,
@@ -8,75 +7,27 @@ import {
   AuthorWrapper,
 } from "@/components/StyledAuthor";
 import StyledContainer from "@/components/StyledContainer";
+import { SkeletonLoader } from "@/components/skeleton/Skeleton";
 import { Post } from "@/types/src/posts/post.types";
 import { LoadingState } from "@/types/src/styled-components/loading.types";
 import { faBookmark, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import styled from "styled-components";
+import {
+  StyledBookmarkContainer,
+  StyledContent,
+  StyledDate,
+  StyledImage,
+  StyledKeywords,
+  StyledKeywordsWrapper,
+  StyledTitle,
+  StyledTopic,
+} from "./StyledPostDetails";
 
-const StyledImage = styled.img`
-  max-width: 100%;
-`;
-
-const StyledContent = styled.section`
-  position: relative;
-  display: grid;
-  gap: 0.8rem;
-  padding: 0.5rem 1rem 1rem 1rem;
-  font-family: "Inter";
-`;
-
-const StyledKeywordsWrapper = styled.div`
-  display: flex;
-  gap: 0.5rem;
-`;
-
-const StyledKeywords = styled.p`
-  color: grey;
-`;
-
-const StyledBookmarkContainer = styled.div`
-  position: absolute;
-  top: 0.5rem;
-  right: 1rem;
-`;
-
-export const StyledTopic = styled.p`
-  font-family: "Inter";
-  color: #2c2c2c;
-  position: relative;
-  z-index: 5;
-  max-width: max-content;
-  margin: 1rem 0 0.2rem 0;
-  font-weight: 700;
-  &:first-letter {
-    text-transform: capitalize;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    z-index: -1;
-    width: 100%;
-    border-bottom: 0.5rem solid #cbf8cf;
-  }
-`;
-
-const StyledDate = styled.p`
-  color: grey;
-  font-size: 14px;
-`;
-
-const StyledTitle = styled.h1`
-  margin-bottom: 1rem;
-`;
-
-const PostDetail = () => {
+const PostDetails = () => {
   const [post, setPost] = useState<Post[]>([]);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const [loadingState, setLoadingState] = useState<LoadingState>(
@@ -86,10 +37,13 @@ const PostDetail = () => {
   const { id } = useParams();
   const apiUrl = import.meta.env.VITE_API_URL;
   const url = `${apiUrl}post/${id}`;
-  const userId = "123";
+  const userToken = Cookies.get("githubToken");
+  let userId = "";
   const bookmarkUrl = `${apiUrl}bookmark/${userId}/${id}`;
 
   useEffect(() => {
+    getUserId();
+
     const savedBookmark = localStorage.getItem("isBookmarked");
 
     if (savedBookmark) {
@@ -100,6 +54,24 @@ const PostDetail = () => {
       toggleBookmark();
     });
   }, []);
+
+  const getUserId = async () => {
+    try {
+      const githubUser = await axios.get("https://api.github.com/user", {
+        headers: { Authorization: `token ${userToken}` },
+      });
+
+      if (!githubUser) {
+        return null;
+      }
+
+      const githubUserId: string = githubUser.data.id;
+      userId = githubUserId;
+      console.log(userId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getPostById = async () => {
     try {
@@ -204,4 +176,4 @@ const PostDetail = () => {
   );
 };
 
-export default PostDetail;
+export default PostDetails;
