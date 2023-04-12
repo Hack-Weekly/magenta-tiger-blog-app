@@ -41,6 +41,8 @@ const PostDetails = () => {
   let userId = "";
   const bookmarkUrl = `${apiUrl}bookmark/${userId}/${id}`;
 
+  console.log(userToken);
+
   useEffect(() => {
     getUserId();
 
