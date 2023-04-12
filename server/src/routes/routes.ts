@@ -23,7 +23,7 @@ const response = {
   data: {},
 };
 
-routes.get('/githubAuth/oauth-callback', async (req, res) => {
+routes.get('/login/oauth-callback', async (req, res) => {
   try {
     const body = {
       client_id: process.env.CLIENT_ID,
@@ -45,7 +45,7 @@ routes.get('/githubAuth/oauth-callback', async (req, res) => {
         }
       });
     res.cookie('githubToken', response.token);
-    res.redirect('https://magenta-tiger-blog-app.vercel.app/githubAuth/oauth-callback');
+    res.redirect('https://magenta-tiger-blog-app.vercel.app/');
   } catch (e) {
     res.send(e);
   }
