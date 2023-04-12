@@ -23,7 +23,7 @@ const response = {
   data: {},
 };
 
-routes.get('/login/oauth-callback', async (req, res) => {
+routes.get('/login/oauth', async (req, res) => {
   try {
     const body = {
       client_id: process.env.CLIENT_ID,
@@ -49,6 +49,12 @@ routes.get('/login/oauth-callback', async (req, res) => {
   } catch (e) {
     res.send(e);
   }
+});
+
+// Github OAuth logout
+routes.get('/logout', (req, res) => {
+  res.clearCookie('githubToken');
+  res.redirect('/');
 });
 
 // Create Post
