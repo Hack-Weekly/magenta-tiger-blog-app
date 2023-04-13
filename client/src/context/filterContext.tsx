@@ -20,14 +20,16 @@ const FilterProvider: React.FC<{ children: React.ReactNode }> = ({
   const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null);
 
   const changeSelectedTopic = (topic: PostTopic | null) => {
-    setSelectedTopics(topic);
     setSelectedKeyword(null);
+    setSelectedTopics(topic);
+
     window.scrollTo(0, 0);
   };
 
   const changeSelectedKeyword = (keyword: string | null) => {
-    setSelectedKeyword(keyword);
     setSelectedTopics(null);
+    setSelectedKeyword(keyword);
+
     window.scrollTo(0, 0);
   };
 

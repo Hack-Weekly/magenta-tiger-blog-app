@@ -41,14 +41,22 @@ const PostsSection = () => {
     LoadingState.fetching
   );
 
-  const { selectedTopic, changeSelectedTopic } = useContext(
-    FilterContext
-  ) as FilterContextValue;
+  const {
+    selectedTopic,
+    changeSelectedTopic,
+    selectedKeyword,
+    changeSelectedKeyword,
+  } = useContext(FilterContext) as FilterContextValue;
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const changeFilter = (filter: "Latest" | "All") => {
     setPostFilter(filter);
+  };
+
+  const handleTopicKeywordReset = () => {
+    changeSelectedKeyword(null);
+    changeSelectedTopic(null);
   };
 
   useEffect(() => {
@@ -66,14 +74,26 @@ const PostsSection = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedTopic) {
+    if (selectedTopic || selectedKeyword) {
       setFilteredPosts(
-        posts?.filter(post => post.topic === selectedTopic) || null
+        posts?.filter(post => {
+          if (selectedTopic && post.topic !== selectedTopic) {
+            return false;
+          }
+          if (
+            selectedKeyword &&
+            !post.keywords.some(keyword => keyword === selectedKeyword)
+          ) {
+            return false;
+          }
+          return true;
+        }) || null
       );
     } else {
       setFilteredPosts(posts);
     }
-  }, [posts, selectedTopic]);
+    setPostFilter("All");
+  }, [posts, selectedTopic, selectedKeyword]);
 
   return (
     <MainContentWrapper>
@@ -92,11 +112,17 @@ const PostsSection = () => {
         />
       </MainContentSorting>
       <ContentPostsWrapper>
-        {selectedTopic && (
+        {(selectedTopic || selectedKeyword) && (
           <Button
-            label="Clear topic"
+            label={
+              selectedTopic
+                ? "Clear Topic"
+                : selectedKeyword
+                ? "Clear Keyword"
+                : ""
+            }
             variant="danger"
-            onClick={() => changeSelectedTopic(null)}
+            onClick={handleTopicKeywordReset}
           />
         )}
         {loadingState === LoadingState.fetching && (
