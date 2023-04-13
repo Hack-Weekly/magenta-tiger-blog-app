@@ -4,7 +4,7 @@ import FilterProvider from "./context/filterContext";
 import Create from "./pages/Create";
 import Enter from "./pages/Enter";
 import Home from "./pages/Home";
-import PostDetail from "./pages/PostDetail";
+import PostDetail from "./components/PostDetail/PostDetail";
 import SharedLayout from "./pages/SharedLayout";
 import GlobalStyle from "./styles/GlobalStyle";
 

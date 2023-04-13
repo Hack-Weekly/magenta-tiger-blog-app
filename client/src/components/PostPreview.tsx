@@ -1,5 +1,5 @@
 import { FilterContext, FilterContextValue } from "@/context/filterContext";
-import { StyledTopic } from "@/pages/PostDetail";
+import { StyledTopic } from "./PostDetail/StyledPostDetail";
 import { PostPreviewProps } from "@/types/src/styled-components/postPreview.types";
 import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
