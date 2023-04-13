@@ -9,6 +9,7 @@ const PostDetailSkeletonWrapper = styled.div`
   justify-content: center;
   background-color: none;
   gap: 1.5rem;
+  padding: 0 1rem;
   div {
     background-color: #c4c4c4ab;
   }
