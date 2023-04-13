@@ -124,7 +124,7 @@ const PostsSection = () => {
                 )}
               />
             )}
-            {(filteredPosts ?? []).map(post => (
+            {(filteredPosts ?? []).slice(1, 10).map(post => (
               <PostPreview
                 key={post._id}
                 topic={post.topic}
