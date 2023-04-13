@@ -32,6 +32,7 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
   gap: 0.7rem;
   transition: 0.2s;
   z-index: 3;
+
   ${({ variant }) =>
     variant === "big"
       ? css`
@@ -46,14 +47,7 @@ const PreviewImageWrapper = styled.div<PostPreviewProps>`
   height: 100%;
   border: 0.15rem solid black;
   box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 1);
-  &:hover,
-  &:focus {
-    opacity: 0.8;
-  }
-  &:active {
-    opacity: 1;
-  }
-  cursor: pointer;
+
   ${({ variant }) =>
     variant === "big"
       ? css`
@@ -96,10 +90,20 @@ const PreviewContentWrapper = styled.div`
   gap: 0.4rem;
 `;
 const ContentHeaderWrapper = styled.div<PostPreviewProps>`
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
   justify-content: flex-start;
   gap: 0.5rem;
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
+  &:active {
+    opacity: 1;
+  }
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   span {
     color: #c1c1c1;
   }
@@ -136,14 +140,6 @@ const PostTitle = styled.h2<PostPreviewProps>`
   font-family: "Inter";
   color: #252525;
   font-style: normal;
-  &:hover,
-  &:focus {
-    opacity: 0.8;
-  }
-  &:active {
-    opacity: 1;
-  }
-  cursor: pointer;
   ${({ variant }) =>
     variant === "big"
       ? css`
@@ -242,15 +238,13 @@ const PostPreview = ({
                   </AuthorImageWrapper>
                 )}
                 <AuthorTitle variant={variant}>{authorName}</AuthorTitle>
+                {variant === "compact" && date && <span>•</span>}
+                <PostDate variant={variant}>{postDate}</PostDate>
               </AuthorWrapper>
-              {variant === "compact" && date && <span>•</span>}
-              <PostDate variant={variant}>{postDate}</PostDate>
+              <PostTitle variant={variant}>{postTitle}</PostTitle>
             </ContentHeaderWrapper>
           </Link>
           <ContentBodyWrapper>
-            <Link to={`/post/${postId}`} onClick={handleOpenPost}>
-              <PostTitle variant={variant}>{postTitle}</PostTitle>
-            </Link>
             <PostKeywordsWrapper>
               {postKeywords &&
                 postKeywords.map(keyword => (
