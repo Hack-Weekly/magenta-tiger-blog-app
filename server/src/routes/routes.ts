@@ -17,10 +17,10 @@ routes.get('/login', (req: Request, res: Response) => new Auth().login(req, res)
 
 routes.get('/login/oauth', (req: Request, res: Response) => new Auth().loginOAuth(req, res));
 
-routes.get('user', (req: Request, res: Response) => new Auth().getUser(req, res));
+routes.get('/user', (req: Request, res: Response) => new Auth().getUser(req, res));
 
 // Github OAuth logout
-routes.get('logout', (req: Request, res: Response) => new Auth().logout(req, res));
+routes.get('/logout', (req: Request, res: Response) => new Auth().logout(req, res));
 
 // Create Post
 routes.post(
