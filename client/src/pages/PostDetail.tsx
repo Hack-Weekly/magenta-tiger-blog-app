@@ -19,6 +19,8 @@ import styled from "styled-components";
 
 const StyledImage = styled.img`
   max-width: 100%;
+  display: block;
+  margin: 0 auto;
 `;
 
 const StyledContent = styled.section`
