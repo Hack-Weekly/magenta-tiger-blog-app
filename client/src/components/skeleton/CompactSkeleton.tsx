@@ -23,7 +23,7 @@ const CompactSkeletonWrapper = styled.div`
     background-color: #92929258;
   }
   @media (min-width: 680px) {
-    max-width: 49%;
+    max-width: calc(50% - 0.5rem);
   }
   &:after {
     content: "";
