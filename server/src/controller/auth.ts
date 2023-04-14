@@ -43,7 +43,7 @@ export class Auth {
         sameSite: 'none',
         secure: true,
         domain: 'http://localhost:3000',
-        path: `/post/${postId}`,
+        path: '/',
       });
       res.redirect('https://magenta-tiger-blog-app.vercel.app/');
     } catch (error) {
