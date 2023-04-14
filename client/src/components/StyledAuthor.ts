@@ -2,10 +2,11 @@ import { PostPreviewProps } from "@/types/src/styled-components/postPreview.type
 import styled, { css } from "styled-components";
 
 export const AuthorWrapper = styled.div`
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 0.4rem;
+  flex-wrap: wrap;
 `;
 export const AuthorImageWrapper = styled.div`
   background-color: #dfdfdf;
@@ -32,23 +33,11 @@ export const AuthorImagePlacholder = styled.div`
 export const AuthorTitle = styled.p<PostPreviewProps>`
   font-family: "Roboto";
   text-decoration: none;
-  ${({ variant }) =>
-    variant === "big"
-      ? css`
-          color: #000000;
-          font-style: normal;
-          font-weight: 500;
-          font-size: 16px;
-          line-height: 19px;
-          letter-spacing: -0.025em;
-        `
-      : css`
-          color: #888888;
-          font-weight: 400;
-          font-size: 0.95rem;
-          line-height: 0.9rem;
-          letter-spacing: -0.025em;
-        `}
+  color: #2c2c2c;
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 0.9rem;
+  letter-spacing: -0.025em;
 
   ${({ variant }) =>
     variant === "black" &&
