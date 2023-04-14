@@ -42,6 +42,15 @@ const ContentPostsWrapper = styled.div`
   }
 `;
 
+const SubTitle = styled.h2`
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #494949;
+  margin-top: 1rem;
+  text-align: center;
+`;
+
 const PostsSection = () => {
   const [postFilter, setPostFilter] = useState("Latest");
   const [posts, setPosts] = useState<Post[] | null>(null);
@@ -110,7 +119,7 @@ const PostsSection = () => {
         />
         <Button
           variant="text"
-          label="All blogs"
+          label="All posts"
           disabled={postFilter === "All"}
           onClick={() => changeFilter("All")}
         />
@@ -128,6 +137,7 @@ const PostsSection = () => {
           onClick={handleTopicKeywordReset}
         />
       )}
+      {postFilter === "Latest" && <SubTitle>Latest 10 posts</SubTitle>}
       {loadingState === LoadingState.fetching && (
         <SkeletonLoader variant="home-all" />
       )}
