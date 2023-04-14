@@ -10,6 +10,7 @@ const PostPreviewMainWrapper = styled.div`
   width: 100%;
   a {
     text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
   }
 `;
 
