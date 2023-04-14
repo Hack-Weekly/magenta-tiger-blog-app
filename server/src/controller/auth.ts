@@ -53,6 +53,20 @@ export class Auth {
     }
   }
 
+  async getUser(req: Request, res: Response) {
+    try {
+      const userResponse = await axios.get('https://api.github.com/user', {
+        headers: {
+          Authorization: `Bearer ${req.cookies.githubToken}`,
+        },
+      });
+      const userId = userResponse.data.id;
+      res.json({ userId });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
   logout(req, res) {
     res.cookie('githubToken', '', {
       expires: new Date(0),
