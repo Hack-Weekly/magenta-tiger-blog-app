@@ -25,19 +25,19 @@ const Description = styled.p`
 const Link = styled.a`
   margin-top: 1rem;
   font-size: 1.1rem;
-  color: #9041da;
+  color: #d16a8c;
   cursor: pointer;
   font-weight: 500;
   text-decoration: underline;
   &:hover,
   &:focus {
-    color: #a34df3;
+    color: #e9799e;
   }
   &:active {
-    color: #9041da;
+    color: #d16a8c;
   }
   &:visited {
-    color: #9041da;
+    color: #d16a8c;
   }
 `;
 
