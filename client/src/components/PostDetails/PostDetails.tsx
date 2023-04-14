@@ -33,15 +33,13 @@ const PostDetails = () => {
   const [loadingState, setLoadingState] = useState<LoadingState>(
     LoadingState.fetching
   );
+  const savedUserId = localStorage.getItem("userId");
+  const [userId, setUserId] = useState<string>(savedUserId ?? "");
 
   const { id } = useParams();
   const apiUrl = import.meta.env.VITE_API_URL;
   const url = `${apiUrl}post/${id}`;
   const userToken = Cookies.get("githubToken");
-  let userId = "";
-  const bookmarkUrl = `${apiUrl}bookmark/${userId}/${id}`;
-
-  console.log(userToken);
 
   useEffect(() => {
     getUserId();
@@ -60,7 +58,9 @@ const PostDetails = () => {
   const getUserId = async () => {
     try {
       const githubUser = await axios.get("https://api.github.com/user", {
-        headers: { Authorization: `token ${userToken}` },
+        headers: {
+          Authorization: `token ${userToken}`,
+        },
       });
 
       if (!githubUser) {
@@ -68,8 +68,7 @@ const PostDetails = () => {
       }
 
       const githubUserId: string = githubUser.data.id;
-      userId = githubUserId;
-      console.log(userId);
+      setUserId(githubUserId);
     } catch (error) {
       console.log(error);
     }
@@ -90,6 +89,8 @@ const PostDetails = () => {
   const postDate = new Date(post[0]?.date).toDateString().slice(4);
 
   const toggleBookmark = async () => {
+    const bookmarkUrl = `${apiUrl}bookmark/${userId}/${id}`;
+
     try {
       const response = await axios.post(bookmarkUrl);
 
@@ -102,6 +103,7 @@ const PostDetails = () => {
 
       if (userId && postId) {
         setIsBookmarked(true);
+        localStorage.setItem("userId", userId);
         localStorage.setItem("isBookmarked", "true");
       }
     } catch (error) {
