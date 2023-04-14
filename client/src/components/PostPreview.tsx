@@ -128,9 +128,10 @@ const PostTitle = styled.h2<PostPreviewProps>`
 const PostKeywordsWrapper = styled.div`
   display: inline-flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.3rem;
   margin-top: 0.5rem;
+  flex-wrap: wrap;
 `;
 const PostKeyword = styled.a`
   font-family: "Roboto";
