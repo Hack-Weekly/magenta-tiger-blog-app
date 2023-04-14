@@ -12,11 +12,13 @@ const response = {
 export class Auth {
   async login(req: Request, res: Response) {
     return res.redirect(
-      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user`,
+      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user`
     );
   }
 
   async loginOAuth(req: Request, res: Response) {
+    const { postId } = req.params;
+
     try {
       const body = {
         client_id: process.env.CLIENT_ID,
@@ -41,7 +43,7 @@ export class Auth {
         sameSite: 'none',
         secure: true,
         domain: 'http://localhost:3000',
-        path: '/post/:id',
+        path: `/post/${postId}`,
       });
       res.redirect('https://magenta-tiger-blog-app.vercel.app/');
     } catch (error) {
