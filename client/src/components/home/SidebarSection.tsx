@@ -13,9 +13,11 @@ const SideBarWrapper = styled.aside`
   }
   top: 6rem;
   margin-top: 1rem;
-  border: 0.15rem solid #aaaaaa;
+  background-color: #ebebeb;
+  border: 0.2rem solid #e4e4e4;
   border-radius: 0.3rem;
   height: 22rem;
+  min-width: 12rem;
 `;
 
 const SidebarContentWrapper = styled.div`
@@ -32,7 +34,7 @@ const SidebarSectionWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 0.5rem;
 `;
@@ -41,7 +43,7 @@ const SectionTitle = styled.h3`
   font-family: "Roboto";
   text-align: center;
   width: 100%;
-  color: #585858;
+  color: #424242;
   margin-bottom: 1rem;
 `;
 

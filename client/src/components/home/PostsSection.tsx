@@ -30,7 +30,16 @@ const ContentPostsWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;
+`;
+
+const SubTitle = styled.h2`
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #494949;
+  margin-top: 1rem;
+  text-align: center;
 `;
 
 const PostsSection = () => {
@@ -74,25 +83,20 @@ const PostsSection = () => {
   }, []);
 
   useEffect(() => {
+    let filtered = posts;
     if (selectedTopic || selectedKeyword) {
-      setFilteredPosts(
-        posts?.filter(post => {
-          if (selectedTopic && post.topic !== selectedTopic) {
-            return false;
-          }
-          if (
-            selectedKeyword &&
-            !post.keywords.some(keyword => keyword === selectedKeyword)
-          ) {
-            return false;
-          }
-          return true;
-        }) || null
-      );
-    } else {
-      setFilteredPosts(posts);
+      filtered = (posts || []).filter(post => {
+        if (selectedTopic && post.topic !== selectedTopic) {
+          return false;
+        }
+        if (selectedKeyword && !post.keywords.includes(selectedKeyword)) {
+          return false;
+        }
+        return true;
+      });
     }
-    setPostFilter("All");
+    setFilteredPosts(filtered);
+    setPostFilter(selectedTopic || selectedKeyword ? "All" : "Latest");
   }, [posts, selectedTopic, selectedKeyword]);
 
   return (
@@ -106,62 +110,51 @@ const PostsSection = () => {
         />
         <Button
           variant="text"
-          label="All blogs"
+          label="All posts"
           disabled={postFilter === "All"}
           onClick={() => changeFilter("All")}
         />
       </MainContentSorting>
+      {(selectedTopic || selectedKeyword) && (
+        <Button
+          label={
+            selectedTopic
+              ? "Clear Topic"
+              : selectedKeyword
+              ? "Clear Keyword"
+              : ""
+          }
+          variant="danger"
+          onClick={handleTopicKeywordReset}
+        />
+      )}
+      {postFilter === "Latest" && <SubTitle>Latest 10 posts</SubTitle>}
+      {loadingState === LoadingState.fetching && (
+        <SkeletonLoader variant="home-all" />
+      )}
       <ContentPostsWrapper>
-        {(selectedTopic || selectedKeyword) && (
-          <Button
-            label={
-              selectedTopic
-                ? "Clear Topic"
-                : selectedKeyword
-                ? "Clear Keyword"
-                : ""
-            }
-            variant="danger"
-            onClick={handleTopicKeywordReset}
-          />
-        )}
-        {loadingState === LoadingState.fetching && (
-          <SkeletonLoader
-            variant={postFilter === "All" ? "home-all" : "home-recent"}
-          />
-        )}
         {loadingState === LoadingState.error && <FailedMessage />}
         {loadingState === LoadingState.success &&
         filteredPosts &&
         postFilter === "Latest" ? (
           <>
-            {filteredPosts.length > 0 && (
-              <PostPreview
-                variant="big"
-                key={filteredPosts[0]._id}
-                topic={filteredPosts[0].topic}
-                postTitle={filteredPosts[0].title}
-                authorName={filteredPosts[0].author}
-                postId={filteredPosts[0]._id}
-                postImage={apiUrl + filteredPosts[0].image}
-                date={filteredPosts[0].date}
-                postKeywords={filteredPosts[0].keywords.map(
-                  keywords => keywords
-                )}
-              />
-            )}
-            {(filteredPosts ?? []).slice(1, 10).map(post => (
-              <PostPreview
-                key={post._id}
-                topic={post.topic}
-                postTitle={post.title}
-                authorName={post.author}
-                postId={post._id}
-                postImage={apiUrl + post.image}
-                date={post.date}
-                postKeywords={post.keywords.map(keywords => keywords)}
-              />
-            ))}
+            {(filteredPosts ?? [])
+              .sort(
+                (a, b) =>
+                  new Date(b.date).getTime() - new Date(a.date).getTime()
+              )
+              .map(post => (
+                <PostPreview
+                  key={post._id}
+                  topic={post.topic}
+                  postTitle={post.title}
+                  authorName={post.author}
+                  postId={post._id}
+                  postImage={apiUrl + post.image}
+                  date={post.date}
+                  postKeywords={post.keywords.map(keywords => keywords)}
+                />
+              ))}
             {filteredPosts?.length > 9 && (
               <Button
                 variant="secondary"
@@ -174,18 +167,22 @@ const PostsSection = () => {
           loadingState === LoadingState.success &&
           posts &&
           postFilter === "All" &&
-          (filteredPosts ?? []).map(post => (
-            <PostPreview
-              key={post._id}
-              topic={post.topic}
-              postTitle={post.title}
-              authorName={post.author}
-              postId={post._id}
-              postImage={apiUrl + post.image}
-              date={post.date}
-              postKeywords={post.keywords.map(keywords => keywords)}
-            />
-          ))
+          (filteredPosts ?? [])
+            .sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            )
+            .map(post => (
+              <PostPreview
+                key={post._id}
+                topic={post.topic}
+                postTitle={post.title}
+                authorName={post.author}
+                postId={post._id}
+                postImage={apiUrl + post.image}
+                date={post.date}
+                postKeywords={post.keywords.map(keywords => keywords)}
+              />
+            ))
         )}
       </ContentPostsWrapper>
     </MainContentWrapper>

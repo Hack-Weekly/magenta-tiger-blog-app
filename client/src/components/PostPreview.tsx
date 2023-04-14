@@ -1,23 +1,16 @@
 import { FilterContext, FilterContextValue } from "@/context/filterContext";
 import { StyledTopic } from "@/pages/PostDetail";
 import { PostPreviewProps } from "@/types/src/styled-components/postPreview.types";
-import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
-import {
-  AuthorImage,
-  AuthorImagePlacholder,
-  AuthorImageWrapper,
-  AuthorTitle,
-  AuthorWrapper,
-} from "./StyledAuthor";
+import { AuthorTitle, AuthorWrapper } from "./StyledAuthor";
 
 const PostPreviewMainWrapper = styled.div`
   width: 100%;
   a {
     text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
   }
 `;
 
@@ -27,44 +20,34 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
   padding: 0;
   margin: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 0.7rem;
   transition: 0.2s;
+  padding: 0.5rem;
+  padding-bottom: 0.8rem;
+  border-radius: 0.4rem;
   z-index: 3;
-
-  ${({ variant }) =>
-    variant === "big"
-      ? css`
-          flex-direction: column;
-        `
-      : css`
-          flex-direction: row;
-        `}
+  flex-direction: row;
+  background-color: ${({ topic }) =>
+    topic === "tech"
+      ? "#f1ead1"
+      : topic === "best practice"
+      ? "#e8e3f3"
+      : topic === "design"
+      ? "#e1f3e1"
+      : topic === "languages"
+      ? "#f5e6e9"
+      : topic === "news"
+      ? "#e6f7ec"
+      : topic === "tips" && "#f1e3f3"};
 `;
 
 const PreviewImageWrapper = styled.div<PostPreviewProps>`
   height: 100%;
-  border: 0.15rem solid black;
-  box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 1);
-
-  ${({ variant }) =>
-    variant === "big"
-      ? css`
-          width: 100%;
-          height: 15rem;
-          max-width: 100%;
-          box-shadow: none;
-          @media (min-width: 680px) {
-            height: 20rem;
-          }
-        `
-      : css`
-          width: 7rem;
-          min-width: 7rem;
-          height: 7rem;
-        `}
-
+  width: 7rem;
+  min-width: 7rem;
+  height: 7rem;
   ${({ postImage }) =>
     !postImage &&
     css`
@@ -80,6 +63,9 @@ const PostImage = styled.img`
   font-family: "Roboto";
   text-align: center;
   font-size: 0.8rem;
+  border-radius: 0.4rem;
+  border: 0.15rem solid black;
+  box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
 `;
 const PreviewContentWrapper = styled.div`
   width: 100%;
@@ -105,22 +91,15 @@ const ContentHeaderWrapper = styled.div<PostPreviewProps>`
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   span {
-    color: #c1c1c1;
+    color: #2c2c2c;
   }
-  ${({ variant }) =>
-    variant === "big" &&
-    css`
-      margin-top: 0.5rem;
-      margin-bottom: 0.3rem;
-      gap: 1rem;
-    `}
 `;
 
 const PostDate = styled.p<PostPreviewProps>`
-  color: #9e9e9e;
+  color: #5a5a5a;
   font-family: "Roboto";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 0.9rem;
   line-height: 1rem;
   letter-spacing: -0.025em;
@@ -140,29 +119,19 @@ const PostTitle = styled.h2<PostPreviewProps>`
   font-family: "Inter";
   color: #252525;
   font-style: normal;
-  ${({ variant }) =>
-    variant === "big"
-      ? css`
-          font-weight: 800;
-          font-size: 1.4rem;
-          line-height: 1.6rem;
-          letter-spacing: -0.035em;
-          text-decoration-line: underline;
-        `
-      : css`
-          font-weight: 700;
-          font-size: 1.1rem;
-          line-height: 18px;
-          letter-spacing: -0.025em;
-        `}
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 18px;
+  letter-spacing: -0.025em;
 `;
 
 const PostKeywordsWrapper = styled.div`
   display: inline-flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.3rem;
   margin-top: 0.5rem;
+  flex-wrap: wrap;
 `;
 const PostKeyword = styled.a`
   font-family: "Roboto";
@@ -171,7 +140,7 @@ const PostKeyword = styled.a`
   font-size: 0.9rem;
   line-height: 14px;
   letter-spacing: -0.015em;
-  color: #c1c1c1;
+  color: #636363;
   cursor: pointer;
   &:hover,
   &:focus {
@@ -183,7 +152,6 @@ const PostPreview = ({
   variant = "compact",
   postImage,
   authorName,
-  authorPhoto,
   date,
   postTitle,
   postKeywords,
@@ -206,7 +174,7 @@ const PostPreview = ({
 
   return (
     <PostPreviewMainWrapper>
-      <PostPreviewWrapper variant={variant}>
+      <PostPreviewWrapper variant={variant} topic={topic}>
         <Link to={`/post/${postId}`} onClick={handleOpenPost}>
           <PreviewImageWrapper variant={variant} postImage={postImage}>
             {postImage && (
@@ -222,23 +190,7 @@ const PostPreview = ({
           <Link to={`/post/${postId}`} onClick={handleOpenPost}>
             <ContentHeaderWrapper variant={variant}>
               <AuthorWrapper>
-                {variant === "big" && (
-                  <AuthorImageWrapper>
-                    {authorPhoto ? (
-                      <AuthorImage
-                        src={authorPhoto}
-                        onError={handleBrokenImage}
-                        alt="Picture of author"
-                      />
-                    ) : (
-                      <AuthorImagePlacholder>
-                        <FontAwesomeIcon icon={faCircleUser} />
-                      </AuthorImagePlacholder>
-                    )}
-                  </AuthorImageWrapper>
-                )}
                 <AuthorTitle variant={variant}>{authorName}</AuthorTitle>
-                {variant === "compact" && date && <span>•</span>}
                 <PostDate variant={variant}>{postDate}</PostDate>
               </AuthorWrapper>
               <PostTitle variant={variant}>{postTitle}</PostTitle>

@@ -1,4 +1,4 @@
 export type Skeleton = {
-  variant?: "home-recent" | "home-all" | "postDetail";
+  variant?: "home-all" | "postDetail";
   hasBig?: boolean;
 };
