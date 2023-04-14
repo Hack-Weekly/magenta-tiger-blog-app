@@ -18,8 +18,6 @@ export class Auth {
   }
 
   async loginOAuth(req: Request, res: Response) {
-    const { postId } = req.params;
-
     try {
       const body = {
         client_id: process.env.CLIENT_ID,
@@ -41,7 +39,7 @@ export class Auth {
           }
         });
 
-      const localStorage = new LocalStorage('./token');
+      const localStorage = new LocalStorage('./scratch');
       localStorage.setItem('githubToken', response.token);
 
       // res.cookie('githubToken', response.token, {
