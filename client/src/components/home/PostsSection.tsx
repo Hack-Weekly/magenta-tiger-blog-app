@@ -30,7 +30,16 @@ const ContentPostsWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;
+  @media (min-width: 680px) {
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+
+    & > * {
+      max-width: calc(50% - 0.5rem);
+    }
+  }
 `;
 
 const PostsSection = () => {
@@ -89,10 +98,11 @@ const PostsSection = () => {
           return true;
         }) || null
       );
+      setPostFilter("All");
     } else {
       setFilteredPosts(posts);
+      setPostFilter("Latest");
     }
-    setPostFilter("All");
   }, [posts, selectedTopic, selectedKeyword]);
 
   return (
@@ -111,46 +121,29 @@ const PostsSection = () => {
           onClick={() => changeFilter("All")}
         />
       </MainContentSorting>
+      {(selectedTopic || selectedKeyword) && (
+        <Button
+          label={
+            selectedTopic
+              ? "Clear Topic"
+              : selectedKeyword
+              ? "Clear Keyword"
+              : ""
+          }
+          variant="danger"
+          onClick={handleTopicKeywordReset}
+        />
+      )}
+      {loadingState === LoadingState.fetching && (
+        <SkeletonLoader variant="home-all" />
+      )}
       <ContentPostsWrapper>
-        {(selectedTopic || selectedKeyword) && (
-          <Button
-            label={
-              selectedTopic
-                ? "Clear Topic"
-                : selectedKeyword
-                ? "Clear Keyword"
-                : ""
-            }
-            variant="danger"
-            onClick={handleTopicKeywordReset}
-          />
-        )}
-        {loadingState === LoadingState.fetching && (
-          <SkeletonLoader
-            variant={postFilter === "All" ? "home-all" : "home-recent"}
-          />
-        )}
         {loadingState === LoadingState.error && <FailedMessage />}
         {loadingState === LoadingState.success &&
         filteredPosts &&
         postFilter === "Latest" ? (
           <>
-            {filteredPosts.length > 0 && (
-              <PostPreview
-                variant="big"
-                key={filteredPosts[0]._id}
-                topic={filteredPosts[0].topic}
-                postTitle={filteredPosts[0].title}
-                authorName={filteredPosts[0].author}
-                postId={filteredPosts[0]._id}
-                postImage={apiUrl + filteredPosts[0].image}
-                date={filteredPosts[0].date}
-                postKeywords={filteredPosts[0].keywords.map(
-                  keywords => keywords
-                )}
-              />
-            )}
-            {(filteredPosts ?? []).slice(1, 10).map(post => (
+            {(filteredPosts ?? []).map(post => (
               <PostPreview
                 key={post._id}
                 topic={post.topic}
