@@ -12,7 +12,7 @@ const response = {
 export class Auth {
   async login(req: Request, res: Response) {
     return res.redirect(
-      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user`
+      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user`,
     );
   }
 
@@ -38,14 +38,15 @@ export class Auth {
           }
         });
 
+      console.log(response.token);
+
       res.cookie('githubToken', response.token, {
         sameSite: 'none',
         secure: true,
-        domain: 'http://localhost:3000',
+        domain: 'https://magenta-tiger-blog-app.vercel.app',
         path: '/',
         httpOnly: false,
       });
-
       res.redirect('https://magenta-tiger-blog-app.vercel.app/');
     } catch (error) {
       res.send(error);

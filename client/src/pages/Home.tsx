@@ -4,7 +4,7 @@ import { Sidebar } from "@/components/home/SidebarSection";
 import Cookies from "js-cookie";
 
 const Home = () => {
-  const userToken = Cookies.get("githubToken");
+  const userToken = Cookies.get();
 
   console.log(userToken);
 
