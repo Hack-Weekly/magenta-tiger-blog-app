@@ -238,6 +238,7 @@ function Button({
   bold,
   transparent,
   size = "sm3",
+  iconSize = "2rem",
   onClick,
   full = false,
 }: ButtonProps) {
@@ -254,7 +255,7 @@ function Button({
       full={full}
       transparent={transparent}
     >
-      {icon && <FontAwesomeIcon icon={icon} fontSize={"2rem"} />}
+      {icon && <FontAwesomeIcon icon={icon} fontSize={iconSize} />}
       {variant !== "icon" && label}
     </StyledButton>
   );

@@ -18,6 +18,7 @@ export type ButtonProps = {
   size?: Size;
   full?: boolean;
   label?: string;
+  iconSize?: string;
   transparent?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
