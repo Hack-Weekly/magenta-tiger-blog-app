@@ -13,6 +13,7 @@ import { LoadingState } from "@/types/src/styled-components/loading.types";
 import { faBookmark, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import {
@@ -38,8 +39,8 @@ const PostDetails = () => {
   const { id } = useParams();
   const apiUrl = import.meta.env.VITE_API_URL;
   const url = `${apiUrl}post/${id}`;
-  // const userToken = Cookies.get("githubToken");
-  const userToken = localStorage.getItem("githubToken");
+  const userToken = Cookies.get("githubToken");
+  // const userToken = localStorage.getItem("githubToken");
 
   console.log(userToken);
 

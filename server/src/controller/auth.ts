@@ -41,8 +41,8 @@ export class Auth {
       res.cookie('githubToken', response.token, {
         sameSite: 'none',
         secure: true,
-        // domain: 'http://localhost:3000',
-        // path: '/',
+        domain: 'http://localhost:3000',
+        path: '/',
         httpOnly: false,
       });
 
