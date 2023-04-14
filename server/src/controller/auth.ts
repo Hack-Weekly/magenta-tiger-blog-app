@@ -40,7 +40,7 @@ export class Auth {
       res.cookie('githubToken', response.token, {
         sameSite: 'none',
         secure: true,
-        domain: 'http://localhost:8089',
+        domain: 'http://localhost:3000',
         path: '/post/:id',
       });
       res.redirect('https://magenta-tiger-blog-app.vercel.app/');

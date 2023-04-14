@@ -41,6 +41,8 @@ const PostDetails = () => {
   const url = `${apiUrl}post/${id}`;
   const userToken = Cookies.get("githubToken");
 
+  console.log(userToken);
+
   useEffect(() => {
     getUserId();
 
