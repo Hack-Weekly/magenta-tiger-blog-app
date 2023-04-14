@@ -1,7 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import axios from 'axios';
 import { Request, Response } from 'express';
-import { LocalStorage } from 'node-localstorage';
 
 const response = {
   token: '',
@@ -13,7 +12,7 @@ const response = {
 export class Auth {
   async login(req: Request, res: Response) {
     return res.redirect(
-      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user`
+      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user`,
     );
   }
 
@@ -39,15 +38,13 @@ export class Auth {
           }
         });
 
-      const localStorage = new LocalStorage('./scratch');
-      localStorage.setItem('githubToken', response.token);
+      res.cookie('githubToken', response.token, {
+        sameSite: 'none',
+        secure: true,
+        domain: 'http://localhost:3000',
+        path: '/',
+      });
 
-      // res.cookie('githubToken', response.token, {
-      //   sameSite: 'none',
-      //   secure: true,
-      //   domain: 'http://localhost:3000',
-      //   path: '/',
-      // });
       res.redirect('https://magenta-tiger-blog-app.vercel.app/');
     } catch (error) {
       res.send(error);
