@@ -139,7 +139,7 @@ const PostKeyword = styled.a`
   font-size: 0.9rem;
   line-height: 14px;
   letter-spacing: -0.015em;
-  color: #c1c1c1;
+  color: #636363;
   cursor: pointer;
   &:hover,
   &:focus {
