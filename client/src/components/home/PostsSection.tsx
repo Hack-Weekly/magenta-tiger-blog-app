@@ -83,26 +83,20 @@ const PostsSection = () => {
   }, []);
 
   useEffect(() => {
+    let filtered = posts;
     if (selectedTopic || selectedKeyword) {
-      setFilteredPosts(
-        posts?.filter(post => {
-          if (selectedTopic && post.topic !== selectedTopic) {
-            return false;
-          }
-          if (
-            selectedKeyword &&
-            !post.keywords.some(keyword => keyword === selectedKeyword)
-          ) {
-            return false;
-          }
-          return true;
-        }) || null
-      );
-      setPostFilter("All");
-    } else {
-      setFilteredPosts(posts);
-      setPostFilter("Latest");
+      filtered = (posts || []).filter(post => {
+        if (selectedTopic && post.topic !== selectedTopic) {
+          return false;
+        }
+        if (selectedKeyword && !post.keywords.includes(selectedKeyword)) {
+          return false;
+        }
+        return true;
+      });
     }
+    setFilteredPosts(filtered);
+    setPostFilter(selectedTopic || selectedKeyword ? "All" : "Latest");
   }, [posts, selectedTopic, selectedKeyword]);
 
   return (
@@ -143,18 +137,23 @@ const PostsSection = () => {
         filteredPosts &&
         postFilter === "Latest" ? (
           <>
-            {(filteredPosts ?? []).map(post => (
-              <PostPreview
-                key={post._id}
-                topic={post.topic}
-                postTitle={post.title}
-                authorName={post.author}
-                postId={post._id}
-                postImage={apiUrl + post.image}
-                date={post.date}
-                postKeywords={post.keywords.map(keywords => keywords)}
-              />
-            ))}
+            {(filteredPosts ?? [])
+              .sort(
+                (a, b) =>
+                  new Date(b.date).getTime() - new Date(a.date).getTime()
+              )
+              .map(post => (
+                <PostPreview
+                  key={post._id}
+                  topic={post.topic}
+                  postTitle={post.title}
+                  authorName={post.author}
+                  postId={post._id}
+                  postImage={apiUrl + post.image}
+                  date={post.date}
+                  postKeywords={post.keywords.map(keywords => keywords)}
+                />
+              ))}
             {filteredPosts?.length > 9 && (
               <Button
                 variant="secondary"
@@ -167,18 +166,22 @@ const PostsSection = () => {
           loadingState === LoadingState.success &&
           posts &&
           postFilter === "All" &&
-          (filteredPosts ?? []).map(post => (
-            <PostPreview
-              key={post._id}
-              topic={post.topic}
-              postTitle={post.title}
-              authorName={post.author}
-              postId={post._id}
-              postImage={apiUrl + post.image}
-              date={post.date}
-              postKeywords={post.keywords.map(keywords => keywords)}
-            />
-          ))
+          (filteredPosts ?? [])
+            .sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            )
+            .map(post => (
+              <PostPreview
+                key={post._id}
+                topic={post.topic}
+                postTitle={post.title}
+                authorName={post.author}
+                postId={post._id}
+                postImage={apiUrl + post.image}
+                date={post.date}
+                postKeywords={post.keywords.map(keywords => keywords)}
+              />
+            ))
         )}
       </ContentPostsWrapper>
     </MainContentWrapper>
