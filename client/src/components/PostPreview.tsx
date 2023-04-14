@@ -1,9 +1,11 @@
-
+import { FilterContext, FilterContextValue } from "@/context/filterContext";
 import { PostPreviewProps } from "@/types/src/styled-components/postPreview.types";
 import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
+import { StyledTopic } from "./PostDetails/StyledPostDetails";
 import {
   AuthorImage,
   AuthorImagePlacholder,
@@ -11,7 +13,6 @@ import {
   AuthorTitle,
   AuthorWrapper,
 } from "./StyledAuthor";
-import { StyledTopic } from './PostDetails/StyledPostDetails';
 
 const PostPreviewMainWrapper = styled.div`
   width: 100%;
@@ -31,6 +32,7 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
   gap: 0.7rem;
   transition: 0.2s;
   z-index: 3;
+
   ${({ variant }) =>
     variant === "big"
       ? css`
@@ -39,20 +41,13 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
       : css`
           flex-direction: row;
         `}
-  cursor: pointer;
-  &:hover,
-  &:focus {
-    opacity: 0.8;
-  }
-  &:active {
-    opacity: 1;
-  }
 `;
 
 const PreviewImageWrapper = styled.div<PostPreviewProps>`
   height: 100%;
   border: 0.15rem solid black;
   box-shadow: 4px 5px 0px 0px rgba(0, 0, 0, 1);
+
   ${({ variant }) =>
     variant === "big"
       ? css`
@@ -95,10 +90,20 @@ const PreviewContentWrapper = styled.div`
   gap: 0.4rem;
 `;
 const ContentHeaderWrapper = styled.div<PostPreviewProps>`
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
   justify-content: flex-start;
   gap: 0.5rem;
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
+  &:active {
+    opacity: 1;
+  }
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   span {
     color: #c1c1c1;
   }
@@ -159,7 +164,7 @@ const PostKeywordsWrapper = styled.div`
   gap: 0.3rem;
   margin-top: 0.5rem;
 `;
-const PostKeyword = styled.p`
+const PostKeyword = styled.a`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
@@ -167,6 +172,11 @@ const PostKeyword = styled.p`
   line-height: 14px;
   letter-spacing: -0.015em;
   color: #c1c1c1;
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
 `;
 
 const PostPreview = ({
@@ -181,6 +191,9 @@ const PostPreview = ({
   topic,
 }: PostPreviewProps) => {
   const postDate = date && new Date(date).toDateString().slice(4);
+  const { changeSelectedKeyword } = useContext(
+    FilterContext
+  ) as FilterContextValue;
 
   const handleOpenPost = () => {
     window.scrollTo({ top: 0 });
@@ -193,8 +206,8 @@ const PostPreview = ({
 
   return (
     <PostPreviewMainWrapper>
-      <Link to={`/post/${postId}`} onClick={handleOpenPost}>
-        <PostPreviewWrapper variant={variant}>
+      <PostPreviewWrapper variant={variant}>
+        <Link to={`/post/${postId}`} onClick={handleOpenPost}>
           <PreviewImageWrapper variant={variant} postImage={postImage}>
             {postImage && (
               <PostImage
@@ -204,7 +217,9 @@ const PostPreview = ({
               />
             )}
           </PreviewImageWrapper>
-          <PreviewContentWrapper>
+        </Link>
+        <PreviewContentWrapper>
+          <Link to={`/post/${postId}`} onClick={handleOpenPost}>
             <ContentHeaderWrapper variant={variant}>
               <AuthorWrapper>
                 {variant === "big" && (
@@ -223,23 +238,26 @@ const PostPreview = ({
                   </AuthorImageWrapper>
                 )}
                 <AuthorTitle variant={variant}>{authorName}</AuthorTitle>
+                {variant === "compact" && date && <span>•</span>}
+                <PostDate variant={variant}>{postDate}</PostDate>
               </AuthorWrapper>
-              {variant === "compact" && date && <span>•</span>}
-              <PostDate variant={variant}>{postDate}</PostDate>
-            </ContentHeaderWrapper>
-            <ContentBodyWrapper>
               <PostTitle variant={variant}>{postTitle}</PostTitle>
-              <PostKeywordsWrapper>
-                {postKeywords &&
-                  postKeywords.map(keywords => (
-                    <PostKeyword key={keywords}>{`#${keywords}`}</PostKeyword>
-                  ))}
-              </PostKeywordsWrapper>
-              <StyledTopic>{topic}</StyledTopic>
-            </ContentBodyWrapper>
-          </PreviewContentWrapper>
-        </PostPreviewWrapper>
-      </Link>
+            </ContentHeaderWrapper>
+          </Link>
+          <ContentBodyWrapper>
+            <PostKeywordsWrapper>
+              {postKeywords &&
+                postKeywords.map(keyword => (
+                  <PostKeyword
+                    key={keyword}
+                    onClick={() => changeSelectedKeyword(keyword)}
+                  >{`#${keyword}`}</PostKeyword>
+                ))}
+            </PostKeywordsWrapper>
+            <StyledTopic>{topic}</StyledTopic>
+          </ContentBodyWrapper>
+        </PreviewContentWrapper>
+      </PostPreviewWrapper>
     </PostPreviewMainWrapper>
   );
 };

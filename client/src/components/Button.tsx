@@ -137,7 +137,7 @@ const StyledButton = styled.button<ButtonProps>`
         `
       : variant === "danger"
       ? css`
-          background-color: #e73030;
+          background-color: #f01818;
           &:hover,
           &:focus {
             background-color: #f73939;
