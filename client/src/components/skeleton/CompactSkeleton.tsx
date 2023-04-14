@@ -22,9 +22,6 @@ const CompactSkeletonWrapper = styled.div`
   div {
     background-color: #92929258;
   }
-  @media (min-width: 680px) {
-    max-width: calc(50% - 0.5rem);
-  }
   &:after {
     content: "";
     position: absolute;

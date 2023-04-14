@@ -20,7 +20,7 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
   padding: 0;
   margin: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 0.7rem;
   transition: 0.2s;
@@ -31,16 +31,16 @@ const PostPreviewWrapper = styled.div<PostPreviewProps>`
   flex-direction: row;
   background-color: ${({ topic }) =>
     topic === "tech"
-      ? "#FFDB58"
+      ? "#f1ead1"
       : topic === "best practice"
-      ? "#A388EE"
+      ? "#e8e3f3"
       : topic === "design"
-      ? "#90EE90"
+      ? "#e1f3e1"
       : topic === "languages"
-      ? "#FFC0CB"
+      ? "#f5e6e9"
       : topic === "news"
-      ? "#B5D2AD"
-      : topic === "tips" && "#C4A1FF"};
+      ? "#e6f7ec"
+      : topic === "tips" && "#f1e3f3"};
 `;
 
 const PreviewImageWrapper = styled.div<PostPreviewProps>`

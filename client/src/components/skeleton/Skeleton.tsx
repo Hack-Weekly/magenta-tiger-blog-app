@@ -11,15 +11,6 @@ const MainSkeletonWrapper = styled.div<Skeleton>`
   align-items: flex-start;
   justify-content: center;
   gap: 1rem;
-  ${({ variant }) =>
-    variant === "home-all" &&
-    css`
-      @media (min-width: 680px) {
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: flex-start;
-      }
-    `}
   div {
     border: none;
     border-radius: 0.2rem;

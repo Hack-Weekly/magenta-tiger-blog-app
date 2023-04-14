@@ -13,8 +13,8 @@ const SideBarWrapper = styled.aside`
   }
   top: 6rem;
   margin-top: 1rem;
-  background-color: #d3d3d3;
-  border: 0.2rem solid #c5c5c5;
+  background-color: #ebebeb;
+  border: 0.2rem solid #e4e4e4;
   border-radius: 0.3rem;
   height: 22rem;
   min-width: 12rem;

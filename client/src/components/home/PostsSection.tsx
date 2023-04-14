@@ -31,15 +31,6 @@ const ContentPostsWrapper = styled.div`
   align-items: flex-start;
   justify-content: center;
   gap: 1rem;
-  @media (min-width: 680px) {
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: space-between;
-
-    & > * {
-      max-width: calc(50% - 0.5rem);
-    }
-  }
 `;
 
 const SubTitle = styled.h2`
