@@ -2,13 +2,6 @@
 import axios from 'axios';
 import { Request, Response } from 'express';
 
-const response = {
-  token: '',
-  success: false,
-  message: '',
-  data: {},
-};
-
 export class Auth {
   async login(req: Request, res: Response) {
     return res.redirect(
@@ -17,6 +10,13 @@ export class Auth {
   }
 
   async loginOAuth(req: Request, res: Response) {
+    const response = {
+      token: '',
+      success: false,
+      message: '',
+      data: {},
+    };
+
     try {
       const body = {
         client_id: process.env.CLIENT_ID,
@@ -38,16 +38,13 @@ export class Auth {
           }
         });
 
-      console.log(response.token);
-
       res.cookie('githubToken', response.token, {
-        sameSite: 'none',
+        httpOnly: true,
         secure: true,
-        domain: 'https://magenta-tiger-blog-app.vercel.app',
-        path: '/',
-        httpOnly: false,
+        sameSite: 'strict',
       });
-      res.redirect('https://magenta-tiger-blog-app.vercel.app/');
+
+      res.redirect('http://localhost:3000/');
     } catch (error) {
       res.send(error);
     }
@@ -55,13 +52,22 @@ export class Auth {
 
   async getUser(req: Request, res: Response) {
     try {
-      const userResponse = await axios.get('https://api.github.com/user', {
-        headers: {
-          Authorization: `Bearer ${req.cookies.githubToken}`,
-        },
-      });
-      const userId = userResponse.data.id;
-      res.json({ userId });
+      if (req.cookies.githubToken) {
+        const userResponse = await axios.get('https://api.github.com/user', {
+          headers: {
+            Authorization: `Bearer ${req.cookies.githubToken}`,
+          },
+        });
+
+        const userId = userResponse.data.id;
+
+        res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+        res.set('Access-Control-Allow-Credentials', 'true');
+
+        res.json({ userId });
+      } else {
+        console.log('No cookie found');
+      }
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

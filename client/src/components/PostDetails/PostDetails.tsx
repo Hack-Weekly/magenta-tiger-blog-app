@@ -13,7 +13,6 @@ import { LoadingState } from "@/types/src/styled-components/loading.types";
 import { faBookmark, faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import {
@@ -33,16 +32,13 @@ const PostDetails = () => {
   const [loadingState, setLoadingState] = useState<LoadingState>(
     LoadingState.fetching
   );
-  const savedUserId = localStorage.getItem("userId");
-  const [userId, setUserId] = useState<string>(savedUserId ?? "");
+  const [userId, setUserId] = useState<string | null>(
+    localStorage.getItem("userId")
+  );
 
   const { id } = useParams();
   const apiUrl = import.meta.env.VITE_API_URL;
   const url = `${apiUrl}post/${id}`;
-  const userToken = Cookies.get("githubToken");
-  // const userToken = localStorage.getItem("githubToken");
-
-  console.log(userToken);
 
   useEffect(() => {
     getUserId();
@@ -58,24 +54,20 @@ const PostDetails = () => {
     });
   }, []);
 
-  const getUserId = async () => {
+  async function getUserId() {
     try {
-      const githubUser = await axios.get("https://api.github.com/user", {
-        headers: {
-          Authorization: `token ${userToken}`,
-        },
+      const response = await axios.get(`${apiUrl}user`, {
+        withCredentials: true,
       });
+      const userId = response.data.userId;
+      localStorage.setItem("userId", userId);
+      setUserId(userId);
 
-      if (!githubUser) {
-        return null;
-      }
-
-      const githubUserId: string = githubUser.data.id;
-      setUserId(githubUserId);
+      console.log(userId);
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   const getPostById = async () => {
     try {
