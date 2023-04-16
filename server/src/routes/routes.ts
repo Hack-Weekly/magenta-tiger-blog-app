@@ -43,3 +43,6 @@ routes.get('/post/:id', (req: Request, res: Response) => new PostC().getPostById
 
 // Toggle Bookmark
 routes.post('/bookmark/:userId/:postId', (req: Request, res: Response) => new BookmarkController().toggleBookmark(req, res));
+
+// Get all Bookmarks
+routes.get('/bookmarks', (req: Request, res: Response) => new BookmarkController().getAllBookmarks(req, res));

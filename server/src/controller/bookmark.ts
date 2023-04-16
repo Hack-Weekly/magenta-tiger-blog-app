@@ -3,6 +3,22 @@ import { Request, Response } from 'express';
 import { Bookmark } from '../models/bookmark.model';
 
 export class BookmarkController {
+  async getAllBookmarks(req: Request, res: Response): Promise<Response> {
+    try {
+      const bookmarks = await Bookmark.find();
+
+      if (!bookmarks) {
+        return res.status(404).json({ message: 'Bookmarks not found' });
+      }
+
+      return res.status(200).json(bookmarks);
+    } catch (error) {
+      return res
+        .status(400)
+        .json({ message: 'Failed to fetch bookmarks', error });
+    }
+  }
+
   async toggleBookmark(req: Request, res: Response): Promise<Response> {
     try {
       const { userId, postId } = req.params;

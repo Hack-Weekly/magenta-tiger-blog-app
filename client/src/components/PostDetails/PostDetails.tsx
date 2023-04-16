@@ -1,4 +1,3 @@
-import { Button } from "@/components/Button";
 import { FailedMessage } from "@/components/FailedMessage";
 import {
   AuthorImagePlacholder,
@@ -10,13 +9,13 @@ import StyledContainer from "@/components/StyledContainer";
 import { SkeletonLoader } from "@/components/skeleton/Skeleton";
 import { Post } from "@/types/src/posts/post.types";
 import { LoadingState } from "@/types/src/styled-components/loading.types";
-import { faBookmark, faCircleUser } from "@fortawesome/free-regular-svg-icons";
+import { faCircleUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import BookmarkButton from "../Bookmark";
 import {
-  StyledBookmarkContainer,
   StyledContent,
   StyledDate,
   StyledImage,
@@ -28,7 +27,6 @@ import {
 
 const PostDetails = () => {
   const [post, setPost] = useState<Post[]>([]);
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const [loadingState, setLoadingState] = useState<LoadingState>(
     LoadingState.fetching
   );
@@ -36,22 +34,17 @@ const PostDetails = () => {
     localStorage.getItem("userId")
   );
 
-  const { id } = useParams();
+  const { id: postId } = useParams();
   const apiUrl = import.meta.env.VITE_API_URL;
-  const url = `${apiUrl}post/${id}`;
+  const url = `${apiUrl}post/${postId}`;
 
   useEffect(() => {
     getUserId();
 
-    const savedBookmark = localStorage.getItem("isBookmarked");
-
-    if (savedBookmark) {
-      setIsBookmarked(true);
-    }
-
-    getPostById().then(() => {
-      toggleBookmark();
-    });
+    getPostById();
+    // .then(() => {
+    //   toggleBookmark();
+    // });
   }, []);
 
   async function getUserId() {
@@ -73,7 +66,6 @@ const PostDetails = () => {
     try {
       const response = await axios.get(url);
       setPost([response.data]);
-      setIsBookmarked(response.data.isBookmarked);
       setLoadingState(LoadingState.success);
     } catch (error) {
       console.log(error);
@@ -82,29 +74,6 @@ const PostDetails = () => {
   };
 
   const postDate = new Date(post[0]?.date).toDateString().slice(4);
-
-  const toggleBookmark = async () => {
-    const bookmarkUrl = `${apiUrl}bookmark/${userId}/${id}`;
-
-    try {
-      const response = await axios.post(bookmarkUrl);
-
-      const { userId, postId } = response.data;
-
-      if (!userId && !postId) {
-        setIsBookmarked(false);
-        localStorage.removeItem("isBookmarked");
-      }
-
-      if (userId && postId) {
-        setIsBookmarked(true);
-        localStorage.setItem("userId", userId);
-        localStorage.setItem("isBookmarked", postId);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <>
@@ -127,23 +96,10 @@ const PostDetails = () => {
                         }
                         <AuthorTitle variant="black">{post.author}</AuthorTitle>
 
-                        <StyledBookmarkContainer>
-                          {isBookmarked &&
-                          localStorage.getItem("isBookmarked") === post._id ? (
-                            <Button
-                              variant="secondary"
-                              icon={faBookmark}
-                              onClick={toggleBookmark}
-                            />
-                          ) : (
-                            <Button
-                              variant="icon"
-                              transparent
-                              icon={faBookmark}
-                              onClick={toggleBookmark}
-                            />
-                          )}
-                        </StyledBookmarkContainer>
+                        <BookmarkButton
+                          userId={userId}
+                          selectedPostId={postId}
+                        />
                       </AuthorWrapper>
 
                       <StyledKeywordsWrapper>
