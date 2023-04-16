@@ -99,7 +99,7 @@ const PostDetails = () => {
       if (userId && postId) {
         setIsBookmarked(true);
         localStorage.setItem("userId", userId);
-        localStorage.setItem("isBookmarked", "true");
+        localStorage.setItem("isBookmarked", postId);
       }
     } catch (error) {
       console.log(error);
@@ -128,7 +128,8 @@ const PostDetails = () => {
                         <AuthorTitle variant="black">{post.author}</AuthorTitle>
 
                         <StyledBookmarkContainer>
-                          {isBookmarked ? (
+                          {isBookmarked &&
+                          localStorage.getItem("isBookmarked") === post._id ? (
                             <Button
                               variant="secondary"
                               icon={faBookmark}
