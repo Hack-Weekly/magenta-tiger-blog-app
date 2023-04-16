@@ -44,7 +44,7 @@ export class Auth {
         sameSite: 'strict',
       });
 
-      res.redirect('http://localhost:3000/');
+      res.redirect('https://magenta-tiger-blog-app.vercel.app/');
     } catch (error) {
       res.send(error);
     }
@@ -61,7 +61,10 @@ export class Auth {
 
         const userId = userResponse.data.id;
 
-        res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+        res.set(
+          'Access-Control-Allow-Origin',
+          'https://magenta-tiger-blog-app.vercel.app',
+        );
         res.set('Access-Control-Allow-Credentials', 'true');
 
         res.json({ userId });
