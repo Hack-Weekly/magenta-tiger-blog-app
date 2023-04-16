@@ -21,12 +21,6 @@ export const StyledKeywords = styled.p`
   color: grey;
 `;
 
-export const StyledBookmarkContainer = styled.div`
-  position: absolute;
-  top: 0.5rem;
-  right: 1rem;
-`;
-
 export const StyledTopic = styled.p`
   font-family: "Inter";
   color: #2c2c2c;

@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import BookmarkButton from "../Bookmark";
+import BookmarkButton from "../BookmarkButton/BookmarkButton";
 import {
   StyledContent,
   StyledDate,
@@ -40,11 +40,7 @@ const PostDetails = () => {
 
   useEffect(() => {
     getUserId();
-
     getPostById();
-    // .then(() => {
-    //   toggleBookmark();
-    // });
   }, []);
 
   async function getUserId() {
@@ -55,8 +51,6 @@ const PostDetails = () => {
       const userId = response.data.userId;
       localStorage.setItem("userId", userId);
       setUserId(userId);
-
-      console.log(userId);
     } catch (error) {
       console.log(error);
     }
@@ -76,59 +70,52 @@ const PostDetails = () => {
   const postDate = new Date(post[0]?.date).toDateString().slice(4);
 
   return (
-    <>
-      <StyledContainer variant={"detail-page"}>
+    <StyledContainer variant={"detail-page"}>
+      {post.length > 0 && loadingState === LoadingState.success ? (
         <>
-          {post.length > 0 && loadingState === LoadingState.success ? (
-            <>
-              {post.map(post => {
-                return (
-                  <div key={post._id}>
-                    <StyledImage src={post.image && `${apiUrl}${post.image}`} />
-                    <StyledContent>
-                      <AuthorWrapper>
-                        {
-                          <AuthorImageWrapper>
-                            <AuthorImagePlacholder>
-                              <FontAwesomeIcon icon={faCircleUser} />
-                            </AuthorImagePlacholder>
-                          </AuthorImageWrapper>
-                        }
-                        <AuthorTitle variant="black">{post.author}</AuthorTitle>
+          {post.map(post => {
+            return (
+              <div key={post._id}>
+                <StyledImage src={post.image && `${apiUrl}${post.image}`} />
+                <StyledContent>
+                  <AuthorWrapper>
+                    {
+                      <AuthorImageWrapper>
+                        <AuthorImagePlacholder>
+                          <FontAwesomeIcon icon={faCircleUser} />
+                        </AuthorImagePlacholder>
+                      </AuthorImageWrapper>
+                    }
+                    <AuthorTitle variant="black">{post.author}</AuthorTitle>
 
-                        <BookmarkButton
-                          userId={userId}
-                          selectedPostId={postId}
-                        />
-                      </AuthorWrapper>
+                    <BookmarkButton userId={userId} selectedPostId={postId} />
+                  </AuthorWrapper>
 
-                      <StyledKeywordsWrapper>
-                        {post.keywords.map(keyword => (
-                          <StyledKeywords
-                            key={keyword}
-                          >{`#${keyword}`}</StyledKeywords>
-                        ))}
-                      </StyledKeywordsWrapper>
+                  <StyledKeywordsWrapper>
+                    {post.keywords.map(keyword => (
+                      <StyledKeywords
+                        key={keyword}
+                      >{`#${keyword}`}</StyledKeywords>
+                    ))}
+                  </StyledKeywordsWrapper>
 
-                      <div>
-                        <StyledTopic>{post.topic}</StyledTopic>
-                        <StyledDate>{postDate}</StyledDate>
-                        <StyledTitle>{post.title}</StyledTitle>
-                        <p>{post.description}</p>
-                      </div>
-                    </StyledContent>
+                  <div>
+                    <StyledTopic>{post.topic}</StyledTopic>
+                    <StyledDate>{postDate}</StyledDate>
+                    <StyledTitle>{post.title}</StyledTitle>
+                    <p>{post.description}</p>
                   </div>
-                );
-              })}
-            </>
-          ) : loadingState === LoadingState.fetching ? (
-            <SkeletonLoader variant="postDetail" />
-          ) : (
-            loadingState === LoadingState.error && <FailedMessage />
-          )}
+                </StyledContent>
+              </div>
+            );
+          })}
         </>
-      </StyledContainer>
-    </>
+      ) : loadingState === LoadingState.fetching ? (
+        <SkeletonLoader variant="postDetail" />
+      ) : (
+        loadingState === LoadingState.error && <FailedMessage />
+      )}
+    </StyledContainer>
   );
 };
 

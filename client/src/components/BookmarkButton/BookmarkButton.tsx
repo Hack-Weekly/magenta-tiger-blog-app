@@ -1,10 +1,10 @@
-import { BookmarkProps } from "@/types/src/props/BookmarkProps";
+import { BookmarkProps } from "@/types/src/props/bookmarkProps.types";
 import { Bookmark } from "@/types/src/styled-components/bookmark.types";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button } from "./Button";
-import { StyledBookmarkContainer } from "./PostDetails/StyledPostDetails";
+import { Button } from "../Button";
+import { StyledBookmarkContainer } from "./StyledBookmarkButton";
 
 const BookmarkButton = ({ userId, selectedPostId }: BookmarkProps) => {
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
