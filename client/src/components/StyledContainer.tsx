@@ -11,7 +11,7 @@ const StyledContainer = styled.main<StyledContainerProps>`
       margin: 0 auto;
       width: 100%;
       display: grid;
-      grid-template-columns: 10fr; /* 20% 60% 20% */
+      grid-template-columns: 10fr;
       grid-template-rows: auto;
       grid-template-areas:
         ". main ."
@@ -19,7 +19,7 @@ const StyledContainer = styled.main<StyledContainerProps>`
       margin-top: 4rem;
       padding: 1rem;
       @media (min-width: 680px) {
-        grid-template-columns: 3fr 7fr; /* 20% 60% 20% */
+        grid-template-columns: 2fr 7fr;
       }
     `}
 
@@ -29,17 +29,9 @@ const StyledContainer = styled.main<StyledContainerProps>`
       position: relative;
       margin: 0 auto;
       width: 100%;
+      max-width: 70rem;
       display: grid;
       margin-top: 4rem;
-
-      @media (min-width: 768px) {
-        max-width: 70%;
-        justify-items: center;
-      }
-
-      @media (min-width: 1024px) {
-        max-width: 60%;
-      }
     `}
 `;
 

@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const shimmer = keyframes`
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+`;
 
 const CompactSkeletonWrapper = styled.div`
   width: 100%;
@@ -8,8 +17,26 @@ const CompactSkeletonWrapper = styled.div`
   justify-content: center;
   background-color: none;
   gap: 1rem;
+  padding: 0.5rem;
+  background-color: #c4c4c4ab;
   div {
-    background-color: #c4c4c4ab;
+    background-color: #92929258;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    opacity: 0.4;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      #f8f8f8 50%,
+      transparent 100%
+    );
+    animation: ${shimmer} 1.5s infinite;
   }
 `;
 
