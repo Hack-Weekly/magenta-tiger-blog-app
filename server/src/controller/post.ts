@@ -56,7 +56,7 @@ export class PostC implements PostController {
 
     try {
       const {
-        title, description, topic, keywords, isBookmarked,
+        title, description, topic, keywords, likes,
       }: IPost = req.body;
 
       const post = await Post.findByIdAndUpdate(
@@ -66,7 +66,7 @@ export class PostC implements PostController {
           description,
           topic,
           keywords,
-          isBookmarked,
+          likes,
         },
         { new: true },
       );
