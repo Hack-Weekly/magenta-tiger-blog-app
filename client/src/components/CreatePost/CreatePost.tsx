@@ -3,6 +3,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { TagsInput } from "react-tag-input-component";
 
+import { Post, PostTopic } from "@/types/src/posts/post.types";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
+import { storage } from "../../../firebase";
 import { Button } from "../Button";
 import { Input } from "../Input";
 import {
@@ -18,7 +22,7 @@ import {
 } from "./StyledCreatePost";
 
 const CreatePost = () => {
-  const topics = [
+  const topics: PostTopic[] = [
     "tech",
     "tips",
     "design",
@@ -30,16 +34,35 @@ const CreatePost = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [author, setAuthor] = useState<string>("");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<string>("c");
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-  const [topic, setTopic] = useState<string>(topics[0]);
+  const [topic, setTopic] = useState<PostTopic>(topics[0]);
   const [errorMessage, setErrorMessage] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
+  const uploadImage = () => {
+    if (!uploadedImage) {
+      return;
+    }
+
+    const imageName = `images/posts/${v4() + uploadedImage.name}`;
+
+    const imageRef = ref(storage, imageName);
+    uploadBytes(imageRef, uploadedImage).then(() => {
+      console.log("image uploaded");
+      getDownloadURL(imageRef).then(url => {
+        console.log(url);
+        setSelectedFile(url);
+        return url;
+      });
+    });
+  };
+
   const fileUploadChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setSelectedFile(e.target.files[0]);
+      setUploadedImage(e.target.files[0]);
     }
   };
 
@@ -52,11 +75,15 @@ const CreatePost = () => {
       return;
     }
 
-    const post = {
+    const imageUrl = await uploadImage();
+
+    console.log(selectedFile);
+
+    const post: Post = {
       title,
       description,
       author,
-      postImage: selectedFile,
+      image: selectedFile,
       keywords: selectedKeywords,
       topic,
     };
@@ -79,7 +106,7 @@ const CreatePost = () => {
     // Reset fields
     setTitle("");
     setDescription("");
-    setSelectedFile(null);
+    setSelectedFile("");
     setSelectedKeywords([]);
     setTopic("tech");
 
@@ -110,7 +137,7 @@ const CreatePost = () => {
             ))}
           </StyledSelector>
         </PostWrapperHeader>
-        {selectedFile && <p>{selectedFile.name}</p>}
+        {uploadedImage && <p>{uploadedImage.name}</p>}
         <TagsInput
           value={selectedKeywords}
           classNames={{ input: "custom-tag-input" }}
@@ -153,6 +180,8 @@ const CreatePost = () => {
       <ButtonsWrapper>
         <Button label="Post" onClick={handleSubmit} />
       </ButtonsWrapper>
+      <input type="file" accept="image/" onChange={fileUploadChange} />
+      <button onClick={uploadImage}>Upload image</button>
     </CreateWrapper>
   );
 };

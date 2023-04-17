@@ -1,14 +1,12 @@
 export interface Post {
-  _id: string;
+  _id?: string;
   title: string;
   description: string;
   image: string;
   author: string;
-  date: string;
-  topic: "tech" | "tips" | "design" | "best practice" | "languages" | "news";
+  topic: PostTopic;
   keywords: string[];
-  isBookmarked: boolean;
-  likes: number;
+  likes?: number;
 }
 
 export type PostTopic =
