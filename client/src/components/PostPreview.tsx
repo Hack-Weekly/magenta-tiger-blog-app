@@ -1,9 +1,9 @@
 import { FilterContext, FilterContextValue } from "@/context/filterContext";
-import { StyledTopic } from "@/pages/PostDetail";
 import { PostPreviewProps } from "@/types/src/styled-components/postPreview.types";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
+import { StyledTopic } from "./PostDetails/StyledPostDetails";
 import { AuthorTitle, AuthorWrapper } from "./StyledAuthor";
 
 const PostPreviewMainWrapper = styled.div`

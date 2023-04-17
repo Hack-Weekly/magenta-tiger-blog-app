@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { Navigate } from "react-router";
 
 export default function PrivateRoute({ children }: ChildrenProps) {
+  // Needs to be changed for UserId Context
   const user = Cookies.get("githubToken");
 
   if (!user) {
