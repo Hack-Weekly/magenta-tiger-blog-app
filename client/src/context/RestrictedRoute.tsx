@@ -3,9 +3,8 @@ import Cookies from "js-cookie";
 import { Navigate } from "react-router";
 
 export default function RestrictedRoute({ children }: ChildrenProps) {
+  // Needs to be changed for UserId Context
   const user = Cookies.get("githubToken");
-
-  console.log(user);
 
   if (user) {
     return <Navigate to="/" />;
