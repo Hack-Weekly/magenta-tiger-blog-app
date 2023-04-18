@@ -40,9 +40,9 @@ export class Auth {
         });
 
       res.cookie('githubToken', response.token, {
-        httpOnly: true,
+        httpOnly: false,
         secure: true,
-        sameSite: 'strict',
+        sameSite: 'none',
       });
 
       const userResponse = await axios.get('https://api.github.com/user', {

@@ -4,6 +4,7 @@ export interface Post {
   description: string;
   image: string;
   author: string;
+  date: Date;
   topic: PostTopic;
   keywords: string[];
   likes?: number;
