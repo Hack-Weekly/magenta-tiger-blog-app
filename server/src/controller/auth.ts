@@ -2,21 +2,21 @@
 import axios from 'axios';
 import { Request, Response } from 'express';
 
-const response = {
-  token: '',
-  success: false,
-  message: '',
-  data: {},
-};
-
 export class Auth {
   async login(req: Request, res: Response) {
     return res.redirect(
-      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=repo`,
+      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user`,
     );
   }
 
   async loginOAuth(req: Request, res: Response) {
+    const response = {
+      token: '',
+      success: false,
+      message: '',
+      data: {},
+    };
+
     try {
       const body = {
         client_id: process.env.CLIENT_ID,
@@ -37,10 +37,42 @@ export class Auth {
             response.token = '';
           }
         });
-      res.cookie('githubToken', response.token);
+
+      res.cookie('githubToken', response.token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+      });
+
       res.redirect('https://magenta-tiger-blog-app.vercel.app/');
     } catch (error) {
       res.send(error);
+    }
+  }
+
+  async getUser(req: Request, res: Response) {
+    try {
+      if (req.cookies.githubToken) {
+        const userResponse = await axios.get('https://api.github.com/user', {
+          headers: {
+            Authorization: `Bearer ${req.cookies.githubToken}`,
+          },
+        });
+
+        const userId = userResponse.data.id;
+
+        res.set(
+          'Access-Control-Allow-Origin',
+          'https://magenta-tiger-blog-app.vercel.app',
+        );
+        res.set('Access-Control-Allow-Credentials', 'true');
+
+        res.json({ userId });
+      } else {
+        console.log('No cookie found');
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   }
 

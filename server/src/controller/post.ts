@@ -8,13 +8,7 @@ export class PostC implements PostController {
   async createPost(req: Request, res: Response): Promise<Response> {
     try {
       const {
-        title,
-        description,
-        author,
-        topic,
-        keywords,
-        isBookmarked,
-        likes,
+        title, description, author, topic, keywords,
       }: IPost = req.body;
 
       const post = new Post({
@@ -25,8 +19,7 @@ export class PostC implements PostController {
         date: new Date(),
         topic,
         keywords,
-        isBookmarked,
-        likes,
+        likes: 0,
       });
 
       await post.save();
@@ -63,7 +56,7 @@ export class PostC implements PostController {
 
     try {
       const {
-        title, description, topic, keywords,
+        title, description, topic, keywords, likes,
       }: IPost = req.body;
 
       const post = await Post.findByIdAndUpdate(
@@ -73,6 +66,7 @@ export class PostC implements PostController {
           description,
           topic,
           keywords,
+          likes,
         },
         { new: true },
       );
