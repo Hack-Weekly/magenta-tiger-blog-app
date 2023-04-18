@@ -1,11 +1,12 @@
 /* eslint-disable class-methods-use-this */
 import axios from 'axios';
 import { Request, Response } from 'express';
+import { LocalStorage } from 'node-localstorage';
 
 export class Auth {
   async login(req: Request, res: Response) {
     return res.redirect(
-      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user`,
+      `https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user`
     );
   }
 
@@ -44,6 +45,18 @@ export class Auth {
         sameSite: 'strict',
       });
 
+      const userResponse = await axios.get('https://api.github.com/user', {
+        headers: {
+          Authorization: `Bearer ${response.token}`,
+        },
+      });
+
+      const userId = userResponse.data.id;
+
+      const localStorage = new LocalStorage('./token');
+      localStorage.setItem('userId', userId);
+      res.json({ userId });
+
       res.redirect('https://magenta-tiger-blog-app.vercel.app/');
     } catch (error) {
       res.send(error);
@@ -63,7 +76,7 @@ export class Auth {
 
         res.set(
           'Access-Control-Allow-Origin',
-          'https://magenta-tiger-blog-app.vercel.app',
+          'https://magenta-tiger-blog-app.vercel.app'
         );
         res.set('Access-Control-Allow-Credentials', 'true');
 
