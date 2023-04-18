@@ -1,7 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import axios from 'axios';
 import { Request, Response } from 'express';
-import { LocalStorage } from 'node-localstorage';
 
 export class Auth {
   async login(req: Request, res: Response) {
@@ -53,8 +52,8 @@ export class Auth {
 
       const userId = userResponse.data.id;
 
-      const localStorage = new LocalStorage('./token');
-      localStorage.setItem('userId', userId);
+      // const localStorage = new LocalStorage('./token');
+      // localStorage.setItem('userId', userId);
       res.json({ userId });
 
       res.redirect('https://magenta-tiger-blog-app.vercel.app/');
